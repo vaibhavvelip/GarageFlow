@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Parts & Inventory — GarageFlow Admin</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="icon" type="image/png" href="/images/logo.png">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-garageflow">
+        <div class="container-fluid">
+            <a class="navbar-brand-logo" href="/admin/dashboard.html">
+                <img src="/images/logo.png" alt="GarageFlow Logo" style="height: 52px; max-height: 60px; width: auto; object-fit: contain;">
+            </a>
+            <button class="navbar-toggler text-white" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto ms-lg-4">
+                    <li class="nav-item"><a class="nav-link nav-link-gf" href="/admin/dashboard.html">Dashboard</a></li>
+                    <li class="nav-item"><a class="nav-link nav-link-gf" href="/admin/customers.html">Customers</a></li>
+                    <li class="nav-item"><a class="nav-link nav-link-gf" href="/admin/vehicles.html">Vehicles</a></li>
+                    <li class="nav-item"><a class="nav-link nav-link-gf" href="/admin/appointments.html">Appointments</a></li>
+                    <li class="nav-item"><a class="nav-link nav-link-gf" href="/admin/services.html">Create Service</a></li>
+                    <li class="nav-item"><a class="nav-link nav-link-gf active" href="/admin/parts.html">Parts & Inventory</a></li>
+                    <li class="nav-item"><a class="nav-link nav-link-gf" href="/admin/billing.html">Billing & Invoices</a></li>
+                    <li class="nav-item"><a class="nav-link nav-link-gf" href="/admin/service-history.html">Service History</a></li>
+                </ul>
+                <div id="navUserContainer" class="d-flex align-items-center"></div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container-fluid px-lg-4 py-4">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <div>
+                <h3 class="page-header-title mb-1">Spare Parts & Inventory Catalog</h3>
+                <p class="text-muted small mb-0">Monitor stock levels, minimum stock thresholds, unit prices, and restocking</p>
+            </div>
+            <div class="d-flex gap-2">
+                <button class="btn btn-outline-warning" id="btnToggleLowStock" onclick="toggleLowStockFilter()"><i class="bi bi-exclamation-triangle"></i> Show Low Stock Only</button>
+                <button class="btn btn-gf-primary" onclick="openAddPartModal()"><i class="bi bi-plus-lg me-1"></i> Add New Part</button>
+            </div>
+        </div>
+
+        <div id="alertContainer"></div>
+
+        <div class="gf-card">
+            <div class="table-responsive">
+                <table class="table table-gf">
+                    <thead>
+                        <tr>
+                            <th>Part Number</th>
+                            <th>Part Name</th>
+                            <th>Category</th>
+                            <th>Current Stock Qty</th>
+                            <th>Unit Price</th>
+                            <th>Min Stock Threshold</th>
+                            <th>Stock Health Status</th>
+                            <th class="text-end">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="partsTableBody">
+                        <tr><td colspan="8" class="text-center text-muted">Loading inventory catalog...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+
+    <!-- Add Part Modal -->
+    <div class="modal fade" id="addPartModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title fw-bold">Add Spare Part to Inventory</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <form id="addPartForm">
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold">Part Number (Unique SKU) <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control text-uppercase" id="partNumber" required placeholder="e.g. OIL-SYN-5W30">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold">Part Name <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="partName" required placeholder="e.g. Synthetic Engine Oil 5W-30 (4L)">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold">Category <span class="text-danger">*</span></label>
+                            <select class="form-select" id="partCategory" required>
+                                <option value="Lubricants">Lubricants</option>
+                                <option value="Brakes">Brakes</option>
+                                <option value="Filters">Filters</option>
+                                <option value="Electrical">Electrical</option>
+                                <option value="Tyres">Tyres</option>
+                                <option value="Engine">Engine</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                        <div class="row g-2 mb-3">
+                            <div class="col-4">
+                                <label class="form-label fw-semibold">Initial Qty</label>
+                                <input type="number" class="form-control" id="partQty" value="10" min="0" required>
+                            </div>
+                            <div class="col-4">
+                                <label class="form-label fw-semibold">Unit Price ($)</label>
+                                <input type="number" step="0.01" class="form-control" id="partPrice" value="25.00" min="0" required>
+                            </div>
+                            <div class="col-4">
+                                <label class="form-label fw-semibold">Min Stock</label>
+                                <input type="number" class="form-control" id="partMinStock" value="5" min="1" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-gf-primary">Add Part</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Adjust Stock Modal -->
+    <div class="modal fade" id="adjustStockModal" tabindex="-1">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title fw-bold">Restock Part</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <form id="adjustStockForm">
+                    <div class="modal-body">
+                        <input type="hidden" id="adjustPartId">
+                        <p class="small text-muted mb-2" id="adjustPartNameLabel">Part: </p>
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold">Quantity to Add (+)</label>
+                            <input type="number" class="form-control" id="adjustQty" value="10" min="1" required>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-success">Restock Stock</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/js/api.js"></script>
+    <script src="/js/auth.js"></script>
+    <script>
+        requireAuth('ADMIN');
+
+        let isLowStockOnly = false;
+        let addModal = null;
+        let stockModal = null;
+
+        // Check query param for low stock
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.get('low_stock') === 'true') {
+            isLowStockOnly = true;
+            document.getElementById('btnToggleLowStock').classList.replace('btn-outline-warning', 'btn-warning');
+        }
+
+        function toggleLowStockFilter() {
+            isLowStockOnly = !isLowStockOnly;
+            const btn = document.getElementById('btnToggleLowStock');
+            if (isLowStockOnly) {
+                btn.classList.replace('btn-outline-warning', 'btn-warning');
+            } else {
+                btn.classList.replace('btn-warning', 'btn-outline-warning');
+            }
+            loadParts();
+        }
+
+        async function loadParts() {
+            const res = await apiFetch(`/parts?low_stock=${isLowStockOnly}`);
+            const tbody = document.getElementById('partsTableBody');
+
+            if (res.success && res.parts.length > 0) {
+                tbody.innerHTML = res.parts.map(p => {
+                    const isLow = p.quantity <= p.minimum_stock;
+                    return `
+                        <tr>
+                            <td class="fw-bold font-monospace">${p.part_number}</td>
+                            <td class="fw-semibold">${p.part_name}</td>
+                            <td><span class="badge bg-light text-dark border">${p.category}</span></td>
+                            <td class="fw-bold fs-6">${p.quantity}</td>
+                            <td>$${p.unit_price.toFixed(2)}</td>
+                            <td>${p.minimum_stock}</td>
+                            <td>
+                                ${isLow ? `
+                                    <span class="badge bg-danger px-3 py-1"><i class="bi bi-exclamation-triangle me-1"></i> LOW STOCK</span>
+                                ` : `
+                                    <span class="badge bg-success px-3 py-1"><i class="bi bi-check-circle me-1"></i> HEALTHY</span>
+                                `}
+                            </td>
+                            <td class="text-end">
+                                <button class="btn btn-sm btn-outline-success me-1" onclick="openRestockModal(${p.id}, '${p.part_name}')">
+                                    <i class="bi bi-plus-circle"></i> Restock
+                                </button>
+                                <button class="btn btn-sm btn-outline-danger" onclick="deletePart(${p.id}, '${p.part_name}')">
+                                    <i class="bi bi-trash"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    `;
+                }).join('');
+            } else {
+                tbody.innerHTML = `<tr><td colspan="8" class="text-center text-muted py-4">No parts found matching inventory criteria.</td></tr>`;
+            }
+        }
+
+        function openAddPartModal() {
+            if (!addModal) addModal = new bootstrap.Modal(document.getElementById('addPartModal'));
+            addModal.show();
+        }
+
+        document.getElementById('addPartForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const part_number = document.getElementById('partNumber').value.trim();
+            const part_name = document.getElementById('partName').value.trim();
+            const category = document.getElementById('partCategory').value;
+            const quantity = document.getElementById('partQty').value;
+            const unit_price = document.getElementById('partPrice').value;
+            const minimum_stock = document.getElementById('partMinStock').value;
+
+            const res = await apiFetch('/parts', {
+                method: 'POST',
+                body: JSON.stringify({ part_number, part_name, category, quantity, unit_price, minimum_stock })
+            });
+
+            if (res.success) {
+                addModal.hide();
+                showAlert('Spare part added to inventory successfully.', 'success');
+                loadParts();
+            } else {
+                alert(res.message || 'Failed to add part.');
+            }
+        });
+
+        function openRestockModal(id, name) {
+            document.getElementById('adjustPartId').value = id;
+            document.getElementById('adjustPartNameLabel').textContent = `Part: ${name}`;
+            if (!stockModal) stockModal = new bootstrap.Modal(document.getElementById('adjustStockModal'));
+            stockModal.show();
+        }
+
+        document.getElementById('adjustStockForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const id = document.getElementById('adjustPartId').value;
+            const adjustment = parseInt(document.getElementById('adjustQty').value);
+
+            const res = await apiFetch(`/parts/${id}/stock`, {
+                method: 'PUT',
+                body: JSON.stringify({ adjustment })
+            });
+
+            if (res.success) {
+                stockModal.hide();
+                showAlert('Part inventory restocked successfully.', 'success');
+                loadParts();
+            } else {
+                alert(res.message || 'Failed to restock part.');
+            }
+        });
+
+        async function deletePart(id, name) {
+            if (confirm(`Delete part '${name}' from inventory?`)) {
+                const res = await apiFetch(`/parts/${id}`, { method: 'DELETE' });
+                if (res.success) {
+                    showAlert('Part removed from inventory.', 'success');
+                    loadParts();
+                } else {
+                    showAlert(res.message || 'Failed to delete part.');
+                }
+            }
+        }
+
+        loadParts();
+    </script>
+</body>
+</html>

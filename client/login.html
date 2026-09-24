@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign In — GarageFlow</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="icon" type="image/png" href="/images/logo.png">
+</head>
+<body class="d-flex flex-column min-vh-100">
+    <!-- Top Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-garageflow">
+        <div class="container-fluid px-lg-4">
+            <a class="navbar-brand-logo" href="/admin/dashboard.html">
+                <img src="/images/logo.png" alt="GarageFlow Logo" style="height: 52px; max-height: 60px; width: auto; object-fit: contain;">
+            </a>
+            <div id="navUserContainer" class="d-flex align-items-center ms-auto"></div>
+        </div>
+    </nav>
+
+    <!-- Login Container -->
+    <div class="container py-5 my-auto">
+        <div class="row justify-content-center">
+            <div class="col-md-5 col-lg-4">
+                <div class="gf-card">
+                    <div class="text-center mb-4">
+                        <img src="/images/logo.png" alt="GarageFlow Logo" style="height: 52px; max-height: 60px; width: auto; object-fit: contain;">
+                        <h4 class="fw-bold text-white mb-1">Sign In to GarageFlow</h4>
+                        <p class="text-secondary small">Enter your credentials to access your dashboard</p>
+                    </div>
+
+                    <div id="alertContainer"></div>
+
+                    <form id="loginForm">
+                        <div class="mb-3">
+                            <label for="email" class="form-label fw-semibold">Email Address</label>
+                            <input type="email" class="form-control" id="email" required placeholder="name@example.com">
+                        </div>
+                        <div class="mb-3">
+                            <div class="d-flex justify-content-between align-items-center mb-1">
+                                <label for="password" class="form-label fw-semibold mb-0">Password</label>
+                                <a href="#" class="small text-decoration-none text-info" onclick="alert('Demo reset instructions sent to registered email.')">Forgot password?</a>
+                            </div>
+                            <input type="password" class="form-control" id="password" required placeholder="••••••••">
+                        </div>
+                        <div class="form-check mb-4">
+                            <input class="form-check-input" type="checkbox" id="rememberMe" checked>
+                            <label class="form-check-label small text-secondary" for="rememberMe">Remember this browser</label>
+                        </div>
+                        <button type="submit" class="btn btn-gf-primary w-100 py-2.5 fw-semibold">
+                            <i class="bi bi-box-arrow-in-right me-2"></i> Sign In
+                        </button>
+                    </form>
+
+                    <hr class="my-4 border-secondary border-opacity-25">
+
+                    <!-- Quick Demo Fill -->
+                    <div class="text-center">
+                        <span class="small text-secondary d-block mb-2 font-monospace">Quick Demo Credentials:</span>
+                        <div class="d-flex gap-2">
+                            <button class="btn btn-gf-secondary btn-sm flex-fill" onclick="fillCredentials('admin@garageflow.com', 'Admin@123')">
+                                <i class="bi bi-shield-lock me-1 text-info"></i> Admin Demo
+                            </button>
+                            <button class="btn btn-gf-secondary btn-sm flex-fill" onclick="fillCredentials('john.doe@example.com', 'Customer@123')">
+                                <i class="bi bi-person me-1 text-primary"></i> Customer Demo
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="text-center mt-4 pt-3 border-top border-secondary border-opacity-25">
+                        <span class="small text-secondary">Don't have a GarageFlow account?</span>
+                        <a href="/register.html" class="small fw-semibold text-info text-decoration-none ms-1">Register Account</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="mt-auto">
+        <div class="container text-center py-3">
+            <p class="small text-muted mb-0">GarageFlow — Smart Vehicle Service Management System</p>
+        </div>
+    </footer>
+
+    <script src="/js/api.js"></script>
+    <script src="/js/auth.js"></script>
+    <script>
+        function fillCredentials(email, password) {
+            document.getElementById('email').value = email;
+            document.getElementById('password').value = password;
+        }
+
+        // Auto pre-fill if query param ?role=admin or ?role=customer is present
+        const urlParams = new URLSearchParams(window.location.search);
+        const roleParam = urlParams.get('role');
+        if (roleParam === 'admin') {
+            fillCredentials('admin@garageflow.com', 'Admin@123');
+        } else if (roleParam === 'customer') {
+            fillCredentials('john.doe@example.com', 'Customer@123');
+        }
+
+        document.getElementById('loginForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+
+            const res = await apiFetch('/auth/login', {
+                method: 'POST',
+                body: JSON.stringify({ email, password })
+            });
+
+            if (res && res.success) {
+                setAuthSession(res.token, res.user);
+                showAlert('Login successful! Redirecting...', 'success');
+                setTimeout(() => {
+                    if (res.user.role === 'ADMIN') {
+                        window.location.href = '/admin/dashboard.html';
+                    } else {
+                        window.location.href = '/customer/dashboard.html';
+                    }
+                }, 700);
+            } else {
+                showAlert(res ? res.message : 'Login failed. Please check credentials.');
+            }
+        });
+    </script>
+</body>
+</html>

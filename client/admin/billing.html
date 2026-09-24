@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Billing & Invoices — GarageFlow Admin</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="icon" type="image/png" href="/images/logo.png">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-garageflow no-print">
+        <div class="container-fluid">
+            <a class="navbar-brand-logo" href="/admin/dashboard.html">
+                <img src="/images/logo.png" alt="GarageFlow Logo" style="height: 52px; max-height: 60px; width: auto; object-fit: contain;">
+            </a>
+            <button class="navbar-toggler text-white" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto ms-lg-4">
+                    <li class="nav-item"><a class="nav-link nav-link-gf" href="/admin/dashboard.html">Dashboard</a></li>
+                    <li class="nav-item"><a class="nav-link nav-link-gf" href="/admin/customers.html">Customers</a></li>
+                    <li class="nav-item"><a class="nav-link nav-link-gf" href="/admin/vehicles.html">Vehicles</a></li>
+                    <li class="nav-item"><a class="nav-link nav-link-gf" href="/admin/appointments.html">Appointments</a></li>
+                    <li class="nav-item"><a class="nav-link nav-link-gf" href="/admin/services.html">Create Service</a></li>
+                    <li class="nav-item"><a class="nav-link nav-link-gf" href="/admin/parts.html">Parts & Inventory</a></li>
+                    <li class="nav-item"><a class="nav-link nav-link-gf active" href="/admin/billing.html">Billing & Invoices</a></li>
+                    <li class="nav-item"><a class="nav-link nav-link-gf" href="/admin/service-history.html">Service History</a></li>
+                </ul>
+                <div id="navUserContainer" class="d-flex align-items-center"></div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container-fluid px-lg-4 py-4">
+        <div class="d-flex justify-content-between align-items-center mb-4 no-print">
+            <div>
+                <h3 class="page-header-title mb-1">Billing & Invoicing Ledger</h3>
+                <p class="text-muted small mb-0">Manage customer workshop bills, itemized labor & parts line items, and payment statuses</p>
+            </div>
+        </div>
+
+        <div id="alertContainer"></div>
+
+        <div class="gf-card no-print">
+            <div class="table-responsive">
+                <table class="table table-gf">
+                    <thead>
+                        <tr>
+                            <th>Invoice ID</th>
+                            <th>Customer Name</th>
+                            <th>Vehicle</th>
+                            <th>Service Date</th>
+                            <th>Subtotal</th>
+                            <th>Tax (18%)</th>
+                            <th>Grand Total</th>
+                            <th>Payment Status</th>
+                            <th class="text-end" style="width: 260px;">Payment Status Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="adminBillsBody">
+                        <tr><td colspan="9" class="text-center text-muted">Loading invoices ledger...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+
+    <!-- Printable Invoice Modal -->
+    <div class="modal fade" id="invoiceModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header no-print">
+                    <h5 class="modal-title fw-bold"><i class="bi bi-receipt me-2"></i> GarageFlow Tax Invoice</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body p-4" id="invoiceModalBody">
+                    <p class="text-muted text-center">Loading invoice...</p>
+                </div>
+                <div class="modal-footer no-print">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-gf-primary" onclick="window.print()">
+                        <i class="bi bi-printer me-1"></i> Print Invoice
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/js/api.js"></script>
+    <script src="/js/auth.js"></script>
+    <script>
+        requireAuth('ADMIN');
+
+        let invoiceModal = null;
+
+        async function loadAdminBills() {
+            const res = await apiFetch('/bills');
+            const tbody = document.getElementById('adminBillsBody');
+
+            if (res.success && res.bills.length > 0) {
+                tbody.innerHTML = res.bills.map(b => {
+                    const statusClass = b.payment_status === 'Paid' ? 'status-completed' : (b.payment_status === 'Pending' ? 'status-in-service' : 'status-cancelled');
+                    return `
+                        <tr>
+                            <td class="fw-bold font-monospace">#INV-${b.id}</td>
+                            <td class="fw-semibold">${b.customer_name}<br><small class="text-muted">${b.customer_phone}</small></td>
+                            <td>${b.brand} ${b.model}<br><span class="badge bg-light text-dark border font-monospace">${b.registration_number}</span></td>
+                            <td>${b.service_date}</td>
+                            <td>$${b.subtotal.toFixed(2)}</td>
+                            <td>$${b.tax.toFixed(2)}</td>
+                            <td class="fw-bold text-dark">$${b.total.toFixed(2)}</td>
+                            <td><span class="status-badge ${statusClass}">${b.payment_status}</span></td>
+                            <td class="text-end">
+                                <div class="d-flex gap-1 justify-content-end">
+                                    <select class="form-select form-select-sm" style="width: 110px;" onchange="updatePaymentStatus(${b.id}, this.value)">
+                                        <option value="Pending" ${b.payment_status === 'Pending' ? 'selected' : ''}>Pending</option>
+                                        <option value="Paid" ${b.payment_status === 'Paid' ? 'selected' : ''}>Paid</option>
+                                        <option value="Cancelled" ${b.payment_status === 'Cancelled' ? 'selected' : ''}>Cancelled</option>
+                                    </select>
+                                    <button class="btn btn-sm btn-outline-primary" onclick="viewInvoice(${b.id})">
+                                        <i class="bi bi-printer"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                    `;
+                }).join('');
+            } else {
+                tbody.innerHTML = `<tr><td colspan="9" class="text-center text-muted py-4">No invoice bills recorded.</td></tr>`;
+            }
+        }
+
+        async function updatePaymentStatus(id, newStatus) {
+            const res = await apiFetch(`/bills/${id}/status`, {
+                method: 'PUT',
+                body: JSON.stringify({ payment_status: newStatus })
+            });
+
+            if (res.success) {
+                showAlert(`Invoice #INV-${id} status updated to '${newStatus}'.`, 'success');
+                loadAdminBills();
+            } else {
+                showAlert(res.message || 'Failed to update payment status.');
+            }
+        }
+
+        async function viewInvoice(id) {
+            if (!invoiceModal) {
+                invoiceModal = new bootstrap.Modal(document.getElementById('invoiceModal'));
+            }
+            invoiceModal.show();
+
+            const res = await apiFetch(`/bills/${id}`);
+            const body = document.getElementById('invoiceModalBody');
+
+            if (res.success) {
+                const b = res.bill;
+                const parts = res.parts || [];
+
+                body.innerHTML = `
+                    <div class="d-flex justify-content-between align-items-start mb-4 border-bottom pb-3">
+                        <div>
+                            <div class="d-flex align-items-center gap-2 mb-1">
+                                <div class="brand-icon-box" style="width:32px; height:32px;"><i class="bi bi-wrench-adjustable"></i></div>
+                                <h4 class="fw-bold text-navy mb-0">GARAGE<span class="text-primary">FLOW</span></h4>
+                            </div>
+                            <p class="small text-muted mb-0">Smart Vehicle Service Management Workshop</p>
+                            <p class="small text-muted mb-0">100 Tech Park Way, Suite 400 | Ph: +1 800-GARAGE</p>
+                        </div>
+                        <div class="text-end">
+                            <h5 class="fw-bold text-uppercase text-primary mb-1">OFFICIAL INVOICE</h5>
+                            <p class="font-monospace fw-bold mb-1">#INV-${b.id}</p>
+                            <p class="small text-muted mb-0">Date: ${b.service_date}</p>
+                            <span class="badge ${b.payment_status === 'Paid' ? 'bg-success' : 'bg-warning text-dark'} mt-1">${b.payment_status.toUpperCase()}</span>
+                        </div>
+                    </div>
+
+                    <div class="row mb-4">
+                        <div class="col-6">
+                            <h6 class="fw-bold text-muted small text-uppercase">Billed To Customer:</h6>
+                            <p class="mb-0 fw-semibold">${b.customer_name}</p>
+                            <p class="small text-muted mb-0">${b.customer_email}</p>
+                            <p class="small text-muted mb-0">Ph: ${b.customer_phone}</p>
+                        </div>
+                        <div class="col-6 text-end">
+                            <h6 class="fw-bold text-muted small text-uppercase">Vehicle Details:</h6>
+                            <p class="mb-0 fw-semibold">${b.brand} ${b.model} (${b.year})</p>
+                            <p class="small font-monospace mb-0">Reg No: ${b.registration_number}</p>
+                            <p class="small text-muted mb-0">Service: ${b.service_type}</p>
+                        </div>
+                    </div>
+
+                    <table class="table table-bordered small mb-4">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Item / Labor Description</th>
+                                <th>Category</th>
+                                <th class="text-center">Qty</th>
+                                <th class="text-end">Unit Price</th>
+                                <th class="text-end">Amount</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>${b.service_description}</td>
+                                <td>Workshop Labour</td>
+                                <td class="text-center">1</td>
+                                <td class="text-end">$${b.labour_cost.toFixed(2)}</td>
+                                <td class="text-end">$${b.labour_cost.toFixed(2)}</td>
+                            </tr>
+                            ${parts.map(p => `
+                                <tr>
+                                    <td>${p.part_name} <span class="text-muted font-monospace">(${p.part_number})</span></td>
+                                    <td>Spare Part</td>
+                                    <td class="text-center">${p.quantity_used}</td>
+                                    <td class="text-end">$${p.unit_price.toFixed(2)}</td>
+                                    <td class="text-end">$${(p.quantity_used * p.unit_price).toFixed(2)}</td>
+                                </tr>
+                            `).join('')}
+                        </tbody>
+                    </table>
+
+                    <div class="row justify-content-end">
+                        <div class="col-md-5">
+                            <div class="d-flex justify-content-between border-bottom py-1 small">
+                                <span class="text-muted">Subtotal (Parts + Labour):</span>
+                                <span class="fw-semibold">$${b.subtotal.toFixed(2)}</span>
+                            </div>
+                            <div class="d-flex justify-content-between border-bottom py-1 small">
+                                <span class="text-muted">Sales Tax (18% GST/VAT):</span>
+                                <span class="fw-semibold">$${b.tax.toFixed(2)}</span>
+                            </div>
+                            <div class="d-flex justify-content-between py-2 fs-6">
+                                <span class="fw-bold">Total Amount Due:</span>
+                                <span class="fw-bold text-primary">$${b.total.toFixed(2)}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="border-top pt-3 mt-4 text-center text-muted small">
+                        Thank you for servicing your vehicle with GarageFlow Workshop!
+                    </div>
+                `;
+            }
+        }
+
+        loadAdminBills();
+    </script>
+</body>
+</html>

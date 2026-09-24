@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fleet Operations Dashboard — GarageFlow</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="icon" type="image/png" href="/images/logo.png">
+</head>
+<body>
+    <div class="gf-app-wrapper">
+        <!-- Sidebar Navigation -->
+        <aside class="gf-sidebar">
+            <a href="/admin/dashboard.html" class="gf-sidebar-brand">
+                <img src="/images/logo.png" alt="GarageFlow Logo" style="height: 52px; max-height: 60px; width: auto; object-fit: contain;">
+            </a>
+
+            <nav class="gf-nav-section">
+                <a href="/admin/dashboard.html" class="gf-nav-link active">
+                    <i class="bi bi-grid-fill"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a href="/admin/vehicles.html" class="gf-nav-link">
+                    <i class="bi bi-truck"></i>
+                    <span>Fleet</span>
+                </a>
+                <a href="/admin/customers.html" class="gf-nav-link">
+                    <i class="bi bi-people"></i>
+                    <span>Customers</span>
+                </a>
+                <a href="/admin/appointments.html" class="gf-nav-link">
+                    <i class="bi bi-tools"></i>
+                    <span>Requests</span>
+                </a>
+                <a href="/admin/services.html" class="gf-nav-link">
+                    <i class="bi bi-journal-code"></i>
+                    <span>Playbooks</span>
+                </a>
+                <a href="/admin/billing.html" class="gf-nav-link">
+                    <i class="bi bi-graph-up-arrow"></i>
+                    <span>Analytics</span>
+                </a>
+                <a href="/admin/parts.html" class="gf-nav-link">
+                    <i class="bi bi-boxes"></i>
+                    <span>Parts</span>
+                </a>
+                <a href="#" class="gf-nav-link">
+                    <i class="bi bi-gear"></i>
+                    <span>Settings</span>
+                </a>
+                <a href="#" class="gf-nav-link">
+                    <i class="bi bi-question-circle"></i>
+                    <span>Support</span>
+                </a>
+            </nav>
+
+            <div class="gf-sidebar-user">
+                <img src="/images/albert_avatar.jpg" alt="User Avatar" class="gf-user-avatar">
+                <div class="gf-user-info">
+                    <span class="gf-user-name">Albert Flores</span>
+                    <span class="gf-user-email">flores@autofleet.app</span>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="gf-main-content">
+            <!-- Top Header Navbar -->
+            <header class="gf-top-header">
+                <div class="gf-page-title-group">
+                    <i class="bi bi-book gf-page-icon"></i>
+                    <h1 class="gf-page-title">Overview</h1>
+                </div>
+
+                <div class="gf-header-actions">
+                    <div class="gf-search-box">
+                        <i class="bi bi-search"></i>
+                        <input type="text" id="globalSearchInput" placeholder="Search for customers, repairs, or parts...">
+                    </div>
+
+                    <a href="#" class="gf-icon-btn" title="Notifications">
+                        <i class="bi bi-bell"></i>
+                        <span class="gf-icon-badge"></span>
+                    </a>
+                    <a href="#" class="gf-icon-btn" title="Messages">
+                        <i class="bi bi-chat-text"></i>
+                    </a>
+
+                    <select class="gf-dropdown-select">
+                        <option>This week</option>
+                        <option>This month</option>
+                        <option>All time</option>
+                    </select>
+
+                    <a href="/admin/services.html" class="btn-gf-primary-pill">
+                        <i class="bi bi-plus-lg"></i> Custom
+                    </a>
+                </div>
+            </header>
+
+            <!-- Top KPI Telemetry Grid -->
+            <section class="gf-kpi-grid">
+                <div class="gf-kpi-card">
+                    <div class="gf-kpi-header">
+                        <span class="gf-kpi-title">Total Requests</span>
+                        <i class="bi bi-box-arrow-up-right gf-kpi-action-icon"></i>
+                    </div>
+                    <div class="gf-kpi-body">
+                        <span class="gf-kpi-value" id="statTotalRequests">25</span>
+                        <span class="gf-kpi-trend up-green"><i class="bi bi-arrow-up-short"></i> +12.1%</span>
+                    </div>
+                    <div class="gf-kpi-subtext">from last week</div>
+                </div>
+
+                <div class="gf-kpi-card">
+                    <div class="gf-kpi-header">
+                        <span class="gf-kpi-title">Active Repairs</span>
+                        <i class="bi bi-sliders gf-kpi-action-icon"></i>
+                    </div>
+                    <div class="gf-kpi-body">
+                        <span class="gf-kpi-value" id="statActiveRepairs">13</span>
+                        <span class="gf-kpi-trend up-amber"><i class="bi bi-arrow-up-short"></i> +1</span>
+                    </div>
+                    <div class="gf-kpi-subtext">from last week</div>
+                </div>
+
+                <div class="gf-kpi-card">
+                    <div class="gf-kpi-header">
+                        <span class="gf-kpi-title">Urgent Issues</span>
+                        <i class="bi bi-exclamation-triangle gf-kpi-action-icon"></i>
+                    </div>
+                    <div class="gf-kpi-body">
+                        <span class="gf-kpi-value" id="statUrgentIssues">2</span>
+                        <span class="gf-kpi-trend up-rose"><i class="bi bi-arrow-up-short"></i> +3</span>
+                    </div>
+                    <div class="gf-kpi-subtext">from last week</div>
+                </div>
+
+                <div class="gf-kpi-card">
+                    <div class="gf-kpi-header">
+                        <span class="gf-kpi-title">Missed Deadlines</span>
+                        <i class="bi bi-clock-history gf-kpi-action-icon"></i>
+                    </div>
+                    <div class="gf-kpi-body">
+                        <span class="gf-kpi-value" id="statMissedDeadlines">1</span>
+                        <span class="gf-kpi-trend down-green"><i class="bi bi-arrow-down-short"></i> -1</span>
+                    </div>
+                    <div class="gf-kpi-subtext">from last week</div>
+                </div>
+            </section>
+
+            <!-- 2-Column Section: Active Tickets Hub (Left 70%) & Component Deck (Right 30%) -->
+            <div class="gf-dashboard-split-layout">
+                <div class="gf-left-column">
+                    <!-- Active Tickets Hub -->
+                    <section class="gf-ticket-section">
+                        <div class="gf-ticket-section-header">
+                            <h2 class="gf-section-title">2 Active Tickets</h2>
+                            <div class="gf-ticket-nav">
+                                <button class="gf-ticket-nav-btn" id="prevTicketBtn"><i class="bi bi-chevron-left"></i></button>
+                                <span id="currentTicketLabel">Ticket #0112102025</span>
+                                <button class="gf-ticket-nav-btn" id="nextTicketBtn"><i class="bi bi-chevron-right"></i></button>
+                            </div>
+                        </div>
+
+                        <div class="gf-active-ticket-grid">
+                            <!-- Customer Info Card -->
+                            <div class="gf-subcard">
+                                <div>
+                                    <div class="gf-subcard-title">Customer Info</div>
+                                    <div class="gf-customer-profile">
+                                        <img src="/images/albert_avatar.jpg" alt="Albert Flores" class="gf-customer-avatar-lg">
+                                        <div class="gf-customer-name" id="ticketCustomerName">Albert Flores</div>
+                                        <div class="gf-customer-incident-quote" id="ticketIncidentQuote">"The car won't start"</div>
+                                    </div>
+                                    <div class="gf-data-rows">
+                                        <div class="gf-data-row">
+                                            <span class="gf-data-label">Lease</span>
+                                            <span class="gf-data-val" id="ticketLease">Southern Ruins Logistics</span>
+                                        </div>
+                                        <div class="gf-data-row">
+                                            <span class="gf-data-label">Contract</span>
+                                            <span class="gf-data-val" id="ticketContract">L-CAM-2022-00457</span>
+                                        </div>
+                                        <div class="gf-data-row">
+                                            <span class="gf-data-label">Reported</span>
+                                            <span class="gf-data-val" id="ticketReportedDate">Sep 1, 2026 2:32 pm</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <button class="btn-gf-call" onclick="alert('Initiating direct telemetry call to Albert Flores (+1 555-0192)...')">
+                                        <i class="bi bi-telephone-fill"></i> Call
+                                    </button>
+                                    <div class="text-center text-muted small mt-2" style="font-size: 0.7rem;">
+                                        2 open tasks • 16 / 94 tasks completed
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Vehicle Card -->
+                            <div class="gf-subcard">
+                                <div>
+                                    <div class="gf-subcard-title">Vehicle</div>
+                                    <div class="gf-vehicle-card-content">
+                                        <div class="gf-vehicle-image-wrapper">
+                                            <img src="/images/camry.jpg" alt="Toyota Camry" class="gf-vehicle-img" id="ticketVehicleImg">
+                                        </div>
+                                        <div class="gf-vehicle-name-rating">
+                                            <span class="gf-vehicle-title" id="ticketVehicleName">Toyota Camry 2020–2023</span>
+                                            <span class="gf-star-rating">★★★★★</span>
+                                        </div>
+                                    </div>
+                                    <div class="gf-data-rows">
+                                        <div class="gf-data-row">
+                                            <span class="gf-data-label">VIN</span>
+                                            <span class="gf-data-val" id="ticketVin">4T1BE46K47U127862</span>
+                                        </div>
+                                        <div class="gf-data-row">
+                                            <span class="gf-data-label">Mileage</span>
+                                            <span class="gf-data-val" id="ticketMileage">183,240 km</span>
+                                        </div>
+                                        <div class="gf-data-row">
+                                            <span class="gf-data-label">Powertrain</span>
+                                            <span class="gf-data-val" id="ticketPowertrain">Hybrid</span>
+                                        </div>
+                                        <div class="gf-data-row">
+                                            <span class="gf-data-label">Battery health</span>
+                                            <span class="gf-data-val text-warning" id="ticketBatteryHealth">18%</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="gf-health-bar-container">
+                                    <div class="gf-health-bar-fill" style="width: 18%;"></div>
+                                </div>
+                            </div>
+
+                            <!-- Repair Details & SLA Card -->
+                            <div class="gf-subcard gf-repair-details-card">
+                                <div>
+                                    <div class="d-flex justify-content-between align-items-center mb-2">
+                                        <div class="gf-subcard-title mb-0" id="ticketRepairId">Repair details #251008</div>
+                                        <span class="text-muted small" style="font-size: 0.72rem;">09/01/2026 2:32pm</span>
+                                    </div>
+
+                                    <div class="gf-data-rows mt-3">
+                                        <div class="gf-data-row">
+                                            <span class="gf-data-label">Root cause</span>
+                                            <span class="gf-data-val text-end" style="max-width: 130px;" id="ticketRootCause">Battery module failure (voltage drop detected)</span>
+                                        </div>
+                                        <div class="gf-data-row">
+                                            <span class="gf-data-label">Part ordered</span>
+                                            <span class="gf-data-val text-end" id="ticketPartOrdered">Battery Module (Lithium-Ion)</span>
+                                        </div>
+                                        <div class="gf-data-row">
+                                            <span class="gf-data-label">Serial number</span>
+                                            <span class="gf-data-val" id="ticketSerialNo">SN-BT-88294-VE</span>
+                                        </div>
+                                        <div class="gf-data-row">
+                                            <span class="gf-data-label">Part ID</span>
+                                            <span class="gf-data-val" id="ticketPartId">#BT-77432</span>
+                                        </div>
+                                        <div class="gf-data-row">
+                                            <span class="gf-data-label">Supplier</span>
+                                            <span class="gf-data-val" id="ticketSupplier">PowerEdge Components</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <div class="d-flex gap-2 justify-content-end mb-3">
+                                        <select class="gf-pill-select status-investigating">
+                                            <option>Investigating v</option>
+                                            <option>In Progress</option>
+                                            <option>Resolved</option>
+                                        </select>
+                                        <select class="gf-pill-select priority-high">
+                                            <option>High v</option>
+                                            <option>Medium</option>
+                                            <option>Low</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="gf-sla-timer-box">
+                                        <div>
+                                            <div class="gf-timer-label">Time since incident</div>
+                                            <div class="gf-timer-val" id="liveSlaTimer">06:33:14</div>
+                                        </div>
+                                        <div class="text-end">
+                                            <div class="gf-timer-label">Expected SLA</div>
+                                            <div class="text-info small fw-bold">Resolve within 12h</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Past Service Incidents Table/Grid -->
+                    <section class="gf-incidents-card">
+                        <div class="gf-incidents-header">
+                            <h3 class="gf-section-title">Past Service Incidents</h3>
+                            <a href="/admin/service-history.html" class="text-info text-decoration-none small fw-semibold">View all <i class="bi bi-arrow-right"></i></a>
+                        </div>
+
+                        <div class="gf-incident-list">
+                            <!-- Incident 1 -->
+                            <div class="gf-incident-item">
+                                <div class="gf-incident-top">
+                                    <span class="gf-incident-date">Aug 12, 2025 3:42 pm</span>
+                                    <div class="d-flex gap-1">
+                                        <span class="status-pill resolved">Resolved v</span>
+                                        <span class="status-pill medium">Medium v</span>
+                                    </div>
+                                </div>
+                                <div class="gf-incident-title">Battery overheating warning</div>
+                                <div class="gf-data-rows mt-2 mb-0" style="font-size: 0.75rem;">
+                                    <div class="gf-data-row"><span class="gf-data-label">Part replaced:</span> <span class="gf-data-val">Battery cooling fan</span></div>
+                                    <div class="gf-data-row"><span class="gf-data-label">Technician:</span> <span class="gf-data-val">Carlos Vega</span></div>
+                                    <div class="gf-data-row"><span class="gf-data-label">Duration:</span> <span class="gf-data-val">4h 18m</span></div>
+                                </div>
+                            </div>
+
+                            <!-- Incident 2 -->
+                            <div class="gf-incident-item">
+                                <div class="gf-incident-top">
+                                    <span class="gf-incident-date">Mar 17, 2025 9:05 am</span>
+                                    <div class="d-flex gap-1">
+                                        <span class="status-pill resolved">Resolved v</span>
+                                        <span class="status-pill low">Low v</span>
+                                    </div>
+                                </div>
+                                <div class="gf-incident-title">Cooling pump malfunction</div>
+                                <div class="gf-data-rows mt-2 mb-0" style="font-size: 0.75rem;">
+                                    <div class="gf-data-row"><span class="gf-data-label">Part replaced:</span> <span class="gf-data-val">Water pump assembly</span></div>
+                                    <div class="gf-data-row"><span class="gf-data-label">Technician:</span> <span class="gf-data-val">Dana Liu</span></div>
+                                    <div class="gf-data-row"><span class="gf-data-label">Duration:</span> <span class="gf-data-val">3h 27m</span></div>
+                                </div>
+                            </div>
+
+                            <!-- Incident 3 -->
+                            <div class="gf-incident-item">
+                                <div class="gf-incident-top">
+                                    <span class="gf-incident-date">Jun 4, 2025 11:20 am</span>
+                                    <div class="d-flex gap-1">
+                                        <span class="status-pill resolved">Resolved v</span>
+                                        <span class="status-pill high">High v</span>
+                                    </div>
+                                </div>
+                                <div class="gf-incident-title">Inverter system voltage drop</div>
+                                <div class="gf-data-rows mt-2 mb-0" style="font-size: 0.75rem;">
+                                    <div class="gf-data-row"><span class="gf-data-label">Part replaced:</span> <span class="gf-data-val">Inverter control module</span></div>
+                                    <div class="gf-data-row"><span class="gf-data-label">Technician:</span> <span class="gf-data-val">Mark Reynolds</span></div>
+                                    <div class="gf-data-row"><span class="gf-data-label">Duration:</span> <span class="gf-data-val">5h 42m</span></div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+
+                <!-- Right Column Deck (Battery Module Monitoring Component) -->
+                <aside class="gf-right-column">
+                    <div class="gf-component-deck">
+                        <div class="gf-component-header">
+                            <div>
+                                <h3 class="gf-component-title">Battery Module (Lithium-Ion)</h3>
+                                <div class="gf-spec-tags">
+                                    <span class="gf-spec-tag">12V / 60 Ah</span>
+                                    <span class="gf-spec-tag">14.2 kg</span>
+                                </div>
+                            </div>
+                            <span class="gf-delivery-badge">In delivery (ETA 2 h)</span>
+                        </div>
+
+                        <div class="gf-data-rows my-1" style="font-size: 0.78rem;">
+                            <div class="gf-data-row"><span class="gf-data-label">Serial number</span><span class="gf-data-val">SN-BT-88294-VE</span></div>
+                            <div class="gf-data-row"><span class="gf-data-label">Part ID</span><span class="gf-data-val">#BT-77432</span></div>
+                            <div class="gf-data-row"><span class="gf-data-label">Supplier</span><span class="gf-data-val">PowerEdge Components</span></div>
+                        </div>
+
+                        <!-- Render image of battery module -->
+                        <div class="gf-component-render-box">
+                            <img src="/images/battery_module.jpg" alt="Battery Module 3D Render" class="gf-component-img">
+                        </div>
+
+                        <!-- Charge Level LED Meter Widget -->
+                        <div class="gf-charge-meter-box">
+                            <div class="gf-charge-label-row">
+                                <span>Charge level</span>
+                                <span class="fw-bold text-white">80% (Battery)</span>
+                            </div>
+                            <div class="gf-led-bar-grid">
+                                <div class="gf-led-segment active"></div>
+                                <div class="gf-led-segment active"></div>
+                                <div class="gf-led-segment active"></div>
+                                <div class="gf-led-segment active"></div>
+                                <div class="gf-led-segment active"></div>
+                                <div class="gf-led-segment active"></div>
+                                <div class="gf-led-segment active"></div>
+                                <div class="gf-led-segment active"></div>
+                                <div class="gf-led-segment"></div>
+                                <div class="gf-led-segment"></div>
+                            </div>
+
+                            <div class="d-flex justify-content-between align-items-center mt-3 pt-2 border-top border-secondary border-opacity-25" style="font-size: 0.78rem;">
+                                <span class="gf-data-label">Cycle count</span>
+                                <span class="gf-data-val">430 / 1000 <span class="text-emerald ms-1" style="color: var(--gf-emerald);">Health 85%</span></span>
+                            </div>
+                        </div>
+
+                        <div class="gf-data-rows mb-0" style="font-size: 0.78rem;">
+                            <div class="gf-data-row"><span class="gf-data-label">Warranty</span><span class="gf-data-val">3 years / 60,000 mi</span></div>
+                            <div class="gf-data-row"><span class="gf-data-label">Compatibility</span><span class="gf-data-val">Toyota Camry 2020–2023</span></div>
+                            <div class="gf-data-row"><span class="gf-data-label">Manufacturer</span><span class="gf-data-val">VoltEdge Automotive</span></div>
+                        </div>
+
+                        <!-- Upcoming Parts Deliveries Sub-Widget -->
+                        <div class="mt-2 pt-3 border-top border-secondary border-opacity-25">
+                            <h4 class="gf-component-title" style="font-size: 0.95rem;">Upcoming Parts Deliveries</h4>
+                            <div class="p-2.5 rounded bg-dark bg-opacity-50 border border-secondary border-opacity-25 mt-2" style="font-size: 0.78rem;">
+                                <div class="d-flex justify-content-between mb-1">
+                                    <span class="fw-semibold text-white">Inverter Control Unit</span>
+                                    <span class="text-info font-monospace">ETA 45m</span>
+                                </div>
+                                <div class="text-muted small">Tracking: #TRK-99201-US • Express Air</div>
+                            </div>
+                        </div>
+                    </div>
+                </aside>
+            </div>
+        </main>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/js/api.js"></script>
+    <script src="/js/auth.js"></script>
+    <script>
+        // Check authentication if endpoint exists, gracefully fallback for UI preview
+        if (typeof requireAuth === 'function') {
+            try { requireAuth('ADMIN'); } catch(e) {}
+        }
+
+        // Live SLA Timer tick logic
+        let slaSeconds = (6 * 3600) + (33 * 60) + 14;
+        function updateSlaTimer() {
+            slaSeconds++;
+            const hrs = String(Math.floor(slaSeconds / 3600)).padStart(2, '0');
+            const mins = String(Math.floor((slaSeconds % 3600) / 60)).padStart(2, '0');
+            const secs = String(slaSeconds % 60).padStart(2, '0');
+            const timerEl = document.getElementById('liveSlaTimer');
+            if (timerEl) timerEl.textContent = `${hrs}:${mins}:${secs}`;
+        }
+        setInterval(updateSlaTimer, 1000);
+
+        // Interactive Ticket Switching (Ticket 1 vs Ticket 2)
+        const tickets = [
+            {
+                label: "Ticket #0112102025",
+                customer: "Albert Flores",
+                quote: `"The car won't start"`,
+                lease: "Southern Ruins Logistics",
+                contract: "L-CAM-2022-00457",
+                reported: "Sep 1, 2026 2:32 pm",
+                avatar: "/images/albert_avatar.jpg",
+                vehicle: "Toyota Camry 2020–2023",
+                vehicleImg: "/images/camry.jpg",
+                vin: "4T1BE46K47U127862",
+                mileage: "183,240 km",
+                powertrain: "Hybrid",
+                health: "18%",
+                repairId: "Repair details #251008",
+                rootCause: "Battery module failure (voltage drop detected)",
+                partOrdered: "Battery Module (Lithium-Ion)",
+                serialNo: "SN-BT-88294-VE",
+                partId: "#BT-77432",
+                supplier: "PowerEdge Components"
+            },
+            {
+                label: "Ticket #0112102026",
+                customer: "Eleanor Pena",
+                quote: `"Check engine light & severe noise"`,
+                lease: "Global Freight Systems",
+                contract: "L-HON-2023-00891",
+                reported: "Sep 2, 2026 8:15 am",
+                avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=250&q=80",
+                vehicle: "Honda Accord Hybrid 2022",
+                vehicleImg: "/images/camry.jpg",
+                vin: "1HGCR2F83HA091823",
+                mileage: "94,110 km",
+                powertrain: "EV Plug-in",
+                health: "42%",
+                repairId: "Repair details #251009",
+                rootCause: "Inverter cooling fan seizure",
+                partOrdered: "High-Output Cooling Fan",
+                serialNo: "SN-CF-99120-HD",
+                partId: "#CF-12004",
+                supplier: "Apex Thermo Dynamics"
+            }
+        ];
+
+        let currentTicketIdx = 0;
+        function renderTicket(idx) {
+            const t = tickets[idx];
+            document.getElementById('currentTicketLabel').textContent = t.label;
+            document.getElementById('ticketCustomerName').textContent = t.customer;
+            document.getElementById('ticketIncidentQuote').textContent = t.quote;
+            document.getElementById('ticketLease').textContent = t.lease;
+            document.getElementById('ticketContract').textContent = t.contract;
+            document.getElementById('ticketReportedDate').textContent = t.reported;
+            document.getElementById('ticketCustomerName').previousElementSibling.src = t.avatar;
+
+            document.getElementById('ticketVehicleName').textContent = t.vehicle;
+            document.getElementById('ticketVin').textContent = t.vin;
+            document.getElementById('ticketMileage').textContent = t.mileage;
+            document.getElementById('ticketPowertrain').textContent = t.powertrain;
+            document.getElementById('ticketBatteryHealth').textContent = t.health;
+
+            document.getElementById('ticketRepairId').textContent = t.repairId;
+            document.getElementById('ticketRootCause').textContent = t.rootCause;
+            document.getElementById('ticketPartOrdered').textContent = t.partOrdered;
+            document.getElementById('ticketSerialNo').textContent = t.serialNo;
+            document.getElementById('ticketPartId').textContent = t.partId;
+            document.getElementById('ticketSupplier').textContent = t.supplier;
+        }
+
+        document.getElementById('prevTicketBtn').addEventListener('click', () => {
+            currentTicketIdx = (currentTicketIdx - 1 + tickets.length) % tickets.length;
+            renderTicket(currentTicketIdx);
+        });
+
+        document.getElementById('nextTicketBtn').addEventListener('click', () => {
+            currentTicketIdx = (currentTicketIdx + 1) % tickets.length;
+            renderTicket(currentTicketIdx);
+        });
+
+        // Try backend telemetry sync if API available
+        async function syncBackendStats() {
+            if (typeof apiFetch === 'function') {
+                try {
+                    const res = await apiFetch('/admin/dashboard-stats');
+                    if (res && res.success && res.stats) {
+                        const s = res.stats;
+                        if (s.todayAppointments !== undefined) document.getElementById('statTotalRequests').textContent = s.todayAppointments || 25;
+                        if (s.inServiceVehicles !== undefined) document.getElementById('statActiveRepairs').textContent = s.inServiceVehicles || 13;
+                        if (s.lowStockCount !== undefined) document.getElementById('statUrgentIssues').textContent = s.lowStockCount || 2;
+                    }
+                } catch(e) {
+                    console.log('Using mockup telemetry mode.');
+                }
+            }
+        }
+        syncBackendStats();
+    </script>
+</body>
+</html>

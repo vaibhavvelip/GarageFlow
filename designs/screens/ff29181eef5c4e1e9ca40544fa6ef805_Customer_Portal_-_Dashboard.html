@@ -1,0 +1,940 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="web_standard" name="shell-type"/>
+<title>GarageFlow Customer Portal | Smart Automotive OS</title>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<style>
+    @layer base {
+      html, body {
+        margin: 0;
+        padding: 0;
+        background-color: #f8fafc;
+        color: #0f172a;
+        font-family: 'Inter', sans-serif;
+      }
+      body {
+        overscroll-behavior: none;
+      }
+    }
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 9999px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #94a3b8;
+    }
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 20;
+    }
+    .material-symbols-filled {
+      font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 20;
+    }
+  </style>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50: '#f0f9ff',
+              100: '#e0f2fe',
+              200: '#bae6fd',
+              500: '#0ea5e9',
+              600: '#0284c7', // automotive cobalt accent
+              700: '#0369a1',
+              800: '#075985',
+              900: '#0c4a6e',
+            },
+            primary: "#0284c7",
+            "on-primary": "#ffffff",
+            surface: "#f8fafc",
+            "surface-card": "#ffffff",
+          },
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+          },
+          boxShadow: {
+            'subtle': '0 1px 2px 0 rgba(15, 23, 42, 0.04), 0 1px 3px 0 rgba(15, 23, 42, 0.02)',
+            'card': '0 4px 6px -1px rgba(15, 23, 42, 0.03), 0 2px 4px -2px rgba(15, 23, 42, 0.03)',
+            'card-hover': '0 10px 20px -3px rgba(15, 23, 42, 0.06), 0 4px 6px -4px rgba(15, 23, 42, 0.03)',
+          }
+        }
+      }
+    };
+  </script>
+</head>
+<body class="bg-[#f8fafc] text-slate-900 antialiased min-h-screen selection:bg-sky-100 selection:text-sky-900">
+<!-- HEADER & NAVIGATION -->
+<header class="fixed top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-md border-b border-slate-200/80 transition-all">
+<div class="h-16 w-full max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between gap-4">
+<!-- Brand & Mode Switcher -->
+<div class="flex items-center gap-5 shrink-0">
+<a class="flex items-center gap-2.5 group" href="#">
+<div class="h-9 w-9 rounded-xl bg-gradient-to-br from-sky-500 to-sky-700 flex items-center justify-center text-white shadow-sm shadow-sky-500/20 group-hover:scale-[1.02] transition-transform">
+<span class="material-symbols-outlined material-symbols-filled text-[20px]">electric_car</span>
+</div>
+<div class="flex flex-col">
+<span class="text-[16px] font-bold tracking-tight text-slate-900 leading-none">Garage<span class="text-sky-600">Flow</span></span>
+<span class="text-[10px] font-medium tracking-wider uppercase text-slate-400 mt-0.5">Automotive OS</span>
+</div>
+</a>
+<!-- Portal Role Capsule -->
+<div class="hidden sm:flex items-center bg-slate-100 p-0.5 rounded-lg border border-slate-200 text-[12px] font-medium">
+<span class="px-3 py-1 rounded-md bg-white text-slate-900 font-semibold shadow-xs">Customer</span>
+<a class="px-3 py-1 text-slate-500 hover:text-slate-800 transition-colors" href="#">Workshop Admin</a>
+</div>
+</div>
+<!-- Main Navigation -->
+<nav class="hidden lg:flex items-center gap-1 text-[13px] font-medium">
+<a class="px-3.5 py-1.5 rounded-lg bg-sky-50 text-sky-700 font-semibold flex items-center gap-1.5 transition-colors" href="#">
+<span class="material-symbols-outlined text-[18px]">grid_view</span>
+          Dashboard
+        </a>
+<a class="px-3.5 py-1.5 rounded-lg text-slate-600 hover:text-slate-900 hover:bg-slate-100/70 flex items-center gap-1.5 transition-colors" href="#">
+<span class="material-symbols-outlined text-[18px]">directions_car</span>
+          My Vehicles
+        </a>
+<a class="px-3.5 py-1.5 rounded-lg text-slate-600 hover:text-slate-900 hover:bg-slate-100/70 flex items-center gap-1.5 transition-colors" href="#">
+<span class="material-symbols-outlined text-[18px]">build</span>
+          Book Service
+        </a>
+<a class="px-3.5 py-1.5 rounded-lg text-slate-600 hover:text-slate-900 hover:bg-slate-100/70 flex items-center gap-1.5 transition-colors" href="#">
+<span class="material-symbols-outlined text-[18px]">calendar_month</span>
+          Appointments
+        </a>
+<a class="px-3.5 py-1.5 rounded-lg text-slate-600 hover:text-slate-900 hover:bg-slate-100/70 flex items-center gap-1.5 transition-colors" href="#">
+<span class="material-symbols-outlined text-[18px]">history</span>
+          Service History
+        </a>
+<a class="px-3.5 py-1.5 rounded-lg text-slate-600 hover:text-slate-900 hover:bg-slate-100/70 flex items-center gap-1.5 transition-colors" href="#">
+<span class="material-symbols-outlined text-[18px]">receipt_long</span>
+          Invoices &amp; Bills
+        </a>
+</nav>
+<!-- Search, Alerts & Profile -->
+<div class="flex items-center gap-3 shrink-0">
+<!-- Quick Search -->
+<div class="hidden xl:flex items-center bg-slate-50 hover:bg-slate-100 text-slate-400 hover:text-slate-600 border border-slate-200/90 rounded-xl px-3 py-1.5 gap-2 cursor-pointer transition-colors text-[13px] w-60">
+<span class="material-symbols-outlined text-[17px] text-slate-400">search</span>
+<span class="flex-1 text-slate-400">Search VIN, plate, RO...</span>
+<kbd class="text-[10px] font-semibold bg-white px-1.5 py-0.5 rounded border border-slate-200 text-slate-500 shadow-2xs">⌘K</kbd>
+</div>
+<!-- Notification Bell -->
+<button aria-label="Notifications" class="relative w-9 h-9 flex items-center justify-center text-slate-600 hover:text-slate-900 hover:bg-slate-100 rounded-xl border border-transparent hover:border-slate-200 transition-colors" title="Notifications">
+<span class="material-symbols-outlined text-[20px]">notifications</span>
+<span class="absolute 1 top-2 right-2 w-2 h-2 rounded-full bg-rose-500 ring-2 ring-white"></span>
+</button>
+<!-- Divider -->
+<div class="h-6 w-px bg-slate-200"></div>
+<!-- Profile Capsule -->
+<div class="flex items-center gap-2.5 p-1 rounded-xl hover:bg-slate-100/80 cursor-pointer transition-colors">
+<div class="relative">
+<img alt="Alex Rivera" class="w-8 h-8 rounded-full object-cover ring-1 ring-slate-200" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC88xkwYyjVAQ3tUhWGnGL1Knga4CIhIEEyFPt_6N0eVWPSEGRgx3yQEQZk9Yed5pPGkjrO8NS7JnEfLOrS-7wKYAkWXcoAkQsPnxC0vDcFhH_I0sexv6B-JGnbFWEKwbq5kZGzI9GnAMu-5sGNTBL0cP2AwNQBsCJ-lN1IDOHI02roOAaTgg-TSbZ0-rU3cjnpoOfvhpDDorU2ijNx8_l7wCF8guUpS9_AEw3hNGWaXHbCJPgpVUBf"/>
+<span class="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 rounded-full bg-emerald-500 ring-2 ring-white"></span>
+</div>
+<div class="hidden sm:flex flex-col text-left">
+<span class="text-[13px] font-semibold text-slate-800 leading-tight">Alex Rivera</span>
+<span class="text-[11px] font-medium text-amber-600 flex items-center gap-0.5 leading-none mt-0.5">
+<span class="material-symbols-outlined text-[12px] material-symbols-filled text-amber-500">verified</span>
+              Gold Fleet Member
+            </span>
+</div>
+<span class="material-symbols-outlined text-[16px] text-slate-400">expand_more</span>
+</div>
+</div>
+</div>
+</header>
+<!-- MAIN DASHBOARD CONTENT -->
+<main class="w-full pt-20 pb-16">
+<div class="w-full max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
+<!-- 1. WELCOME HERO & ACTION BAR -->
+<section class="bg-white rounded-2xl p-6 border border-slate-200/80 shadow-subtle flex flex-col lg:flex-row lg:items-center justify-between gap-6 relative overflow-hidden">
+<!-- Subtle background accent illumination -->
+<div class="absolute -top-24 -right-24 w-80 h-80 bg-sky-50 rounded-full blur-3xl pointer-events-none"></div>
+<div class="absolute -bottom-20 -left-20 w-64 h-64 bg-amber-50/50 rounded-full blur-3xl pointer-events-none"></div>
+<div class="flex items-start sm:items-center gap-4 relative z-10">
+<div class="w-13 h-13 sm:w-14 sm:h-14 rounded-2xl bg-sky-50 border border-sky-100 flex items-center justify-center text-sky-600 shrink-0 shadow-xs">
+<span class="material-symbols-outlined text-[30px] material-symbols-filled">garage</span>
+</div>
+<div class="space-y-1">
+<div class="flex items-center gap-2.5 flex-wrap">
+<h1 class="text-xl sm:text-2xl font-bold tracking-tight text-slate-900">Good morning, Alex Rivera</h1>
+<span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[12px] font-medium bg-emerald-50 text-emerald-700 border border-emerald-200/70">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                All 3 Vehicles Operational
+              </span>
+</div>
+<div class="flex items-center gap-3 flex-wrap text-[13px] text-slate-500 font-normal">
+<span>Welcome to your digital garage command center.</span>
+<span class="text-slate-300">•</span>
+<span class="inline-flex items-center gap-1 text-slate-600 font-medium">
+<span class="material-symbols-outlined text-[15px] text-sky-600">location_on</span>
+                Metro Central Hub (Lane 2 Priority)
+              </span>
+<span class="text-slate-300">•</span>
+<span class="text-amber-700 font-medium inline-flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px] text-amber-500 material-symbols-filled">stars</span>
+                Gold Fleet Tier
+              </span>
+</div>
+</div>
+</div>
+<!-- Quick Actions -->
+<div class="flex items-center gap-2.5 flex-wrap shrink-0 relative z-10">
+<button class="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-[13px] font-semibold bg-white hover:bg-slate-50 text-slate-700 border border-slate-300 shadow-2xs transition-all active:scale-[0.98]" type="button">
+<span class="material-symbols-outlined text-[18px] text-slate-500">add</span>
+            Add Vehicle
+          </button>
+<button class="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-[13px] font-semibold bg-sky-600 hover:bg-sky-700 text-white shadow-xs shadow-sky-600/20 transition-all active:scale-[0.98]" type="button">
+<span class="material-symbols-outlined text-[18px]">calendar_add_on</span>
+            Book Service
+          </button>
+<button class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-[13px] font-semibold bg-rose-50 hover:bg-rose-100/80 text-rose-700 border border-rose-200/80 transition-all active:scale-[0.98]" type="button">
+<span class="material-symbols-outlined text-[18px] text-rose-600">emergency</span>
+            Emergency Roadside
+          </button>
+</div>
+</section>
+<!-- 2. TOP METRICS ROW -->
+<section class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
+<!-- Metric 1 -->
+<div class="bg-white rounded-2xl p-5 border border-slate-200/80 shadow-subtle hover:border-slate-300 transition-all flex flex-col justify-between">
+<div class="flex items-start justify-between">
+<div>
+<p class="text-[11px] uppercase tracking-wider font-semibold text-slate-400">Active Vehicles</p>
+<h3 class="text-2xl font-bold tracking-tight text-slate-900 mt-1">3 Registered</h3>
+</div>
+<div class="w-10 h-10 rounded-xl bg-slate-50 border border-slate-100 text-sky-600 flex items-center justify-center">
+<span class="material-symbols-outlined text-[22px]">directions_car</span>
+</div>
+</div>
+<div class="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between text-[12px]">
+<span class="inline-flex items-center gap-1.5 font-medium text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-md">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>2 Good Health
+            </span>
+<span class="inline-flex items-center gap-1 font-medium text-amber-700 bg-amber-50 px-2 py-0.5 rounded-md">
+<span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span>1 Service Due
+            </span>
+</div>
+</div>
+<!-- Metric 2 -->
+<div class="bg-white rounded-2xl p-5 border border-slate-200/80 shadow-subtle hover:border-slate-300 transition-all flex flex-col justify-between">
+<div class="flex items-start justify-between">
+<div>
+<p class="text-[11px] uppercase tracking-wider font-semibold text-slate-400">Next Appointment</p>
+<h3 class="text-2xl font-bold tracking-tight text-slate-900 mt-1">Oct 24, 10:00 AM</h3>
+</div>
+<div class="w-10 h-10 rounded-xl bg-amber-50 border border-amber-100 text-amber-600 flex items-center justify-center">
+<span class="material-symbols-outlined text-[22px]">calendar_clock</span>
+</div>
+</div>
+<div class="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between text-[12px]">
+<span class="text-slate-600 font-medium flex items-center gap-1">
+<span class="material-symbols-outlined text-[15px] text-sky-600">store</span>
+              Bay 4 Metro Hub
+            </span>
+<span class="text-sky-700 font-semibold px-2 py-0.5 rounded-full bg-sky-50 text-[11px] uppercase tracking-wide border border-sky-200/60">Confirmed</span>
+</div>
+</div>
+<!-- Metric 3 -->
+<div class="bg-white rounded-2xl p-5 border border-slate-200/80 shadow-subtle hover:border-slate-300 transition-all flex flex-col justify-between">
+<div class="flex items-start justify-between">
+<div>
+<p class="text-[11px] uppercase tracking-wider font-semibold text-slate-400">Completed Services</p>
+<h3 class="text-2xl font-bold tracking-tight text-slate-900 mt-1">14 Total Records</h3>
+</div>
+<div class="w-10 h-10 rounded-xl bg-emerald-50 border border-emerald-100 text-emerald-600 flex items-center justify-center">
+<span class="material-symbols-outlined text-[22px]">verified</span>
+</div>
+</div>
+<div class="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between text-[12px]">
+<span class="text-slate-500">Parts standard:</span>
+<span class="font-semibold text-emerald-700 flex items-center gap-1 bg-emerald-50 px-2 py-0.5 rounded-md">
+<span class="material-symbols-outlined text-[14px]">shield</span>
+              100% OEM Parts
+            </span>
+</div>
+</div>
+<!-- Metric 4 -->
+<div class="bg-white rounded-2xl p-5 border border-slate-200/80 shadow-subtle hover:border-slate-300 transition-all flex flex-col justify-between">
+<div class="flex items-start justify-between">
+<div>
+<p class="text-[11px] uppercase tracking-wider font-semibold text-slate-400">YTD Maintenance</p>
+<h3 class="text-2xl font-bold tracking-tight text-slate-900 mt-1">$995.00</h3>
+</div>
+<div class="w-10 h-10 rounded-xl bg-indigo-50 border border-indigo-100 text-indigo-600 flex items-center justify-center">
+<span class="material-symbols-outlined text-[22px]">savings</span>
+</div>
+</div>
+<div class="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between text-[12px]">
+<span class="text-slate-500">Fleet savings:</span>
+<span class="text-[11px] text-amber-700 font-semibold bg-amber-50 px-2 py-0.5 rounded-md border border-amber-200/60 flex items-center gap-1">
+              Saved $82.50 with Gold
+            </span>
+</div>
+</div>
+</section>
+<!-- 3. FEATURED ACTIVE SERVICE TELEMETRY HERO CARD -->
+<section class="bg-white rounded-2xl border border-sky-200/70 shadow-subtle overflow-hidden ring-1 ring-sky-500/10">
+<!-- Top bar of hero card -->
+<div class="px-6 py-4 bg-slate-50/70 border-b border-slate-200/80 flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-xl bg-gradient-to-tr from-sky-600 to-sky-500 text-white flex items-center justify-center font-bold text-[18px] tracking-tight shrink-0 shadow-xs relative">
+              B3
+              <span class="absolute -bottom-1 -right-1 w-3.5 h-3.5 rounded-full bg-emerald-500 ring-2 ring-white"></span>
+</div>
+<div>
+<div class="flex items-center gap-2 flex-wrap">
+<h2 class="text-lg font-bold text-slate-900">2021 BMW 330i M-Sport</h2>
+<span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-amber-50 text-amber-800 border border-amber-300">
+<span class="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse"></span>
+                  In Service - Bay 3
+                </span>
+<span class="text-[11px] font-mono text-slate-500 bg-slate-100 px-2 py-0.5 rounded-md border border-slate-200">RO #GF-92841</span>
+<span class="text-[11px] font-mono font-semibold text-slate-700 bg-slate-100 px-2 py-0.5 rounded-md">WX21-KLM</span>
+</div>
+<p class="text-[12px] text-slate-500 mt-1 flex items-center gap-2 flex-wrap">
+<span>Admitted Today: 08:15 AM</span>
+<span class="text-slate-300">•</span>
+<span>Full Synthetic Service &amp; Front Rotor Inspection</span>
+<span class="text-slate-300">•</span>
+<span class="text-sky-600 font-medium inline-flex items-center gap-1">
+<span class="material-symbols-outlined text-[15px]">videocam</span>
+                  Live Bay Stream Active
+                </span>
+</p>
+</div>
+</div>
+<div class="flex items-center gap-3 shrink-0 self-start lg:self-center">
+<div class="bg-white border border-slate-200 rounded-xl px-3.5 py-2 text-right">
+<span class="text-[10px] uppercase font-bold text-slate-400 tracking-wider block">Estimated Completion</span>
+<span class="text-[14px] font-bold text-slate-800 flex items-center gap-1 justify-end">
+<span class="material-symbols-outlined text-[16px] text-sky-600">timelapse</span>
+                ETA: 2 hrs 15 mins
+              </span>
+</div>
+<button class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-[13px] font-medium bg-white hover:bg-slate-50 text-slate-700 border border-slate-200 shadow-2xs transition-all" type="button">
+<span class="material-symbols-outlined text-[17px] text-sky-600">chat</span>
+              Message Marcus
+            </button>
+</div>
+</div>
+<!-- Body with Telemetry Stepper + Webcam + Breakdown -->
+<div class="p-6 flex flex-col lg:flex-row gap-6 items-stretch">
+<!-- Left: 5-step progress and technician update -->
+<div class="flex-1 flex flex-col justify-between space-y-6">
+<!-- Stepper Container -->
+<div>
+<div class="flex items-center justify-between mb-4">
+<span class="text-[12px] font-bold uppercase tracking-wider text-slate-700 flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[17px] text-sky-600">linear_scale</span>
+                  Live Workshop Telemetry Progress
+                </span>
+<span class="text-[11px] font-bold text-sky-700 bg-sky-50 px-2.5 py-0.5 rounded-full border border-sky-200">
+                  Step 3 of 5 In Progress
+                </span>
+</div>
+<!-- Interactive 5-Step Bar -->
+<div class="relative py-2 px-2 sm:px-6">
+<!-- Track lines -->
+<div class="absolute top-6 left-6 right-6 h-1 bg-slate-100 -translate-y-1/2 rounded-full"></div>
+<div class="absolute top-6 left-6 w-[50%] h-1 bg-sky-600 -translate-y-1/2 rounded-full transition-all duration-500"></div>
+<div class="relative z-10 flex justify-between">
+<!-- Step 1 -->
+<div class="flex flex-col items-center text-center">
+<div class="w-8 h-8 rounded-full bg-sky-600 text-white flex items-center justify-center font-bold text-[12px] shadow-sm ring-4 ring-white">
+<span class="material-symbols-outlined text-[16px]">check</span>
+</div>
+<span class="mt-2 text-[11px] font-semibold text-slate-900">Checked In</span>
+<span class="text-[10px] font-mono text-slate-400">08:15 AM</span>
+</div>
+<!-- Step 2 -->
+<div class="flex flex-col items-center text-center">
+<div class="w-8 h-8 rounded-full bg-sky-600 text-white flex items-center justify-center font-bold text-[12px] shadow-sm ring-4 ring-white">
+<span class="material-symbols-outlined text-[16px]">check</span>
+</div>
+<span class="mt-2 text-[11px] font-semibold text-slate-900">Inspection</span>
+<span class="text-[10px] font-mono text-slate-400">08:45 AM</span>
+</div>
+<!-- Step 3 (Active) -->
+<div class="flex flex-col items-center text-center">
+<div class="w-8 h-8 rounded-full bg-amber-500 text-white flex items-center justify-center font-bold text-[12px] shadow-md ring-4 ring-amber-100 animate-pulse">
+<span class="material-symbols-outlined text-[16px]">build</span>
+</div>
+<span class="mt-2 text-[11px] font-bold text-amber-900">Parts Replacement</span>
+<span class="text-[10px] font-semibold bg-amber-100 text-amber-800 px-1.5 py-0.2 rounded mt-0.5">Active Now</span>
+</div>
+<!-- Step 4 -->
+<div class="flex flex-col items-center text-center">
+<div class="w-8 h-8 rounded-full bg-slate-100 text-slate-400 flex items-center justify-center font-medium text-[12px] border border-slate-200 ring-4 ring-white">
+<span class="material-symbols-outlined text-[16px]">speed</span>
+</div>
+<span class="mt-2 text-[11px] font-medium text-slate-400">Road Test</span>
+<span class="text-[10px] text-slate-400">Est 11:15 AM</span>
+</div>
+<!-- Step 5 -->
+<div class="flex flex-col items-center text-center">
+<div class="w-8 h-8 rounded-full bg-slate-100 text-slate-400 flex items-center justify-center font-medium text-[12px] border border-slate-200 ring-4 ring-white">
+<span class="material-symbols-outlined text-[16px]">key</span>
+</div>
+<span class="mt-2 text-[11px] font-medium text-slate-400">Ready Pickup</span>
+<span class="text-[10px] text-slate-400">Est 11:45 AM</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Technician Real-time Dispatch -->
+<div class="bg-slate-50/80 rounded-xl p-4 border border-slate-200/80 flex items-start gap-3.5">
+<div class="relative shrink-0">
+<img alt="Marcus Vance" class="w-11 h-11 rounded-full object-cover ring-2 ring-sky-200" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC88xkwYyjVAQ3tUhWGnGL1Knga4CIhIEEyFPt_6N0eVWPSEGRgx3yQEQZk9Yed5pPGkjrO8NS7JnEfLOrS-7wKYAkWXcoAkQsPnxC0vDcFhH_I0sexv6B-JGnbFWEKwbq5kZGzI9GnAMu-5sGNTBL0cP2AwNQBsCJ-lN1IDOHI02roOAaTgg-TSbZ0-rU3cjnpoOfvhpDDorU2ijNx8_l7wCF8guUpS9_AEw3hNGWaXHbCJPgpVUBf"/>
+<span class="absolute bottom-0 right-0 w-3 h-3 rounded-full bg-emerald-500 ring-2 ring-white"></span>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex items-center justify-between flex-wrap gap-1">
+<div class="flex items-center gap-2">
+<span class="text-[13px] font-bold text-slate-900">Marcus Vance</span>
+<span class="text-[11px] bg-sky-100 text-sky-800 font-semibold px-2 py-0.5 rounded-md">Lead Master Tech</span>
+</div>
+<span class="text-[11px] text-slate-400">12 mins ago</span>
+</div>
+<p class="text-[13px] text-slate-600 mt-2 leading-relaxed bg-white p-3 rounded-lg border border-slate-200">
+                  “Front OEM BMW brake pads and sensor wires installed successfully. Rotors measured 22.4mm (well within safe tolerance). Draining synthetic oil now and replacing Microfilter with OEM charcoal canister.”
+                </p>
+</div>
+</div>
+<!-- Telemetry Diagnostic Highlights -->
+<div class="pt-2 border-t border-slate-100 flex items-center justify-between flex-wrap gap-3 text-[12px] text-slate-500 font-medium">
+<span class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[16px] text-sky-600">oil_barrel</span>
+                Oil Spec: BMW LL-01 FE (0W-30)
+              </span>
+<span class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[16px] text-emerald-600">sensors</span>
+                Diagnostic ECU: 0 Fault Codes
+              </span>
+<span class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[16px] text-sky-600">task_alt</span>
+                Safety Multi-point: 19/20 Passed
+              </span>
+</div>
+</div>
+<!-- Right: Live Bay Camera & Live Estimate Approval Card -->
+<div class="w-full lg:w-80 shrink-0 bg-slate-50/90 rounded-xl p-4 border border-slate-200/80 flex flex-col justify-between space-y-4">
+<div>
+<!-- Video Preview Frame -->
+<div class="relative rounded-lg overflow-hidden h-38 bg-slate-900 group">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A modern graphite metallic BMW 3 Series sedan parked on a sleek automotive diagnostic workshop lift with clinical lighting, clean reflective floor, and mechanics diagnostic tablets in background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBPu1idbrGcuXp7H0CrN6K7klASbFDaIdbN9gLWHuO5sacJdXR1GtA1sf39aozeJOnuILQXtq5L8g092OgfpbRrJwPeAfQgNFNohc48hPybENqRRWSCa8ntk4mVhNoLGjx0D4Hws0jPUo6EEx6BqpMWJZRIXths1eFWjsG-Ej_vJ1ro9LxJvbW0yfSqirotarW1lJeUCrJ_uiQJRBOHzog977iTr57xOqE1LOJLO7_akvboz_b3rTfL"/>
+<div class="absolute top-2 left-2 px-2 py-0.5 rounded text-[10px] font-bold bg-rose-600 text-white flex items-center gap-1 shadow-xs">
+<span class="w-1.5 h-1.5 rounded-full bg-white animate-ping"></span>
+                  LIVE BAY CAM 03
+                </div>
+<div class="absolute bottom-2 right-2 px-2 py-0.5 rounded text-[10px] font-mono bg-black/60 text-white backdrop-blur-xs">
+                  1080p • 60 FPS
+                </div>
+</div>
+<!-- Itemized Pricing Breakdown -->
+<div class="mt-3.5 space-y-1.5">
+<div class="flex justify-between text-[12px]">
+<span class="text-slate-500">Full Synthetic BMW Service</span>
+<span class="font-medium text-slate-800">$185.00</span>
+</div>
+<div class="flex justify-between text-[12px]">
+<span class="text-slate-500">Front Brake Pad Set (OEM)</span>
+<span class="font-medium text-slate-800">$115.00</span>
+</div>
+<div class="flex justify-between text-[12px]">
+<span class="text-slate-500">Multi-point Digital Diagnostic</span>
+<span class="font-medium text-emerald-600">COMPLIMENTARY</span>
+</div>
+<div class="flex justify-between text-[12px]">
+<span class="text-slate-500">Environmental &amp; Shop Fee</span>
+<span class="font-medium text-slate-800">$45.00</span>
+</div>
+</div>
+</div>
+<!-- Total and Approval CTA -->
+<div class="pt-3 border-t border-slate-200 flex items-center justify-between">
+<div>
+<span class="text-[10px] uppercase font-bold text-slate-400 block">Estimated Total</span>
+<span class="text-[18px] font-bold text-sky-700">$345.00</span>
+</div>
+<button class="px-4 py-2 bg-sky-600 hover:bg-sky-700 text-white rounded-xl text-[12px] font-semibold shadow-xs transition-colors" type="button">
+                Approve Work
+              </button>
+</div>
+</div>
+</div>
+</section>
+<!-- 4. REGISTERED GARAGE FLEET SHOWCASE (3 CARDS) -->
+<section class="space-y-4">
+<div class="flex items-center justify-between">
+<div>
+<h2 class="text-xl font-bold tracking-tight text-slate-900">Registered Garage Fleet</h2>
+<p class="text-[13px] text-slate-500 mt-0.5">Continuous telemetry, scheduled maintenance cycles &amp; diagnostic readiness</p>
+</div>
+<button class="inline-flex items-center gap-1 text-[13px] font-semibold text-sky-600 hover:text-sky-700 transition-colors" type="button">
+            Manage All Vehicles
+            <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</button>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+<!-- Vehicle 1: BMW 330i -->
+<div class="bg-white rounded-2xl border border-slate-200/80 p-4 shadow-subtle hover:border-slate-300 hover:shadow-card transition-all flex flex-col justify-between group">
+<div>
+<div class="relative h-44 rounded-xl overflow-hidden bg-slate-100">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Close-up front quarter profile of a 2021 BMW 330i M-Sport in sleek dark sapphire blue, clean studio automotive photography with metallic reflections and crisp lighting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDFwz_KbrORK-Bl_yCqOhR-Vo9lBgj8Lr6WhIV-LICGbAWb9slKY8Ken45ucnWDQKFCCRD619hP9LmIuGEtxoF0Jh3fnxXKUSzaKCAJPkRBfTZRnTP7UNBaVAZC3RJwwzaPnqKq2R39izRyWtPo58MT5xGDVlxm-Z_jxalrA9ZJRMgHhOqzmyeZXV85lbN3c2k_rVC6z254lbLa4gi9lrDoGZ5LJIA3b-BViZwGUKyHvQ1z656ry89V"/>
+<div class="absolute top-2.5 left-2.5">
+<span class="px-2.5 py-1 rounded-md text-[10px] font-bold bg-amber-500 text-white shadow-xs flex items-center gap-1.5">
+<span class="w-1.5 h-1.5 rounded-full bg-white animate-pulse"></span>
+                    In Service
+                  </span>
+</div>
+<div class="absolute bottom-2.5 right-2.5 px-2 py-0.5 rounded text-[11px] font-mono bg-black/60 text-white backdrop-blur-xs">
+                  WX21-KLM
+                </div>
+</div>
+<div class="mt-4">
+<div class="flex items-center justify-between">
+<h3 class="text-[16px] font-bold text-slate-900">2021 BMW 330i M-Sport</h3>
+<span class="inline-flex items-center gap-0.5 px-2 py-0.5 rounded-full bg-sky-50 text-sky-700 text-[11px] font-bold">
+                    Health 96%
+                  </span>
+</div>
+<p class="text-[12px] text-slate-500 mt-0.5">Sedan • 2.0L TwinPower Turbo • RWD</p>
+<!-- Telemetry Pill Grid -->
+<div class="grid grid-cols-3 gap-2 mt-3 bg-slate-50 p-2.5 rounded-xl border border-slate-100 text-[12px]">
+<div>
+<span class="text-[10px] uppercase font-semibold text-slate-400 block">Fuel Level</span>
+<span class="font-semibold text-slate-800 flex items-center gap-1 mt-0.5">
+<span class="material-symbols-outlined text-[13px] text-sky-600">local_gas_station</span>
+                      74%
+                    </span>
+</div>
+<div>
+<span class="text-[10px] uppercase font-semibold text-slate-400 block">Mileage</span>
+<span class="font-mono font-semibold text-slate-800 block mt-0.5">42,150 km</span>
+</div>
+<div>
+<span class="text-[10px] uppercase font-semibold text-slate-400 block">Next Service</span>
+<span class="font-semibold text-amber-700 block mt-0.5">In Bay Now</span>
+</div>
+</div>
+</div>
+</div>
+<div class="mt-4 pt-3 border-t border-slate-100 flex items-center gap-2">
+<button class="flex-1 py-1.5 rounded-xl text-[12px] font-semibold bg-slate-100 hover:bg-slate-200 text-slate-700 transition-colors flex items-center justify-center gap-1" type="button">
+<span class="material-symbols-outlined text-[15px]">tune</span>
+                Diagnostics
+              </button>
+<button class="flex-1 py-1.5 rounded-xl text-[12px] font-semibold bg-sky-600 text-white hover:bg-sky-700 transition-colors shadow-2xs flex items-center justify-center gap-1" type="button">
+<span class="material-symbols-outlined text-[15px]">videocam</span>
+                Live Feed
+              </button>
+</div>
+</div>
+<!-- Vehicle 2: Toyota RAV4 -->
+<div class="bg-white rounded-2xl border border-slate-200/80 p-4 shadow-subtle hover:border-slate-300 hover:shadow-card transition-all flex flex-col justify-between group">
+<div>
+<div class="relative h-44 rounded-xl overflow-hidden bg-slate-100">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Modern pearl white Toyota RAV4 Hybrid SUV driving along a coastal highway during bright clear daylight, commercial automotive hero lighting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD-glQiJLakEFXccGY8yO3FNsC1uprj1XVAh_X8rP2l0ws0rfWXa5Axtjwt01Z5Qe23jImnl3jzJZZJKW5gKa2bjmA4QlWzfiQMfa-aWieE23WT7Yt2QqnuzSx83SRM1R6ZvwfpEmY8OJ6Vo9-XcEeeJsW-QXgUWIwKORd23APM33YPfFLQg31wwQrhMJR1-4lxNo5YiGdq4skvlWDW1BbVE5MZ-tXK5lIOMYNDknCauJeP-0CUKmYJ"/>
+<div class="absolute top-2.5 left-2.5">
+<span class="px-2.5 py-1 rounded-md text-[10px] font-bold bg-emerald-600 text-white shadow-xs flex items-center gap-1">
+<span class="material-symbols-outlined text-[12px]">check_circle</span>
+                    Good Standing
+                  </span>
+</div>
+<div class="absolute bottom-2.5 right-2.5 px-2 py-0.5 rounded text-[11px] font-mono bg-black/60 text-white backdrop-blur-xs">
+                  AB19-TRX
+                </div>
+</div>
+<div class="mt-4">
+<div class="flex items-center justify-between">
+<h3 class="text-[16px] font-bold text-slate-900">2019 Toyota RAV4 Hybrid</h3>
+<span class="inline-flex items-center gap-0.5 px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-700 text-[11px] font-bold">
+                    Health 94%
+                  </span>
+</div>
+<p class="text-[12px] text-slate-500 mt-0.5">AWD SUV • 2.5L Dynamic Force Hybrid</p>
+<!-- Telemetry Pill Grid -->
+<div class="grid grid-cols-3 gap-2 mt-3 bg-slate-50 p-2.5 rounded-xl border border-slate-100 text-[12px]">
+<div>
+<span class="text-[10px] uppercase font-semibold text-slate-400 block">Fuel Level</span>
+<span class="font-semibold text-slate-800 flex items-center gap-1 mt-0.5">
+<span class="material-symbols-outlined text-[13px] text-emerald-600">local_gas_station</span>
+                      88%
+                    </span>
+</div>
+<div>
+<span class="text-[10px] uppercase font-semibold text-slate-400 block">Mileage</span>
+<span class="font-mono font-semibold text-slate-800 block mt-0.5">68,400 km</span>
+</div>
+<div>
+<span class="text-[10px] uppercase font-semibold text-slate-400 block">Next Service</span>
+<span class="font-semibold text-slate-800 block mt-0.5">2,400 km / 45d</span>
+</div>
+</div>
+</div>
+</div>
+<div class="mt-4 pt-3 border-t border-slate-100 flex items-center gap-2">
+<button class="flex-1 py-1.5 rounded-xl text-[12px] font-semibold bg-slate-100 hover:bg-slate-200 text-slate-700 transition-colors flex items-center justify-center gap-1" type="button">
+<span class="material-symbols-outlined text-[15px]">tune</span>
+                Diagnostics
+              </button>
+<button class="flex-1 py-1.5 rounded-xl text-[12px] font-semibold bg-sky-600 text-white hover:bg-sky-700 transition-colors shadow-2xs flex items-center justify-center gap-1" type="button">
+<span class="material-symbols-outlined text-[15px]">build</span>
+                Book Service
+              </button>
+</div>
+</div>
+<!-- Vehicle 3: Tesla Model 3 -->
+<div class="bg-white rounded-2xl border border-slate-200/80 p-4 shadow-subtle hover:border-slate-300 hover:shadow-card transition-all flex flex-col justify-between group">
+<div>
+<div class="relative h-44 rounded-xl overflow-hidden bg-slate-100">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Solid black Tesla Model 3 electric vehicle parked in a modern minimalist architectural garage with glowing linear ambient lighting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB1H82ZsBhweir9qop5LW0wlrA4szpJGO3DindpU0q6WIx80BS8u4PnEPhKxU4aQJiHH7RZlX-ftQjPIBRdrwqm3-Px-44KdL3v6VoAoYfjR1KKch9yN9nJNT7Qu0FqEq5hv-XJBGdRRQBknrbI4INtDNbA7ftFXPO3q0ZUiR0Sb2m5_JIWLxWaAHXzRUVRr52lIVP8PVRPbBqPArzpyLiyJrVKp-FOc9sQx3wN7G5LHyqxBxllt0e-"/>
+<div class="absolute top-2.5 left-2.5">
+<span class="px-2.5 py-1 rounded-md text-[10px] font-bold bg-amber-500 text-white shadow-xs flex items-center gap-1">
+<span class="material-symbols-outlined text-[12px]">warning</span>
+                    Brake Check Due
+                  </span>
+</div>
+<div class="absolute bottom-2.5 right-2.5 px-2 py-0.5 rounded text-[11px] font-mono bg-black/60 text-white backdrop-blur-xs">
+                  EV88-ZAP
+                </div>
+</div>
+<div class="mt-4">
+<div class="flex items-center justify-between">
+<h3 class="text-[16px] font-bold text-slate-900">2022 Tesla Model 3 Long Range</h3>
+<span class="inline-flex items-center gap-0.5 px-2 py-0.5 rounded-full bg-amber-50 text-amber-700 text-[11px] font-bold">
+                    Health 89%
+                  </span>
+</div>
+<p class="text-[12px] text-slate-500 mt-0.5">Dual Motor AWD • 82 kWh Battery Pack</p>
+<!-- Telemetry Pill Grid -->
+<div class="grid grid-cols-3 gap-2 mt-3 bg-slate-50 p-2.5 rounded-xl border border-slate-100 text-[12px]">
+<div>
+<span class="text-[10px] uppercase font-semibold text-slate-400 block">Battery</span>
+<span class="font-semibold text-emerald-600 flex items-center gap-1 mt-0.5">
+<span class="material-symbols-outlined text-[13px]">bolt</span>
+                      92%
+                    </span>
+</div>
+<div>
+<span class="text-[10px] uppercase font-semibold text-slate-400 block">Mileage</span>
+<span class="font-mono font-semibold text-slate-800 block mt-0.5">28,100 km</span>
+</div>
+<div>
+<span class="text-[10px] uppercase font-semibold text-slate-400 block">Next Service</span>
+<span class="font-semibold text-amber-700 block mt-0.5">Inspection Due</span>
+</div>
+</div>
+</div>
+</div>
+<div class="mt-4 pt-3 border-t border-slate-100 flex items-center gap-2">
+<button class="flex-1 py-1.5 rounded-xl text-[12px] font-semibold bg-slate-100 hover:bg-slate-200 text-slate-700 transition-colors flex items-center justify-center gap-1" type="button">
+<span class="material-symbols-outlined text-[15px]">tune</span>
+                Diagnostics
+              </button>
+<button class="flex-1 py-1.5 rounded-xl text-[12px] font-semibold bg-amber-600 hover:bg-amber-700 text-white transition-colors shadow-2xs flex items-center justify-center gap-1" type="button">
+<span class="material-symbols-outlined text-[15px]">build_circle</span>
+                Book Inspection
+              </button>
+</div>
+</div>
+</div>
+</section>
+<!-- 5. RECENT SERVICE ACTIVITY & INVOICES TABLE -->
+<section class="bg-white rounded-2xl border border-slate-200/80 shadow-subtle overflow-hidden">
+<!-- Header -->
+<div class="px-6 py-4 flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-200/80">
+<div class="flex items-center gap-3">
+<div class="w-9 h-9 rounded-xl bg-slate-100 flex items-center justify-center text-sky-600">
+<span class="material-symbols-outlined text-[20px]">receipt_long</span>
+</div>
+<div>
+<h3 class="text-[16px] font-bold text-slate-900">Recent Service Activity &amp; Invoices</h3>
+<p class="text-[12px] text-slate-500">Complete audit trail of certified repair orders, invoices, and completed maintenance</p>
+</div>
+</div>
+<div class="flex items-center gap-2.5 flex-wrap">
+<div class="relative">
+<span class="material-symbols-outlined absolute left-2.5 top-1/2 -translate-y-1/2 text-slate-400 text-[16px]">filter_list</span>
+<select class="pl-8 pr-8 py-1.5 bg-slate-50 hover:bg-slate-100 border border-slate-200 rounded-xl text-[12px] font-medium text-slate-700 outline-none cursor-pointer focus:border-sky-500 transition-colors">
+<option>All Vehicles (3)</option>
+<option>BMW 330i (WX21-KLM)</option>
+<option>Toyota RAV4 (AB19-TRX)</option>
+<option>Tesla Model 3 (EV88-ZAP)</option>
+</select>
+</div>
+<button class="px-3 py-1.5 bg-white hover:bg-slate-50 border border-slate-200 rounded-xl text-[12px] font-semibold text-slate-700 flex items-center gap-1.5 transition-colors shadow-2xs" type="button">
+<span class="material-symbols-outlined text-[15px] text-slate-500">download</span>
+              Export CSV
+            </button>
+</div>
+</div>
+<!-- Table -->
+<div class="w-full overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-slate-50/70 border-b border-slate-200/80 text-[11px] font-semibold uppercase tracking-wider text-slate-500">
+<th class="py-3 px-6">Service Date</th>
+<th class="py-3 px-4">Vehicle</th>
+<th class="py-3 px-4">Service Package</th>
+<th class="py-3 px-4">Mileage</th>
+<th class="py-3 px-4">Lead Tech</th>
+<th class="py-3 px-4">Amount</th>
+<th class="py-3 px-4">Status</th>
+<th class="py-3 px-6 text-right">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-slate-100 text-[13px]">
+<!-- Row 1 -->
+<tr class="hover:bg-slate-50/60 transition-colors">
+<td class="py-3.5 px-6 whitespace-nowrap">
+<div class="font-bold text-slate-900">Oct 24, 2025</div>
+<div class="text-[11px] font-semibold text-amber-700 flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse"></span>Active Today
+                  </div>
+</td>
+<td class="py-3.5 px-4 whitespace-nowrap">
+<div class="font-semibold text-slate-900">BMW 330i M-Sport</div>
+<span class="inline-block px-1.5 py-0.2 rounded font-mono text-[10px] bg-slate-100 text-slate-600">WX21-KLM</span>
+</td>
+<td class="py-3.5 px-4">
+<div class="text-slate-800 font-medium">Full Synthetic &amp; Front Rotor Inspection</div>
+<div class="text-[11px] text-slate-400 font-mono">RO #GF-92841 • Bay 3</div>
+</td>
+<td class="py-3.5 px-4 whitespace-nowrap font-mono text-slate-500">42,150 km</td>
+<td class="py-3.5 px-4 whitespace-nowrap">
+<div class="flex items-center gap-1.5">
+<span class="w-5 h-5 rounded-full bg-sky-600 text-white flex items-center justify-center text-[9px] font-bold">MV</span>
+<span class="font-medium text-slate-700">Marcus V.</span>
+</div>
+</td>
+<td class="py-3.5 px-4 whitespace-nowrap font-bold text-slate-900">
+                  $345.00 <span class="text-slate-400 font-normal text-[10px]">est</span>
+</td>
+<td class="py-3.5 px-4 whitespace-nowrap">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] bg-amber-50 text-amber-800 border border-amber-300 font-bold">
+<span class="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse"></span>
+                    In Progress
+                  </span>
+</td>
+<td class="py-3.5 px-6 whitespace-nowrap text-right">
+<button class="px-3 py-1 bg-sky-600 text-white rounded-lg text-[11px] font-semibold hover:bg-sky-700 transition-colors shadow-2xs" type="button">
+                    Live Feed
+                  </button>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="hover:bg-slate-50/60 transition-colors">
+<td class="py-3.5 px-6 whitespace-nowrap">
+<div class="font-bold text-slate-900">Aug 14, 2025</div>
+<div class="text-[11px] text-slate-400">Regular 65k Care</div>
+</td>
+<td class="py-3.5 px-4 whitespace-nowrap">
+<div class="font-semibold text-slate-900">Toyota RAV4 Hybrid</div>
+<span class="inline-block px-1.5 py-0.2 rounded font-mono text-[10px] bg-slate-100 text-slate-600">AB19-TRX</span>
+</td>
+<td class="py-3.5 px-4">
+<div class="text-slate-800 font-medium">Cabin Air Filter &amp; Hybrid Battery Conditioning</div>
+<div class="text-[11px] text-slate-400 font-mono">RO #GF-88120</div>
+</td>
+<td class="py-3.5 px-4 whitespace-nowrap font-mono text-slate-500">65,920 km</td>
+<td class="py-3.5 px-4 whitespace-nowrap">
+<div class="flex items-center gap-1.5">
+<span class="w-5 h-5 rounded-full bg-emerald-600 text-white flex items-center justify-center text-[9px] font-bold">SL</span>
+<span class="font-medium text-slate-700">Sarah L.</span>
+</div>
+</td>
+<td class="py-3.5 px-4 whitespace-nowrap font-bold text-slate-900">$289.40</td>
+<td class="py-3.5 px-4 whitespace-nowrap">
+<span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] bg-emerald-50 text-emerald-700 border border-emerald-200 font-semibold">
+<span class="material-symbols-outlined text-[13px]">check_circle</span>
+                    Completed
+                  </span>
+</td>
+<td class="py-3.5 px-6 whitespace-nowrap text-right">
+<button class="px-2.5 py-1 bg-white hover:bg-slate-100 border border-slate-200 rounded-lg text-[11px] font-semibold text-slate-700 transition-colors inline-flex items-center gap-1 shadow-2xs" type="button">
+<span class="material-symbols-outlined text-[14px] text-sky-600">receipt</span>
+                    View Invoice
+                  </button>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="hover:bg-slate-50/60 transition-colors">
+<td class="py-3.5 px-6 whitespace-nowrap">
+<div class="font-bold text-slate-900">May 03, 2025</div>
+<div class="text-[11px] text-slate-400">Annual Audit</div>
+</td>
+<td class="py-3.5 px-4 whitespace-nowrap">
+<div class="font-semibold text-slate-900">Tesla Model 3 LR</div>
+<span class="inline-block px-1.5 py-0.2 rounded font-mono text-[10px] bg-slate-100 text-slate-600">EV88-ZAP</span>
+</td>
+<td class="py-3.5 px-4">
+<div class="text-slate-800 font-medium">Tire Rotation, Caliper Cleanse &amp; AC Desiccant Bag</div>
+<div class="text-[11px] text-slate-400 font-mono">RO #GF-81094</div>
+</td>
+<td class="py-3.5 px-4 whitespace-nowrap font-mono text-slate-500">22,400 km</td>
+<td class="py-3.5 px-4 whitespace-nowrap">
+<div class="flex items-center gap-1.5">
+<span class="w-5 h-5 rounded-full bg-sky-600 text-white flex items-center justify-center text-[9px] font-bold">MV</span>
+<span class="font-medium text-slate-700">Marcus V.</span>
+</div>
+</td>
+<td class="py-3.5 px-4 whitespace-nowrap font-bold text-slate-900">$412.00</td>
+<td class="py-3.5 px-4 whitespace-nowrap">
+<span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] bg-emerald-50 text-emerald-700 border border-emerald-200 font-semibold">
+<span class="material-symbols-outlined text-[13px]">check_circle</span>
+                    Completed
+                  </span>
+</td>
+<td class="py-3.5 px-6 whitespace-nowrap text-right">
+<button class="px-2.5 py-1 bg-white hover:bg-slate-100 border border-slate-200 rounded-lg text-[11px] font-semibold text-slate-700 transition-colors inline-flex items-center gap-1 shadow-2xs" type="button">
+<span class="material-symbols-outlined text-[14px] text-sky-600">receipt</span>
+                    View Invoice
+                  </button>
+</td>
+</tr>
+<!-- Row 4 -->
+<tr class="hover:bg-slate-50/60 transition-colors">
+<td class="py-3.5 px-6 whitespace-nowrap">
+<div class="font-bold text-slate-900">Jan 18, 2025</div>
+<div class="text-[11px] text-slate-400">Winter Care</div>
+</td>
+<td class="py-3.5 px-4 whitespace-nowrap">
+<div class="font-semibold text-slate-900">BMW 330i M-Sport</div>
+<span class="inline-block px-1.5 py-0.2 rounded font-mono text-[10px] bg-slate-100 text-slate-600">WX21-KLM</span>
+</td>
+<td class="py-3.5 px-4">
+<div class="text-slate-800 font-medium">Coolant Flush, Spark Plug Replacement &amp; Alignment</div>
+<div class="text-[11px] text-slate-400 font-mono">RO #GF-74512</div>
+</td>
+<td class="py-3.5 px-4 whitespace-nowrap font-mono text-slate-500">34,200 km</td>
+<td class="py-3.5 px-4 whitespace-nowrap">
+<div class="flex items-center gap-1.5">
+<span class="w-5 h-5 rounded-full bg-purple-600 text-white flex items-center justify-center text-[9px] font-bold">ED</span>
+<span class="font-medium text-slate-700">Elena D.</span>
+</div>
+</td>
+<td class="py-3.5 px-4 whitespace-nowrap font-bold text-slate-900">$624.50</td>
+<td class="py-3.5 px-4 whitespace-nowrap">
+<span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] bg-emerald-50 text-emerald-700 border border-emerald-200 font-semibold">
+<span class="material-symbols-outlined text-[13px]">check_circle</span>
+                    Completed
+                  </span>
+</td>
+<td class="py-3.5 px-6 whitespace-nowrap text-right">
+<button class="px-2.5 py-1 bg-white hover:bg-slate-100 border border-slate-200 rounded-lg text-[11px] font-semibold text-slate-700 transition-colors inline-flex items-center gap-1 shadow-2xs" type="button">
+<span class="material-symbols-outlined text-[14px] text-sky-600">receipt</span>
+                    View Invoice
+                  </button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Table Pagination -->
+<div class="px-6 py-3 bg-slate-50/70 border-t border-slate-200/80 flex flex-col sm:flex-row items-center justify-between gap-4 text-[12px] text-slate-500">
+<span>Showing 1 - 4 of 14 total repair orders</span>
+<div class="flex items-center gap-1">
+<button class="px-3 py-1 rounded-lg border border-slate-200 bg-white text-slate-300 font-medium cursor-not-allowed" disabled="" type="button">Previous</button>
+<button class="px-3 py-1 rounded-lg bg-sky-600 text-white font-bold shadow-2xs" type="button">1</button>
+<button class="px-3 py-1 rounded-lg border border-slate-200 bg-white hover:bg-slate-100 text-slate-700 font-medium" type="button">2</button>
+<button class="px-3 py-1 rounded-lg border border-slate-200 bg-white hover:bg-slate-100 text-slate-700 font-medium" type="button">3</button>
+<button class="px-3 py-1 rounded-lg border border-slate-200 bg-white hover:bg-slate-100 text-slate-700 font-medium" type="button">Next</button>
+</div>
+</div>
+</section>
+<!-- 6. FACILITY HUB & EXPRESS INGRESS FOOTER CARD -->
+<section class="grid grid-cols-1 lg:grid-cols-3 gap-5">
+<!-- Hub Directory Card -->
+<div class="bg-white rounded-2xl p-5 border border-slate-200/80 shadow-subtle flex flex-col justify-between">
+<div>
+<div class="flex items-center gap-2 text-sky-600 mb-2">
+<span class="material-symbols-outlined text-[22px]">garage</span>
+<h3 class="text-[16px] font-bold text-slate-900">Metro Central Service Hub</h3>
+</div>
+<p class="text-[12px] text-slate-500 leading-relaxed">
+              Certified Level 4 Diagnostic, OEM Battery Conditioning &amp; Calibration Facility.
+            </p>
+<div class="mt-4 space-y-2 text-[12px] text-slate-600">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px] text-sky-600 shrink-0">pin_drop</span>
+<span>844 Industrial Expressway, Building D, Metro City</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px] text-sky-600 shrink-0">schedule</span>
+<span>Mon - Fri: 07:00 AM - 07:30 PM • Sat: 08:00 AM - 04:00 PM</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px] text-sky-600 shrink-0">phone_in_talk</span>
+<span>Dispatch Hotline: +1 (555) 019-2849</span>
+</div>
+</div>
+</div>
+<div class="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between">
+<span class="text-[11px] text-emerald-700 font-semibold flex items-center gap-1.5">
+<span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+              Bay Status: 8/10 Operating
+            </span>
+<a class="text-[12px] font-semibold text-sky-600 hover:text-sky-700 flex items-center gap-1" href="#">
+              Directions
+              <span class="material-symbols-outlined text-[14px]">open_in_new</span>
+</a>
+</div>
+</div>
+<!-- Express Ingress Banner -->
+<div class="lg:col-span-2 bg-slate-900 rounded-2xl overflow-hidden shadow-subtle border border-slate-800 relative min-h-[190px] flex items-end p-4">
+<!-- Background workshop visual -->
+<div class="absolute inset-0 bg-cover bg-center" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBPu1idbrGcuXp7H0CrN6K7klASbFDaIdbN9gLWHuO5sacJdXR1GtA1sf39aozeJOnuILQXtq5L8g092OgfpbRrJwPeAfQgNFNohc48hPybENqRRWSCa8ntk4mVhNoLGjx0D4Hws0jPUo6EEx6BqpMWJZRIXths1eFWjsG-Ej_vJ1ro9LxJvbW0yfSqirotarW1lJeUCrJ_uiQJRBOHzog977iTr57xOqE1LOJLO7_akvboz_b3rTfL'); opacity: 0.28;"></div>
+<div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/60 to-transparent"></div>
+<!-- Glass overlay card -->
+<div class="relative z-10 bg-white/95 backdrop-blur-md px-5 py-4 rounded-xl shadow-card border border-white/60 flex items-center justify-between w-full flex-wrap gap-4">
+<div class="flex items-center gap-3">
+<span class="w-3 h-3 rounded-full bg-emerald-500 animate-pulse shrink-0"></span>
+<div>
+<div class="text-[14px] font-bold text-slate-900">Bay Lane 2 &amp; 3 Express Ingress Active</div>
+<div class="text-[12px] text-slate-500">Complimentary barista lounge &amp; courtesy high-speed loaner shuttle running</div>
+</div>
+</div>
+<button class="px-4 py-2 bg-sky-600 hover:bg-sky-700 text-white rounded-xl text-[12px] font-semibold transition-all shadow-xs shrink-0" type="button">
+              Check In on Arrival
+            </button>
+</div>
+</div>
+</section>
+</div>
+</main>
+<!-- FOOTER -->
+<footer class="w-full bg-white py-6 border-t border-slate-200 text-[12px] text-slate-500">
+<div class="w-full max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-4">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+<span class="font-semibold text-slate-800">GarageFlow Platform Active</span>
+<span class="text-slate-300">•</span>
+<span>v2.5.4 Enterprise Automotive OS</span>
+</div>
+<div class="flex items-center gap-6">
+<a class="hover:text-slate-900 transition-colors" href="#">Service SLA</a>
+<a class="hover:text-slate-900 transition-colors" href="#">OEM Warranty Protection</a>
+<a class="hover:text-slate-900 transition-colors" href="#">Live Bay Camera Privacy</a>
+</div>
+<div>
+        © 2025 GarageFlow Inc. All rights reserved.
+      </div>
+</div>
+</footer>
+</body></html>

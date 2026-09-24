@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Master Vehicle Inventory — GarageFlow Admin</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="icon" type="image/png" href="/images/logo.png">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-garageflow">
+        <div class="container-fluid">
+            <a class="navbar-brand-logo" href="/admin/dashboard.html">
+                <img src="/images/logo.png" alt="GarageFlow Logo" style="height: 52px; max-height: 60px; width: auto; object-fit: contain;">
+            </a>
+            <button class="navbar-toggler text-white" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto ms-lg-4">
+                    <li class="nav-item"><a class="nav-link nav-link-gf" href="/admin/dashboard.html">Dashboard</a></li>
+                    <li class="nav-item"><a class="nav-link nav-link-gf" href="/admin/customers.html">Customers</a></li>
+                    <li class="nav-item"><a class="nav-link nav-link-gf active" href="/admin/vehicles.html">Vehicles</a></li>
+                    <li class="nav-item"><a class="nav-link nav-link-gf" href="/admin/appointments.html">Appointments</a></li>
+                    <li class="nav-item"><a class="nav-link nav-link-gf" href="/admin/services.html">Create Service</a></li>
+                    <li class="nav-item"><a class="nav-link nav-link-gf" href="/admin/parts.html">Parts & Inventory</a></li>
+                    <li class="nav-item"><a class="nav-link nav-link-gf" href="/admin/billing.html">Billing & Invoices</a></li>
+                    <li class="nav-item"><a class="nav-link nav-link-gf" href="/admin/service-history.html">Service History</a></li>
+                </ul>
+                <div id="navUserContainer" class="d-flex align-items-center"></div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container-fluid px-lg-4 py-4">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <div>
+                <h3 class="page-header-title mb-1">Master Vehicle Fleet Directory</h3>
+                <p class="text-muted small mb-0">Overview of all customer vehicles serviced by the workshop</p>
+            </div>
+        </div>
+
+        <div id="alertContainer"></div>
+
+        <div class="gf-card">
+            <div class="table-responsive">
+                <table class="table table-gf">
+                    <thead>
+                        <tr>
+                            <th>Reg No.</th>
+                            <th>Owner / Customer</th>
+                            <th>Brand & Model</th>
+                            <th>Year</th>
+                            <th>Fuel Type</th>
+                            <th>Category</th>
+                            <th>Mileage (km)</th>
+                            <th>Owner Contact</th>
+                        </tr>
+                    </thead>
+                    <tbody id="masterVehiclesBody">
+                        <tr><td colspan="8" class="text-center text-muted">Loading master vehicle directory...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/js/api.js"></script>
+    <script src="/js/auth.js"></script>
+    <script>
+        requireAuth('ADMIN');
+
+        async function loadMasterVehicles() {
+            const res = await apiFetch('/vehicles');
+            const tbody = document.getElementById('masterVehiclesBody');
+
+            if (res.success && res.vehicles.length > 0) {
+                tbody.innerHTML = res.vehicles.map(v => `
+                    <tr>
+                        <td class="fw-bold font-monospace"><span class="badge bg-light text-dark border">${v.registration_number}</span></td>
+                        <td class="fw-semibold">${v.owner_name || 'N/A'}</td>
+                        <td>${v.brand} ${v.model}</td>
+                        <td>${v.year}</td>
+                        <td><span class="badge bg-info-subtle text-info border">${v.fuel_type}</span></td>
+                        <td>${v.vehicle_type}</td>
+                        <td>${v.mileage.toLocaleString()} km</td>
+                        <td><small class="text-muted">${v.owner_email}<br>${v.owner_phone}</small></td>
+                    </tr>
+                `).join('');
+            } else {
+                tbody.innerHTML = `<tr><td colspan="8" class="text-center text-muted py-4">No registered vehicles found.</td></tr>`;
+            }
+        }
+
+        loadMasterVehicles();
+    </script>
+</body>
+</html>

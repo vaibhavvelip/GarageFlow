@@ -1,0 +1,1187 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="web_dashboard" name="shell-type"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..24,400..600,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;family=JetBrains+Mono:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<style>
+    @layer base {
+      html, body { margin: 0; padding: 0; }
+      body { overscroll-behavior: none; }
+      main > :first-child { margin-top: 0 !important; }
+      main > :last-child { margin-bottom: 0 !important; }
+    }
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 9999px; }
+    ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+    .font-mono-nums {
+      font-feature-settings: "tnum" 1, "cv05" 1, "cv11" 1;
+      font-variant-numeric: tabular-nums;
+    }
+  </style>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'sans-serif'],
+            mono: ['JetBrains Mono', 'ui-monospace', 'SFMono-Regular', 'Menlo', 'monospace'],
+          },
+          colors: {
+            brand: {
+              50: '#f0f7ff',
+              100: '#e0effe',
+              200: '#bae0fd',
+              300: '#7cc7fb',
+              400: '#38aaf6',
+              500: '#0085d6',
+              600: '#006194',
+              700: '#004f7c',
+              800: '#064367',
+              900: '#0b3956',
+              950: '#062439'
+            },
+            surface: {
+              base: '#f8fafc',
+              card: '#ffffff',
+              cardMuted: '#f1f5f9',
+              border: '#e2e8f0',
+              borderStrong: '#cbd5e1'
+            }
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="bg-slate-50 font-sans text-[13px] leading-normal text-slate-800 antialiased min-h-screen selection:bg-brand-100 selection:text-brand-900">
+<!-- Fixed Left Sidebar -->
+<aside class="fixed left-0 top-0 h-full w-60 bg-white border-r border-slate-200/80 z-50 flex flex-col justify-between shadow-[1px_0_4px_rgba(0,0,0,0.02)]">
+<div class="flex flex-col">
+<!-- App Brand Logo Header -->
+<div class="h-16 px-4 flex items-center justify-between border-b border-slate-100">
+<div class="flex items-center gap-2.5">
+<div class="w-8 h-8 rounded-lg bg-gradient-to-br from-brand-600 to-brand-800 flex items-center justify-center text-white shadow-sm ring-1 ring-brand-700/20">
+<span class="material-symbols-outlined text-[19px]">garage</span>
+</div>
+<div class="flex flex-col">
+<span class="text-[14px] font-bold tracking-tight text-slate-900 leading-tight flex items-center gap-1.5">
+              GarageFlow
+              <span class="px-1.5 py-0.2 rounded text-[9px] font-semibold bg-brand-50 text-brand-700 border border-brand-200/60 uppercase">PRO</span>
+</span>
+<span class="text-[11px] font-medium text-slate-400">Enterprise Bay Ops</span>
+</div>
+</div>
+</div>
+<!-- Quick Role Toggle Pill -->
+<div class="px-3 pt-3 pb-1">
+<div class="p-1 bg-slate-100/90 rounded-lg flex items-center gap-1 text-[11px] font-semibold">
+<a class="flex-1 py-1 text-center rounded-md text-slate-500 hover:text-slate-900 transition-colors" data-path="customer-dashboard" href="#">Customer Portal</a>
+<span class="flex-1 py-1 text-center rounded-md bg-white text-slate-900 shadow-xs border border-slate-200/70 font-semibold">Workshop Admin</span>
+</div>
+</div>
+<!-- Navigation Section -->
+<div class="px-3 py-2">
+<div class="px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-slate-400">Operations</div>
+<nav class="flex flex-col gap-0.5 mt-1" data-active-classes="bg-brand-50 text-brand-700 font-semibold border-brand-200/70">
+<a aria-current="page" class="flex items-center gap-2.5 px-2.5 py-2 rounded-lg text-brand-700 bg-brand-50/90 font-semibold border border-brand-200/60 shadow-xs transition-all" data-path="admin-overview" href="#">
+<span class="material-symbols-outlined text-[19px] text-brand-600">space_dashboard</span>
+<span class="text-[13px]">Overview</span>
+<span class="ml-auto w-1.5 h-1.5 rounded-full bg-brand-600"></span>
+</a>
+<a class="flex items-center gap-2.5 px-2.5 py-2 rounded-lg text-slate-600 hover:bg-slate-100/80 hover:text-slate-900 transition-colors" data-path="admin-customers" href="#">
+<span class="material-symbols-outlined text-[19px] text-slate-400">group</span>
+<span class="text-[13px]">Customers</span>
+</a>
+<a class="flex items-center gap-2.5 px-2.5 py-2 rounded-lg text-slate-600 hover:bg-slate-100/80 hover:text-slate-900 transition-colors" data-path="admin-vehicles" href="#">
+<span class="material-symbols-outlined text-[19px] text-slate-400">directions_car</span>
+<span class="text-[13px]">Vehicles</span>
+</a>
+<a class="flex items-center gap-2.5 px-2.5 py-2 rounded-lg text-slate-600 hover:bg-slate-100/80 hover:text-slate-900 transition-colors" data-path="admin-appointments" href="#">
+<span class="material-symbols-outlined text-[19px] text-slate-400">calendar_month</span>
+<span class="text-[13px]">Appointments</span>
+<span class="ml-auto px-1.5 py-0.5 rounded text-[10px] font-semibold bg-slate-100 text-slate-600 font-mono-nums">18</span>
+</a>
+<a class="flex items-center gap-2.5 px-2.5 py-2 rounded-lg text-slate-600 hover:bg-slate-100/80 hover:text-slate-900 transition-colors" data-path="admin-service-records" href="#">
+<span class="material-symbols-outlined text-[19px] text-slate-400">build_circle</span>
+<span class="text-[13px]">Service Records</span>
+</a>
+<a class="flex items-center gap-2.5 px-2.5 py-2 rounded-lg text-slate-600 hover:bg-slate-100/80 hover:text-slate-900 transition-colors" data-path="admin-inventory" href="#">
+<span class="material-symbols-outlined text-[19px] text-slate-400">inventory_2</span>
+<span class="text-[13px]">Inventory &amp; Parts</span>
+<span class="ml-auto px-1.5 py-0.5 rounded text-[10px] font-bold bg-amber-100 text-amber-800 font-mono-nums">3 low</span>
+</a>
+<a class="flex items-center gap-2.5 px-2.5 py-2 rounded-lg text-slate-600 hover:bg-slate-100/80 hover:text-slate-900 transition-colors" data-path="admin-billing" href="#">
+<span class="material-symbols-outlined text-[19px] text-slate-400">receipt_long</span>
+<span class="text-[13px]">Invoicing &amp; Billing</span>
+</a>
+</nav>
+</div>
+</div>
+<!-- Live Bay Capacity Widget at Bottom Sidebar -->
+<div class="p-3 border-t border-slate-200/80 bg-slate-50/70 m-2.5 rounded-xl border">
+<div class="flex items-center justify-between text-xs mb-1.5">
+<span class="text-slate-500 font-medium flex items-center gap-1.5">
+<span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+          Live Workshop
+        </span>
+<span class="font-bold text-slate-800 font-mono-nums">7/8 Bays (87%)</span>
+</div>
+<div class="w-full bg-slate-200 h-1.5 rounded-full overflow-hidden">
+<div class="bg-brand-600 h-full rounded-full transition-all duration-500" style="width: 87.5%"></div>
+</div>
+<div class="flex items-center justify-between text-[10px] text-slate-400 mt-2">
+<span>6 Hoists Active</span>
+<span>1 Reserved</span>
+</div>
+</div>
+</aside>
+<!-- Main View Container -->
+<div class="pl-60">
+<!-- Top Global App Bar -->
+<header class="fixed top-0 left-60 right-0 h-16 bg-white/90 backdrop-blur-md border-b border-slate-200/80 z-40 flex items-center justify-between px-6">
+<!-- Search Box with Keyboard Shortcut -->
+<div class="flex items-center gap-3 flex-1 max-w-lg">
+<div class="relative w-full group">
+<span class="material-symbols-outlined text-[18px] text-slate-400 absolute left-3 top-2.5 transition-colors group-focus-within:text-brand-600">search</span>
+<input class="w-full pl-9 pr-14 py-2 bg-slate-100/80 hover:bg-slate-100 focus:bg-white text-slate-800 placeholder:text-slate-400 text-[13px] rounded-lg border border-transparent focus:border-brand-500 focus:ring-2 focus:ring-brand-100 transition-all outline-none" placeholder="Search RO#, VIN, plate, customer, mechanic, or SKU..." type="text"/>
+<kbd class="absolute right-2.5 top-2.5 px-1.5 py-0.5 bg-white border border-slate-200 rounded text-[10px] font-semibold text-slate-500 font-mono shadow-2xs pointer-events-none">⌘K</kbd>
+</div>
+</div>
+<!-- Top Right Controls -->
+<div class="flex items-center gap-3 shrink-0">
+<!-- Branch Switcher Badge -->
+<div class="flex items-center gap-2 px-2.5 py-1.5 bg-slate-50 hover:bg-slate-100 border border-slate-200 rounded-lg cursor-pointer transition-colors text-slate-700">
+<div class="w-2 h-2 rounded-full bg-emerald-500"></div>
+<span class="text-xs font-semibold">Metro Central Hub (Main)</span>
+<span class="material-symbols-outlined text-[16px] text-slate-400">unfold_more</span>
+</div>
+<div class="h-5 w-px bg-slate-200 mx-1"></div>
+<!-- Notification Bell -->
+<button class="relative p-2 text-slate-500 hover:text-slate-800 hover:bg-slate-100 rounded-lg transition-colors" title="Notifications">
+<span class="material-symbols-outlined text-[20px]">notifications</span>
+<span class="absolute top-1.5 right-1.5 flex h-2 w-2">
+<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-rose-400 opacity-75"></span>
+<span class="relative inline-flex rounded-full h-2 w-2 bg-rose-500"></span>
+</span>
+</button>
+<!-- Quick Help/Doc -->
+<button class="p-2 text-slate-500 hover:text-slate-800 hover:bg-slate-100 rounded-lg transition-colors" title="Workshop Guide">
+<span class="material-symbols-outlined text-[20px]">help_outline</span>
+</button>
+<div class="h-5 w-px bg-slate-200 mx-1"></div>
+<!-- User Profile Pill -->
+<div class="flex items-center gap-2.5 pl-1 pr-2 py-1 hover:bg-slate-50 rounded-lg cursor-pointer transition-colors border border-transparent hover:border-slate-200">
+<div class="relative">
+<img alt="David Chen" class="w-8 h-8 rounded-full object-cover ring-1 ring-slate-200" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC88xkwYyjVAQ3tUhWGnGL1Knga4CIhIEEyFPt_6N0eVWPSEGRgx3yQEQZk9Yed5pPGkjrO8NS7JnEfLOrS-7wKYAkWXcoAkQsPnxC0vDcFhH_I0sexv6B-JGnbFWEKwbq5kZGzI9GnAMu-5sGNTBL0cP2AwNQBsCJ-lN1IDOHI02roOAaTgg-TSbZ0-rU3cjnpoOfvhpDDorU2ijNx8_l7wCF8guUpS9_AEw3hNGWaXHbCJPgpVUBf"/>
+<span class="absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full bg-emerald-500 ring-2 ring-white"></span>
+</div>
+<div class="hidden sm:flex flex-col text-left">
+<span class="text-xs font-semibold text-slate-900 leading-tight">David Chen</span>
+<span class="text-[11px] text-slate-500 leading-none">Service Advisor Lead</span>
+</div>
+<span class="material-symbols-outlined text-[16px] text-slate-400">expand_more</span>
+</div>
+</div>
+</header>
+<!-- Main Content Area -->
+<main class="relative pt-16 bg-slate-50/60 pb-16">
+<!-- Operations Header & Action Toolbar -->
+<section class="bg-white border-b border-slate-200/80 px-8 py-5">
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+<div class="flex flex-col gap-1.5">
+<div class="flex items-center gap-3">
+<h1 class="text-xl font-bold text-slate-900 tracking-tight">Service Operations Overview</h1>
+<span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200/70 text-[11px] font-semibold tracking-wide">
+<span class="relative flex h-2 w-2">
+<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+<span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+</span>
+                LIVE TELEMETRY
+              </span>
+</div>
+<div class="flex items-center gap-2 text-xs text-slate-500 flex-wrap">
+<span class="inline-flex items-center gap-1 font-medium text-slate-700">
+<span class="material-symbols-outlined text-[15px] text-brand-600">store</span> Metro Central Service Hub (Bays 1-8)
+              </span>
+<span class="text-slate-300">•</span>
+<span class="inline-flex items-center gap-1 font-mono text-slate-600" id="live-clock">
+                Monday, Sep 21, 10:53:21 AM EST
+              </span>
+<span class="text-slate-300">•</span>
+<span class="inline-flex items-center gap-1 text-[11px] text-brand-700 bg-brand-50 px-2 py-0.5 rounded font-medium border border-brand-100">
+<span class="material-symbols-outlined text-[13px]">sensors</span> All 8 Hoist Sensors Online
+              </span>
+</div>
+</div>
+<!-- CTAs -->
+<div class="flex items-center gap-2.5 shrink-0">
+<button class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg bg-white border border-slate-300 text-slate-700 hover:bg-slate-50 hover:text-slate-900 font-semibold text-xs shadow-xs transition-all" type="button">
+<span class="material-symbols-outlined text-[17px] text-slate-500">calendar_add_on</span>
+<span>+ New Appointment</span>
+</button>
+<button class="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg bg-brand-600 hover:bg-brand-700 text-white font-semibold text-xs shadow-sm shadow-brand-600/20 transition-all" type="button">
+<span class="material-symbols-outlined text-[17px]">add_circle</span>
+<span>+ Create Service Job</span>
+</button>
+</div>
+</div>
+</section>
+<!-- Dashboard Body Wrapper -->
+<div class="px-8 py-6 flex flex-col gap-6 max-w-[1600px] mx-auto">
+<!-- 1. Top KPI Metrics Row (5 high-density cards) -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+<!-- Card 1: Today's Appointments -->
+<div class="bg-white p-4 rounded-xl border border-slate-200/80 shadow-xs hover:border-brand-200 hover:shadow-sm transition-all flex flex-col justify-between">
+<div class="flex items-center justify-between text-slate-500">
+<span class="text-[11px] font-semibold uppercase tracking-wider text-slate-400">Today's Appointments</span>
+<div class="w-7 h-7 rounded-lg bg-brand-50 text-brand-600 flex items-center justify-center border border-brand-100">
+<span class="material-symbols-outlined text-[16px]">calendar_month</span>
+</div>
+</div>
+<div class="mt-3">
+<div class="flex items-baseline gap-2">
+<span class="text-2xl font-bold text-slate-900 tracking-tight font-mono-nums">18</span>
+<span class="text-xs text-slate-400 font-medium">scheduled</span>
+</div>
+<div class="flex items-center gap-1.5 mt-2 text-[11px] text-slate-500 font-mono-nums">
+<span class="text-emerald-600 font-semibold">4 done</span>
+<span class="text-slate-300">•</span>
+<span class="text-brand-600 font-semibold">9 in bay</span>
+<span class="text-slate-300">•</span>
+<span class="text-amber-600 font-semibold">5 wait</span>
+</div>
+</div>
+</div>
+<!-- Card 2: Bay Utilization -->
+<div class="bg-white p-4 rounded-xl border border-slate-200/80 shadow-xs hover:border-brand-200 hover:shadow-sm transition-all flex flex-col justify-between">
+<div class="flex items-center justify-between text-slate-500">
+<span class="text-[11px] font-semibold uppercase tracking-wider text-slate-400">Bay Utilization</span>
+<div class="w-7 h-7 rounded-lg bg-emerald-50 text-emerald-600 flex items-center justify-center border border-emerald-100">
+<span class="material-symbols-outlined text-[16px]">garage_home</span>
+</div>
+</div>
+<div class="mt-3">
+<div class="flex items-baseline gap-2">
+<span class="text-2xl font-bold text-slate-900 tracking-tight font-mono-nums">87.5%</span>
+<span class="text-xs font-semibold text-emerald-700 bg-emerald-50 px-1.5 py-0.2 rounded border border-emerald-200/60 inline-flex items-center gap-0.5">
+<span class="material-symbols-outlined text-[11px]">trending_up</span> Optimal
+                </span>
+</div>
+<div class="w-full bg-slate-100 h-1.5 rounded-full mt-2.5 overflow-hidden">
+<div class="bg-emerald-500 h-full rounded-full" style="width: 87.5%"></div>
+</div>
+<div class="flex items-center justify-between mt-1 text-[11px] text-slate-500 font-mono-nums">
+<span>7 of 8 Active</span>
+<span>1 Idle/Setup</span>
+</div>
+</div>
+</div>
+<!-- Card 3: Vehicles In Service -->
+<div class="bg-white p-4 rounded-xl border border-slate-200/80 shadow-xs hover:border-brand-200 hover:shadow-sm transition-all flex flex-col justify-between">
+<div class="flex items-center justify-between text-slate-500">
+<span class="text-[11px] font-semibold uppercase tracking-wider text-slate-400">Vehicles In Service</span>
+<div class="w-7 h-7 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center border border-blue-100">
+<span class="material-symbols-outlined text-[16px]">directions_car</span>
+</div>
+</div>
+<div class="mt-3">
+<div class="flex items-baseline gap-2">
+<span class="text-2xl font-bold text-slate-900 tracking-tight font-mono-nums">6</span>
+<span class="text-xs text-slate-400 font-medium">on hydraulic hoists</span>
+</div>
+<div class="flex items-center gap-1.5 mt-2 text-[11px] text-slate-500">
+<span class="w-2 h-2 rounded-full bg-brand-500 animate-pulse"></span>
+<span>Bays 01, 02, 03, 04, 05, 06</span>
+</div>
+</div>
+</div>
+<!-- Card 4: Parts Reorder Alerts -->
+<div class="bg-white p-4 rounded-xl border border-slate-200/80 shadow-xs hover:border-rose-200 hover:shadow-sm transition-all flex flex-col justify-between">
+<div class="flex items-center justify-between text-slate-500">
+<span class="text-[11px] font-semibold uppercase tracking-wider text-slate-400">Parts Reorder Alerts</span>
+<div class="w-7 h-7 rounded-lg bg-rose-50 text-rose-600 flex items-center justify-center border border-rose-100">
+<span class="material-symbols-outlined text-[16px]">warning</span>
+</div>
+</div>
+<div class="mt-3">
+<div class="flex items-baseline gap-2">
+<span class="text-2xl font-bold text-rose-600 tracking-tight font-mono-nums">3</span>
+<span class="text-xs text-rose-700 font-medium bg-rose-50 px-1.5 py-0.2 rounded border border-rose-200/60">Low Stock SKUs</span>
+</div>
+<div class="flex items-center gap-1 mt-2 text-[11px] text-slate-500">
+<span class="material-symbols-outlined text-[13px] text-rose-500">priority_high</span>
+<span class="text-slate-600 font-medium">Auto-PO staging active</span>
+</div>
+</div>
+</div>
+<!-- Card 5: Today's Billed Revenue -->
+<div class="bg-white p-4 rounded-xl border border-slate-200/80 shadow-xs hover:border-brand-200 hover:shadow-sm transition-all flex flex-col justify-between">
+<div class="flex items-center justify-between text-slate-500">
+<span class="text-[11px] font-semibold uppercase tracking-wider text-slate-400">Today's Revenue</span>
+<div class="w-7 h-7 rounded-lg bg-slate-100 text-slate-700 flex items-center justify-center border border-slate-200">
+<span class="material-symbols-outlined text-[16px]">payments</span>
+</div>
+</div>
+<div class="mt-3">
+<div class="flex items-baseline gap-1">
+<span class="text-2xl font-bold text-slate-900 tracking-tight font-mono-nums">$4,820.00</span>
+</div>
+<div class="flex items-center gap-1 mt-2 text-[11px]">
+<span class="inline-flex items-center gap-0.5 text-emerald-700 font-semibold bg-emerald-50 px-1.5 py-0.2 rounded border border-emerald-200/60 font-mono-nums">
+<span class="material-symbols-outlined text-[12px]">arrow_upward</span> +14.2%
+                </span>
+<span class="text-slate-400">vs daily target</span>
+</div>
+</div>
+</div>
+</div>
+<!-- 2. Live Workshop Bay Status Grid (Enterprise IoT Telemetry Cards) -->
+<div class="bg-white rounded-xl border border-slate-200/80 shadow-xs p-5">
+<!-- Section Title Bar -->
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-slate-100">
+<div class="flex items-center gap-3">
+<div class="w-9 h-9 rounded-lg bg-brand-50 text-brand-600 flex items-center justify-center border border-brand-100">
+<span class="material-symbols-outlined text-[20px]">car_repair</span>
+</div>
+<div>
+<div class="flex items-center gap-2">
+<h2 class="text-base font-bold text-slate-900">Live Workshop Bay Status Grid</h2>
+<span class="px-2 py-0.5 rounded text-[11px] font-semibold bg-slate-100 text-slate-700 border border-slate-200">Floor 1 • 6 Active Bays</span>
+</div>
+<p class="text-xs text-slate-500">Real-time hydraulic telemetry, mechanic allocation &amp; digital RO synchronization</p>
+</div>
+</div>
+<div class="flex items-center gap-2 self-start sm:self-auto">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-slate-50 border border-slate-200 text-slate-600 text-xs font-medium font-mono-nums">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-ping"></span> Live Sync: 5s
+              </span>
+<button class="p-1.5 rounded-md hover:bg-slate-100 text-slate-500 hover:text-slate-800 transition-colors" title="Force Refresh Telemetry">
+<span class="material-symbols-outlined text-[17px]">refresh</span>
+</button>
+</div>
+</div>
+<!-- 6 Bay Cards Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 mt-5">
+<!-- BAY 01 -->
+<div class="bg-slate-50/70 hover:bg-white rounded-xl p-4 border border-slate-200/90 hover:border-brand-300 hover:shadow-sm transition-all flex flex-col justify-between gap-3 group">
+<div class="flex items-start justify-between gap-2">
+<div class="flex items-center gap-2.5">
+<div class="w-11 h-11 rounded-lg bg-white border border-slate-200 flex flex-col items-center justify-center shadow-2xs">
+<span class="text-[9px] uppercase font-bold text-slate-400 leading-tight">BAY</span>
+<span class="text-[17px] font-bold text-brand-700 font-mono-nums leading-none">01</span>
+</div>
+<div>
+<div class="text-xs font-bold text-slate-900 group-hover:text-brand-700 transition-colors">Express Lube &amp; Fluid</div>
+<div class="text-[11px] text-slate-400 font-medium">Hoist #01 • Hydraulic 4T</div>
+</div>
+</div>
+<span class="px-2 py-0.5 rounded text-[11px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200 inline-flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span> Hoist Up
+                </span>
+</div>
+<!-- Vehicle & Task Sub-card -->
+<div class="bg-white rounded-lg p-3 border border-slate-200/80 shadow-2xs flex flex-col gap-1.5">
+<div class="flex items-center justify-between">
+<span class="font-bold text-[13px] text-slate-900">2021 BMW 330i</span>
+<span class="font-mono text-[10px] font-semibold px-1.5 py-0.5 rounded bg-slate-100 text-slate-700 border border-slate-200">WX21-KLM</span>
+</div>
+<div class="text-xs text-slate-600 flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[15px] text-brand-600">oil_barrel</span>
+<span>Oil Flush &amp; Rotor Replacement</span>
+</div>
+</div>
+<!-- Progress Bar -->
+<div class="flex flex-col gap-1">
+<div class="flex items-center justify-between text-xs">
+<span class="text-slate-500 font-medium">Service Progress</span>
+<span class="font-bold text-brand-700 font-mono-nums">75% (35 min left)</span>
+</div>
+<div class="w-full h-2 rounded-full bg-slate-200 overflow-hidden">
+<div class="h-full bg-brand-600 rounded-full transition-all" style="width: 75%"></div>
+</div>
+</div>
+<!-- Technician Footer -->
+<div class="flex items-center justify-between pt-2 border-t border-slate-200/80">
+<div class="flex items-center gap-2">
+<div class="w-7 h-7 rounded-full bg-brand-100 text-brand-800 font-bold text-[11px] flex items-center justify-center ring-1 ring-brand-200">MV</div>
+<div class="flex flex-col">
+<span class="text-xs font-semibold text-slate-800 leading-tight">Marcus Vance</span>
+<span class="text-[10px] text-slate-400 leading-none">Senior Tech</span>
+</div>
+</div>
+<button class="px-2.5 py-1 rounded text-xs font-semibold text-brand-700 bg-brand-50 hover:bg-brand-100 border border-brand-200/60 transition-colors">
+                  View RO #8021
+                </button>
+</div>
+</div>
+<!-- BAY 02 -->
+<div class="bg-slate-50/70 hover:bg-white rounded-xl p-4 border border-slate-200/90 hover:border-slate-400 hover:shadow-sm transition-all flex flex-col justify-between gap-3 group">
+<div class="flex items-start justify-between gap-2">
+<div class="flex items-center gap-2.5">
+<div class="w-11 h-11 rounded-lg bg-white border border-slate-200 flex flex-col items-center justify-center shadow-2xs">
+<span class="text-[9px] uppercase font-bold text-slate-400 leading-tight">BAY</span>
+<span class="text-[17px] font-bold text-slate-700 font-mono-nums leading-none">02</span>
+</div>
+<div>
+<div class="text-xs font-bold text-slate-900 group-hover:text-brand-700 transition-colors">OBD Diagnostics</div>
+<div class="text-[11px] text-slate-400 font-medium">Hoist #02 • Scissor Lift</div>
+</div>
+</div>
+<span class="px-2 py-0.5 rounded text-[11px] font-bold bg-indigo-50 text-indigo-700 border border-indigo-200 inline-flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-indigo-500"></span> Quality Check
+                </span>
+</div>
+<!-- Vehicle & Task Sub-card -->
+<div class="bg-white rounded-lg p-3 border border-slate-200/80 shadow-2xs flex flex-col gap-1.5">
+<div class="flex items-center justify-between">
+<span class="font-bold text-[13px] text-slate-900">2020 Audi A4</span>
+<span class="font-mono text-[10px] font-semibold px-1.5 py-0.5 rounded bg-slate-100 text-slate-700 border border-slate-200">NY84-BBR</span>
+</div>
+<div class="text-xs text-slate-600 flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[15px] text-indigo-600">tune</span>
+<span>Transmission Diagnostic Scan</span>
+</div>
+</div>
+<!-- Progress Bar -->
+<div class="flex flex-col gap-1">
+<div class="flex items-center justify-between text-xs">
+<span class="text-slate-500 font-medium">Service Progress</span>
+<span class="font-bold text-indigo-700 font-mono-nums">95% (QA Ready)</span>
+</div>
+<div class="w-full h-2 rounded-full bg-slate-200 overflow-hidden">
+<div class="h-full bg-indigo-600 rounded-full transition-all" style="width: 95%"></div>
+</div>
+</div>
+<!-- Technician Footer -->
+<div class="flex items-center justify-between pt-2 border-t border-slate-200/80">
+<div class="flex items-center gap-2">
+<div class="w-7 h-7 rounded-full bg-indigo-100 text-indigo-800 font-bold text-[11px] flex items-center justify-center ring-1 ring-indigo-200">SK</div>
+<div class="flex flex-col">
+<span class="text-xs font-semibold text-slate-800 leading-tight">Sarah Kowalski</span>
+<span class="text-[10px] text-slate-400 leading-none">Diagnostic Lead</span>
+</div>
+</div>
+<button class="px-2.5 py-1 rounded text-xs font-semibold text-white bg-slate-800 hover:bg-slate-900 transition-colors shadow-2xs">
+                  Sign QA Slip
+                </button>
+</div>
+</div>
+<!-- BAY 03 -->
+<div class="bg-slate-50/70 hover:bg-white rounded-xl p-4 border border-slate-200/90 hover:border-brand-300 hover:shadow-sm transition-all flex flex-col justify-between gap-3 group">
+<div class="flex items-start justify-between gap-2">
+<div class="flex items-center gap-2.5">
+<div class="w-11 h-11 rounded-lg bg-white border border-slate-200 flex flex-col items-center justify-center shadow-2xs">
+<span class="text-[9px] uppercase font-bold text-slate-400 leading-tight">BAY</span>
+<span class="text-[17px] font-bold text-brand-700 font-mono-nums leading-none">03</span>
+</div>
+<div>
+<div class="text-xs font-bold text-slate-900 group-hover:text-brand-700 transition-colors">Heavy Mechanical</div>
+<div class="text-[11px] text-slate-400 font-medium">Hoist #03 • 2-Post Heavy 5T</div>
+</div>
+</div>
+<span class="px-2 py-0.5 rounded text-[11px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200 inline-flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span> Active
+                </span>
+</div>
+<!-- Vehicle & Task Sub-card -->
+<div class="bg-white rounded-lg p-3 border border-slate-200/80 shadow-2xs flex flex-col gap-1.5">
+<div class="flex items-center justify-between">
+<span class="font-bold text-[13px] text-slate-900">2018 Ford F-150</span>
+<span class="font-mono text-[10px] font-semibold px-1.5 py-0.5 rounded bg-slate-100 text-slate-700 border border-slate-200">TX99-POW</span>
+</div>
+<div class="text-xs text-slate-600 flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[15px] text-brand-600">handyman</span>
+<span>Brake Caliper &amp; Line Overhaul</span>
+</div>
+</div>
+<!-- Progress Bar -->
+<div class="flex flex-col gap-1">
+<div class="flex items-center justify-between text-xs">
+<span class="text-slate-500 font-medium">Service Progress</span>
+<span class="font-bold text-brand-700 font-mono-nums">40% (1h 15m left)</span>
+</div>
+<div class="w-full h-2 rounded-full bg-slate-200 overflow-hidden">
+<div class="h-full bg-brand-600 rounded-full transition-all" style="width: 40%"></div>
+</div>
+</div>
+<!-- Technician Footer -->
+<div class="flex items-center justify-between pt-2 border-t border-slate-200/80">
+<div class="flex items-center gap-2">
+<div class="w-7 h-7 rounded-full bg-brand-100 text-brand-800 font-bold text-[11px] flex items-center justify-center ring-1 ring-brand-200">DR</div>
+<div class="flex flex-col">
+<span class="text-xs font-semibold text-slate-800 leading-tight">Dave Reynolds</span>
+<span class="text-[10px] text-slate-400 leading-none">Master Mechanic</span>
+</div>
+</div>
+<button class="px-2.5 py-1 rounded text-xs font-semibold text-brand-700 bg-brand-50 hover:bg-brand-100 border border-brand-200/60 transition-colors">
+                  View RO #8014
+                </button>
+</div>
+</div>
+<!-- BAY 04 (Awaiting Parts Alert) -->
+<div class="bg-amber-50/40 hover:bg-white rounded-xl p-4 border border-amber-200/80 hover:border-amber-400 hover:shadow-sm transition-all flex flex-col justify-between gap-3 group">
+<div class="flex items-start justify-between gap-2">
+<div class="flex items-center gap-2.5">
+<div class="w-11 h-11 rounded-lg bg-white border border-amber-200 flex flex-col items-center justify-center shadow-2xs">
+<span class="text-[9px] uppercase font-bold text-amber-500 leading-tight">BAY</span>
+<span class="text-[17px] font-bold text-amber-700 font-mono-nums leading-none">04</span>
+</div>
+<div>
+<div class="text-xs font-bold text-slate-900 group-hover:text-amber-800 transition-colors">EV &amp; Powertrain Spec</div>
+<div class="text-[11px] text-slate-400 font-medium">Hoist #04 • HV Isolated</div>
+</div>
+</div>
+<span class="px-2 py-0.5 rounded text-[11px] font-bold bg-amber-100 text-amber-800 border border-amber-300/80 inline-flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-amber-600 animate-pulse"></span> Awaiting Parts
+                </span>
+</div>
+<!-- Vehicle & Task Sub-card -->
+<div class="bg-white rounded-lg p-3 border border-amber-200/70 shadow-2xs flex flex-col gap-1.5">
+<div class="flex items-center justify-between">
+<span class="font-bold text-[13px] text-slate-900">2022 Mercedes C300</span>
+<span class="font-mono text-[10px] font-semibold px-1.5 py-0.5 rounded bg-slate-100 text-slate-700 border border-slate-200">CA44-LUX</span>
+</div>
+<div class="text-xs text-amber-800 font-medium flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[15px] text-amber-600">local_shipping</span>
+<span>O2 Sensor #BOSCH-0994 In Transit</span>
+</div>
+</div>
+<!-- Progress Bar -->
+<div class="flex flex-col gap-1">
+<div class="flex items-center justify-between text-xs">
+<span class="text-slate-500 font-medium">Service Progress</span>
+<span class="font-bold text-amber-700 font-mono-nums">20% (Part ETA: 11:15 AM)</span>
+</div>
+<div class="w-full h-2 rounded-full bg-amber-100 overflow-hidden">
+<div class="h-full bg-amber-500 rounded-full transition-all" style="width: 20%"></div>
+</div>
+</div>
+<!-- Technician Footer -->
+<div class="flex items-center justify-between pt-2 border-t border-amber-200/70">
+<div class="flex items-center gap-2">
+<div class="w-7 h-7 rounded-full bg-slate-100 text-slate-500 font-bold text-[11px] flex items-center justify-center ring-1 ring-slate-200">?</div>
+<div class="flex flex-col">
+<span class="text-xs font-semibold text-slate-600 leading-tight">Unassigned</span>
+<span class="text-[10px] text-slate-400 leading-none">Hold for Courier</span>
+</div>
+</div>
+<button class="px-2.5 py-1 rounded text-xs font-semibold text-amber-900 bg-amber-200/80 hover:bg-amber-300 border border-amber-300 transition-colors">
+                  Expedite PO
+                </button>
+</div>
+</div>
+<!-- BAY 05 -->
+<div class="bg-slate-50/70 hover:bg-white rounded-xl p-4 border border-slate-200/90 hover:border-brand-300 hover:shadow-sm transition-all flex flex-col justify-between gap-3 group">
+<div class="flex items-start justify-between gap-2">
+<div class="flex items-center gap-2.5">
+<div class="w-11 h-11 rounded-lg bg-white border border-slate-200 flex flex-col items-center justify-center shadow-2xs">
+<span class="text-[9px] uppercase font-bold text-slate-400 leading-tight">BAY</span>
+<span class="text-[17px] font-bold text-brand-700 font-mono-nums leading-none">05</span>
+</div>
+<div>
+<div class="text-xs font-bold text-slate-900 group-hover:text-brand-700 transition-colors">Laser Wheel Alignment</div>
+<div class="text-[11px] text-slate-400 font-medium">Bay #05 • Hunter Hawkeye</div>
+</div>
+</div>
+<span class="px-2 py-0.5 rounded text-[11px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200 inline-flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span> Hoist Up
+                </span>
+</div>
+<!-- Vehicle & Task Sub-card -->
+<div class="bg-white rounded-lg p-3 border border-slate-200/80 shadow-2xs flex flex-col gap-1.5">
+<div class="flex items-center justify-between">
+<span class="font-bold text-[13px] text-slate-900">2023 Tesla Model 3</span>
+<span class="font-mono text-[10px] font-semibold px-1.5 py-0.5 rounded bg-slate-100 text-slate-700 border border-slate-200">EV88-CAL</span>
+</div>
+<div class="text-xs text-slate-600 flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[15px] text-brand-600">tire_repair</span>
+<span>4-Wheel Laser Alignment</span>
+</div>
+</div>
+<!-- Progress Bar -->
+<div class="flex flex-col gap-1">
+<div class="flex items-center justify-between text-xs">
+<span class="text-slate-500 font-medium">Service Progress</span>
+<span class="font-bold text-brand-700 font-mono-nums">60% (20 min left)</span>
+</div>
+<div class="w-full h-2 rounded-full bg-slate-200 overflow-hidden">
+<div class="h-full bg-brand-600 rounded-full transition-all" style="width: 60%"></div>
+</div>
+</div>
+<!-- Technician Footer -->
+<div class="flex items-center justify-between pt-2 border-t border-slate-200/80">
+<div class="flex items-center gap-2">
+<div class="w-7 h-7 rounded-full bg-brand-100 text-brand-800 font-bold text-[11px] flex items-center justify-center ring-1 ring-brand-200">LM</div>
+<div class="flex flex-col">
+<span class="text-xs font-semibold text-slate-800 leading-tight">Leo Martinez</span>
+<span class="text-[10px] text-slate-400 leading-none">Chassis Specialist</span>
+</div>
+</div>
+<button class="px-2.5 py-1 rounded text-xs font-semibold text-brand-700 bg-brand-50 hover:bg-brand-100 border border-brand-200/60 transition-colors">
+                  View RO #8023
+                </button>
+</div>
+</div>
+<!-- BAY 06 -->
+<div class="bg-slate-50/70 hover:bg-white rounded-xl p-4 border border-slate-200/90 hover:border-emerald-300 hover:shadow-sm transition-all flex flex-col justify-between gap-3 group">
+<div class="flex items-start justify-between gap-2">
+<div class="flex items-center gap-2.5">
+<div class="w-11 h-11 rounded-lg bg-white border border-slate-200 flex flex-col items-center justify-center shadow-2xs">
+<span class="text-[9px] uppercase font-bold text-slate-400 leading-tight">BAY</span>
+<span class="text-[17px] font-bold text-emerald-700 font-mono-nums leading-none">06</span>
+</div>
+<div>
+<div class="text-xs font-bold text-slate-900 group-hover:text-emerald-700 transition-colors">Inspection &amp; Certs</div>
+<div class="text-[11px] text-slate-400 font-medium">Hoist #06 • Multi-Point Bay</div>
+</div>
+</div>
+<span class="px-2 py-0.5 rounded text-[11px] font-bold bg-slate-200 text-slate-800 border border-slate-300 inline-flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-600"></span> Final Polish
+                </span>
+</div>
+<!-- Vehicle & Task Sub-card -->
+<div class="bg-white rounded-lg p-3 border border-slate-200/80 shadow-2xs flex flex-col gap-1.5">
+<div class="flex items-center justify-between">
+<span class="font-bold text-[13px] text-slate-900">2023 Toyota RAV4 Hybrid</span>
+<span class="font-mono text-[10px] font-semibold px-1.5 py-0.5 rounded bg-slate-100 text-slate-700 border border-slate-200">WA52-XYZ</span>
+</div>
+<div class="text-xs text-slate-600 flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[15px] text-emerald-600">fact_check</span>
+<span>40K Major Service &amp; Safety Cert</span>
+</div>
+</div>
+<!-- Progress Bar -->
+<div class="flex flex-col gap-1">
+<div class="flex items-center justify-between text-xs">
+<span class="text-slate-500 font-medium">Service Progress</span>
+<span class="font-bold text-emerald-700 font-mono-nums">100% (Completed)</span>
+</div>
+<div class="w-full h-2 rounded-full bg-slate-200 overflow-hidden">
+<div class="h-full bg-emerald-500 rounded-full transition-all" style="width: 100%"></div>
+</div>
+</div>
+<!-- Technician Footer -->
+<div class="flex items-center justify-between pt-2 border-t border-slate-200/80">
+<div class="flex items-center gap-2">
+<div class="w-7 h-7 rounded-full bg-emerald-100 text-emerald-800 font-bold text-[11px] flex items-center justify-center ring-1 ring-emerald-200">AT</div>
+<div class="flex flex-col">
+<span class="text-xs font-semibold text-slate-800 leading-tight">Alan T.</span>
+<span class="text-[10px] text-slate-400 leading-none">Senior Tech</span>
+</div>
+</div>
+<button class="px-2.5 py-1 rounded text-xs font-semibold text-white bg-emerald-600 hover:bg-emerald-700 transition-colors shadow-2xs">
+                  Ready for Key Hand
+                </button>
+</div>
+</div>
+</div>
+</div>
+<!-- 3. Middle Split Section (Parts Alerts + Technician Dispatch) -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+<!-- Left: Critical Parts Inventory Alerts (7 cols) -->
+<div class="lg:col-span-7 bg-white p-5 rounded-xl border border-slate-200/80 shadow-xs flex flex-col justify-between gap-4">
+<div class="flex items-center justify-between border-b border-slate-100 pb-3">
+<div class="flex items-center gap-2.5">
+<div class="w-8 h-8 rounded-lg bg-rose-50 text-rose-600 flex items-center justify-center border border-rose-100">
+<span class="material-symbols-outlined text-[18px]">warning</span>
+</div>
+<div>
+<h3 class="text-sm font-bold text-slate-900">Critical Parts Inventory Alerts</h3>
+<p class="text-xs text-slate-500">Low stock threshold reached • Direct 1-Click EDI PO submission</p>
+</div>
+</div>
+<span class="px-2.5 py-0.5 rounded-full bg-rose-100 text-rose-800 border border-rose-200 text-xs font-bold font-mono-nums">3 Action Items</span>
+</div>
+<!-- Items List -->
+<div class="flex flex-col gap-2.5">
+<!-- Item 1 -->
+<div class="p-3 rounded-lg bg-slate-50/80 hover:bg-slate-50 border border-slate-200/80 flex items-center justify-between gap-3 transition-colors">
+<div class="flex items-center gap-3 min-w-0">
+<div class="w-8 h-8 rounded-lg bg-white border border-rose-200 flex items-center justify-center text-rose-600 shrink-0">
+<span class="material-symbols-outlined text-[18px]">disc_full</span>
+</div>
+<div class="min-w-0">
+<div class="text-xs font-bold text-slate-900 truncate">Ceramic Brake Pads D1060 (Akebono)</div>
+<div class="flex items-center gap-2 text-[11px] text-slate-500 mt-0.5 font-mono-nums">
+<span>Stock: <strong class="text-rose-600 font-bold">2 sets left</strong></span>
+<span class="text-slate-300">•</span>
+<span>Min: 8 sets</span>
+<span class="text-slate-300">•</span>
+<span class="text-brand-700 font-semibold bg-brand-50 px-1 rounded">Bay 03 waiting</span>
+</div>
+</div>
+</div>
+<button class="px-3 py-1.5 rounded-lg bg-rose-600 hover:bg-rose-700 text-white text-xs font-semibold shrink-0 shadow-xs flex items-center gap-1.5 transition-colors">
+<span class="material-symbols-outlined text-[15px]">shopping_cart_checkout</span>
+<span>1-Click PO</span>
+</button>
+</div>
+<!-- Item 2 -->
+<div class="p-3 rounded-lg bg-slate-50/80 hover:bg-slate-50 border border-slate-200/80 flex items-center justify-between gap-3 transition-colors">
+<div class="flex items-center gap-3 min-w-0">
+<div class="w-8 h-8 rounded-lg bg-white border border-rose-200 flex items-center justify-center text-rose-600 shrink-0">
+<span class="material-symbols-outlined text-[18px]">filter_alt</span>
+</div>
+<div class="min-w-0">
+<div class="text-xs font-bold text-slate-900 truncate">OEM Oil Filters HU-816x (Mann-Filter)</div>
+<div class="flex items-center gap-2 text-[11px] text-slate-500 mt-0.5 font-mono-nums">
+<span>Stock: <strong class="text-rose-600 font-bold">3 units left</strong></span>
+<span class="text-slate-300">•</span>
+<span>Min: 12 units</span>
+<span class="text-slate-300">•</span>
+<span class="text-slate-600">Daily Fast-Moving SKU</span>
+</div>
+</div>
+</div>
+<button class="px-3 py-1.5 rounded-lg bg-rose-600 hover:bg-rose-700 text-white text-xs font-semibold shrink-0 shadow-xs flex items-center gap-1.5 transition-colors">
+<span class="material-symbols-outlined text-[15px]">shopping_cart_checkout</span>
+<span>1-Click PO</span>
+</button>
+</div>
+<!-- Item 3 -->
+<div class="p-3 rounded-lg bg-slate-50/80 hover:bg-slate-50 border border-slate-200/80 flex items-center justify-between gap-3 transition-colors">
+<div class="flex items-center gap-3 min-w-0">
+<div class="w-8 h-8 rounded-lg bg-white border border-amber-200 flex items-center justify-center text-amber-600 shrink-0">
+<span class="material-symbols-outlined text-[18px]">oil_barrel</span>
+</div>
+<div class="min-w-0">
+<div class="text-xs font-bold text-slate-900 truncate">Mobil 1 ESP 5W-30 Full Synthetic (20L Drum)</div>
+<div class="flex items-center gap-2 text-[11px] text-slate-500 mt-0.5 font-mono-nums">
+<span>Stock: <strong class="text-amber-700 font-bold">1 drum</strong></span>
+<span class="text-slate-300">•</span>
+<span>Min: 4 drums</span>
+<span class="text-slate-300">•</span>
+<span class="text-slate-600">Bulk Delivery Preferred</span>
+</div>
+</div>
+</div>
+<button class="px-3 py-1.5 rounded-lg bg-brand-600 hover:bg-brand-700 text-white text-xs font-semibold shrink-0 shadow-xs flex items-center gap-1.5 transition-colors">
+<span class="material-symbols-outlined text-[15px]">shopping_cart_checkout</span>
+<span>1-Click PO</span>
+</button>
+</div>
+</div>
+<!-- Supplier Gateway Indicator -->
+<div class="flex items-center justify-between pt-2 border-t border-slate-100 text-xs">
+<span class="text-slate-500 flex items-center gap-1.5">
+<span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+                EDI Gateway: <strong class="text-slate-800 font-medium">AutoZone Commercial &amp; Worldpac Connected</strong>
+</span>
+<a class="text-brand-600 hover:text-brand-800 font-semibold flex items-center gap-1" href="#">
+<span>Open Inventory Catalog</span>
+<span class="material-symbols-outlined text-[15px]">arrow_forward</span>
+</a>
+</div>
+</div>
+<!-- Right: Real-time Technician Dispatch (5 cols) -->
+<div class="lg:col-span-5 bg-white p-5 rounded-xl border border-slate-200/80 shadow-xs flex flex-col justify-between gap-4">
+<div class="flex items-center justify-between border-b border-slate-100 pb-3">
+<div class="flex items-center gap-2.5">
+<div class="w-8 h-8 rounded-lg bg-brand-50 text-brand-600 flex items-center justify-center border border-brand-100">
+<span class="material-symbols-outlined text-[18px]">badge</span>
+</div>
+<div>
+<h3 class="text-sm font-bold text-slate-900">Technician Dispatch</h3>
+<p class="text-xs text-slate-500">Active roster, bay allocation &amp; capacity meters</p>
+</div>
+</div>
+<span class="text-xs font-bold text-brand-700 px-2.5 py-0.5 rounded-full bg-brand-50 border border-brand-200/60 font-mono-nums">5 On Shift</span>
+</div>
+<!-- Technicians List -->
+<div class="flex flex-col gap-2">
+<!-- Tech 1 -->
+<div class="flex items-center justify-between p-2.5 rounded-lg bg-slate-50 border border-slate-200/60 hover:bg-slate-100/60 transition-colors">
+<div class="flex items-center gap-2.5 min-w-0">
+<div class="w-7 h-7 rounded-full bg-brand-600 text-white font-bold text-[11px] flex items-center justify-center shrink-0">MV</div>
+<div class="min-w-0">
+<div class="text-xs font-bold text-slate-900 truncate">Marcus Vance</div>
+<div class="text-[11px] text-slate-500">Assigned: <strong class="text-brand-700 font-semibold">Bay 01</strong> (BMW 330i)</div>
+</div>
+</div>
+<div class="flex flex-col items-end shrink-0">
+<span class="px-2 py-0.5 rounded bg-brand-100 text-brand-800 text-[10px] font-bold font-mono-nums">100% Load</span>
+<span class="text-[10px] text-slate-400 font-mono-nums">3 completed today</span>
+</div>
+</div>
+<!-- Tech 2 -->
+<div class="flex items-center justify-between p-2.5 rounded-lg bg-slate-50 border border-slate-200/60 hover:bg-slate-100/60 transition-colors">
+<div class="flex items-center gap-2.5 min-w-0">
+<div class="w-7 h-7 rounded-full bg-indigo-600 text-white font-bold text-[11px] flex items-center justify-center shrink-0">SK</div>
+<div class="min-w-0">
+<div class="text-xs font-bold text-slate-900 truncate">Sarah Kowalski</div>
+<div class="text-[11px] text-slate-500">Assigned: <strong class="text-indigo-700 font-semibold">Bay 02</strong> (Audi A4 QA)</div>
+</div>
+</div>
+<div class="flex flex-col items-end shrink-0">
+<span class="px-2 py-0.5 rounded bg-indigo-100 text-indigo-800 text-[10px] font-bold">QA Final</span>
+<span class="text-[10px] text-slate-400 font-mono-nums">4 completed today</span>
+</div>
+</div>
+<!-- Tech 3 -->
+<div class="flex items-center justify-between p-2.5 rounded-lg bg-slate-50 border border-slate-200/60 hover:bg-slate-100/60 transition-colors">
+<div class="flex items-center gap-2.5 min-w-0">
+<div class="w-7 h-7 rounded-full bg-brand-600 text-white font-bold text-[11px] flex items-center justify-center shrink-0">DR</div>
+<div class="min-w-0">
+<div class="text-xs font-bold text-slate-900 truncate">Dave Reynolds</div>
+<div class="text-[11px] text-slate-500">Assigned: <strong class="text-brand-700 font-semibold">Bay 03</strong> (Ford F-150)</div>
+</div>
+</div>
+<div class="flex flex-col items-end shrink-0">
+<span class="px-2 py-0.5 rounded bg-brand-100 text-brand-800 text-[10px] font-bold font-mono-nums">85% Load</span>
+<span class="text-[10px] text-slate-400 font-mono-nums">2 completed today</span>
+</div>
+</div>
+<!-- Tech 4 -->
+<div class="flex items-center justify-between p-2.5 rounded-lg bg-slate-50 border border-slate-200/60 hover:bg-slate-100/60 transition-colors">
+<div class="flex items-center gap-2.5 min-w-0">
+<div class="w-7 h-7 rounded-full bg-brand-600 text-white font-bold text-[11px] flex items-center justify-center shrink-0">LM</div>
+<div class="min-w-0">
+<div class="text-xs font-bold text-slate-900 truncate">Leo Martinez</div>
+<div class="text-[11px] text-slate-500">Assigned: <strong class="text-brand-700 font-semibold">Bay 05</strong> (Tesla Model 3)</div>
+</div>
+</div>
+<div class="flex flex-col items-end shrink-0">
+<span class="px-2 py-0.5 rounded bg-brand-100 text-brand-800 text-[10px] font-bold font-mono-nums">70% Load</span>
+<span class="text-[10px] text-slate-400 font-mono-nums">2 completed today</span>
+</div>
+</div>
+</div>
+<!-- Shop Efficiency Score -->
+<div class="flex items-center justify-between pt-2 border-t border-slate-100 text-xs">
+<span class="text-slate-500">Overall Shop Efficiency: <strong class="text-slate-900 font-mono-nums">94.2%</strong></span>
+<button class="text-brand-600 hover:text-brand-800 font-semibold flex items-center gap-1">
+<span>Rebalance Bay Queue</span>
+<span class="material-symbols-outlined text-[15px]">swap_horiz</span>
+</button>
+</div>
+</div>
+</div>
+<!-- 4. Master Service Jobs & Appointments Table Section -->
+<div class="bg-white rounded-xl border border-slate-200/80 shadow-xs p-5 flex flex-col gap-4">
+<!-- Table Title & Filter Pills -->
+<div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+<div>
+<h2 class="text-base font-bold text-slate-900">Master Service Jobs &amp; Appointments</h2>
+<p class="text-xs text-slate-500">Live ledger of workshop intake, active work orders, and dispatch tickets</p>
+</div>
+<!-- Status Filter Pills -->
+<div class="flex items-center gap-1.5 overflow-x-auto pb-1 max-w-full">
+<button class="px-3 py-1.5 rounded-lg bg-brand-600 text-white text-xs font-semibold shadow-xs">
+                All <span class="ml-1 px-1.5 py-0.2 rounded bg-brand-700/60 font-mono-nums text-[11px]">48</span>
+</button>
+<button class="px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-600 text-xs font-medium transition-colors">
+                Pending <span class="ml-1 px-1.5 py-0.2 rounded bg-white text-slate-700 font-mono-nums text-[11px]">5</span>
+</button>
+<button class="px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-600 text-xs font-medium transition-colors">
+                Confirmed <span class="ml-1 px-1.5 py-0.2 rounded bg-white text-slate-700 font-mono-nums text-[11px]">12</span>
+</button>
+<button class="px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-600 text-xs font-medium transition-colors">
+                In Service <span class="ml-1 px-1.5 py-0.2 rounded bg-white text-brand-700 font-mono-nums text-[11px]">9</span>
+</button>
+<button class="px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-600 text-xs font-medium transition-colors">
+                Ready <span class="ml-1 px-1.5 py-0.2 rounded bg-white text-emerald-700 font-mono-nums text-[11px]">8</span>
+</button>
+<button class="px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-600 text-xs font-medium transition-colors">
+                Completed <span class="ml-1 px-1.5 py-0.2 rounded bg-white text-slate-700 font-mono-nums text-[11px]">14</span>
+</button>
+</div>
+</div>
+<!-- Search & Filter Utility Bar -->
+<div class="flex flex-col sm:flex-row items-center justify-between gap-3 pt-1">
+<div class="relative w-full sm:w-80">
+<span class="material-symbols-outlined text-[17px] text-slate-400 absolute left-3 top-2.5">search</span>
+<input class="w-full pl-9 pr-3 py-1.5 text-xs bg-slate-50 hover:bg-white focus:bg-white text-slate-800 placeholder:text-slate-400 rounded-lg border border-slate-200 focus:border-brand-500 focus:ring-1 focus:ring-brand-500 outline-none transition-all" placeholder="Filter by RO#, Customer, or License..." type="text"/>
+</div>
+<div class="flex items-center gap-2 w-full sm:w-auto justify-end">
+<button class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white border border-slate-200 text-slate-700 hover:bg-slate-50 text-xs font-semibold transition-colors">
+<span class="material-symbols-outlined text-[16px] text-slate-500">tune</span>
+<span>Filters</span>
+</button>
+<button class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white border border-slate-200 text-slate-700 hover:bg-slate-50 text-xs font-semibold transition-colors">
+<span class="material-symbols-outlined text-[16px] text-slate-500">file_download</span>
+<span>Export CSV</span>
+</button>
+</div>
+</div>
+<!-- Enterprise Data Table -->
+<div class="overflow-x-auto border border-slate-200/80 rounded-lg">
+<table class="w-full text-left border-collapse text-xs">
+<thead>
+<tr class="bg-slate-50 text-slate-500 font-semibold border-b border-slate-200/80 uppercase tracking-wider text-[10px]">
+<th class="py-2.5 px-3 font-semibold">Job / RO #</th>
+<th class="py-2.5 px-3 font-semibold">Customer Details</th>
+<th class="py-2.5 px-3 font-semibold">Vehicle</th>
+<th class="py-2.5 px-3 font-semibold">Service Scope</th>
+<th class="py-2.5 px-3 font-semibold">Scheduled</th>
+<th class="py-2.5 px-3 font-semibold">Assigned Bay &amp; Tech</th>
+<th class="py-2.5 px-3 font-semibold">Status</th>
+<th class="py-2.5 px-3 text-right font-semibold">Quick Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-slate-100 bg-white">
+<!-- Row 1 -->
+<tr class="hover:bg-slate-50/80 transition-colors group">
+<td class="py-3 px-3 font-mono font-semibold text-brand-700">#GF-8021</td>
+<td class="py-3 px-3">
+<div class="font-bold text-slate-900">Jonathan Miller</div>
+<div class="text-[11px] text-slate-400 font-mono-nums">+1 (555) 234-9810</div>
+</td>
+<td class="py-3 px-3">
+<div class="font-medium text-slate-800">BMW 330i (2021)</div>
+<div class="font-mono text-[10px] text-slate-500 bg-slate-100 inline-block px-1 rounded border border-slate-200 mt-0.5">WX21-KLM</div>
+</td>
+<td class="py-3 px-3">
+<span class="inline-block px-2 py-0.5 rounded bg-brand-50 text-brand-800 border border-brand-200/60 font-medium">Oil &amp; Rotor Service</span>
+</td>
+<td class="py-3 px-3">
+<div class="text-slate-800 font-medium font-mono-nums">10:00 AM</div>
+<div class="text-[11px] text-slate-400">Today</div>
+</td>
+<td class="py-3 px-3">
+<div class="font-semibold text-slate-900">Bay 01</div>
+<div class="text-[11px] text-slate-500 flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-brand-500"></span> Marcus V.
+                    </div>
+</td>
+<td class="py-3 px-3">
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-brand-50 text-brand-700 border border-brand-200 text-[11px] font-semibold">
+<span class="w-1.5 h-1.5 rounded-full bg-brand-600 animate-pulse"></span> In Service
+                    </span>
+</td>
+<td class="py-3 px-3 text-right">
+<div class="flex items-center justify-end gap-1">
+<button class="p-1 rounded text-slate-400 hover:text-brand-700 hover:bg-slate-100 transition-colors" title="View Work Order">
+<span class="material-symbols-outlined text-[17px]">visibility</span>
+</button>
+<button class="p-1 rounded text-slate-400 hover:text-brand-700 hover:bg-slate-100 transition-colors" title="Generate Invoice">
+<span class="material-symbols-outlined text-[17px]">receipt_long</span>
+</button>
+<button class="p-1 rounded text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition-colors" title="More Options">
+<span class="material-symbols-outlined text-[17px]">more_vert</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="hover:bg-slate-50/80 transition-colors group">
+<td class="py-3 px-3 font-mono font-semibold text-brand-700">#GF-8019</td>
+<td class="py-3 px-3">
+<div class="font-bold text-slate-900">Elena Rostova</div>
+<div class="text-[11px] text-slate-400 font-mono-nums">+1 (555) 887-3211</div>
+</td>
+<td class="py-3 px-3">
+<div class="font-medium text-slate-800">Audi A4 (2020)</div>
+<div class="font-mono text-[10px] text-slate-500 bg-slate-100 inline-block px-1 rounded border border-slate-200 mt-0.5">NY84-BBR</div>
+</td>
+<td class="py-3 px-3">
+<span class="inline-block px-2 py-0.5 rounded bg-indigo-50 text-indigo-800 border border-indigo-200/60 font-medium">Transmission Diagnostic</span>
+</td>
+<td class="py-3 px-3">
+<div class="text-slate-800 font-medium font-mono-nums">09:15 AM</div>
+<div class="text-[11px] text-slate-400">Today</div>
+</td>
+<td class="py-3 px-3">
+<div class="font-semibold text-slate-900">Bay 02</div>
+<div class="text-[11px] text-slate-500 flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-indigo-500"></span> Sarah K.
+                    </div>
+</td>
+<td class="py-3 px-3">
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-indigo-50 text-indigo-700 border border-indigo-200 text-[11px] font-semibold">
+                      Ready for QA
+                    </span>
+</td>
+<td class="py-3 px-3 text-right">
+<div class="flex items-center justify-end gap-1">
+<button class="p-1 rounded text-slate-400 hover:text-brand-700 hover:bg-slate-100 transition-colors" title="View Work Order">
+<span class="material-symbols-outlined text-[17px]">visibility</span>
+</button>
+<button class="p-1 rounded text-slate-400 hover:text-brand-700 hover:bg-slate-100 transition-colors" title="Generate Invoice">
+<span class="material-symbols-outlined text-[17px]">receipt_long</span>
+</button>
+<button class="p-1 rounded text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition-colors" title="More Options">
+<span class="material-symbols-outlined text-[17px]">more_vert</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="hover:bg-slate-50/80 transition-colors group">
+<td class="py-3 px-3 font-mono font-semibold text-brand-700">#GF-8014</td>
+<td class="py-3 px-3">
+<div class="font-bold text-slate-900">Robert MacIntyre</div>
+<div class="text-[11px] text-slate-400 font-mono-nums">+1 (555) 431-7002</div>
+</td>
+<td class="py-3 px-3">
+<div class="font-medium text-slate-800">Ford F-150 (2018)</div>
+<div class="font-mono text-[10px] text-slate-500 bg-slate-100 inline-block px-1 rounded border border-slate-200 mt-0.5">TX99-POW</div>
+</td>
+<td class="py-3 px-3">
+<span class="inline-block px-2 py-0.5 rounded bg-brand-50 text-brand-800 border border-brand-200/60 font-medium">Brake System Overhaul</span>
+</td>
+<td class="py-3 px-3">
+<div class="text-slate-800 font-medium font-mono-nums">08:30 AM</div>
+<div class="text-[11px] text-slate-400">Today</div>
+</td>
+<td class="py-3 px-3">
+<div class="font-semibold text-slate-900">Bay 03</div>
+<div class="text-[11px] text-slate-500 flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-brand-500"></span> Dave R.
+                    </div>
+</td>
+<td class="py-3 px-3">
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-brand-50 text-brand-700 border border-brand-200 text-[11px] font-semibold">
+<span class="w-1.5 h-1.5 rounded-full bg-brand-600 animate-pulse"></span> In Service
+                    </span>
+</td>
+<td class="py-3 px-3 text-right">
+<div class="flex items-center justify-end gap-1">
+<button class="p-1 rounded text-slate-400 hover:text-brand-700 hover:bg-slate-100 transition-colors" title="View Work Order">
+<span class="material-symbols-outlined text-[17px]">visibility</span>
+</button>
+<button class="p-1 rounded text-slate-400 hover:text-brand-700 hover:bg-slate-100 transition-colors" title="Generate Invoice">
+<span class="material-symbols-outlined text-[17px]">receipt_long</span>
+</button>
+<button class="p-1 rounded text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition-colors" title="More Options">
+<span class="material-symbols-outlined text-[17px]">more_vert</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 4 -->
+<tr class="hover:bg-slate-50/80 transition-colors group">
+<td class="py-3 px-3 font-mono font-semibold text-brand-700">#GF-8008</td>
+<td class="py-3 px-3">
+<div class="font-bold text-slate-900">Sophia Lorenzi</div>
+<div class="text-[11px] text-slate-400 font-mono-nums">+1 (555) 762-0941</div>
+</td>
+<td class="py-3 px-3">
+<div class="font-medium text-slate-800">Mercedes C300 (2022)</div>
+<div class="font-mono text-[10px] text-slate-500 bg-slate-100 inline-block px-1 rounded border border-slate-200 mt-0.5">CA44-LUX</div>
+</td>
+<td class="py-3 px-3">
+<span class="inline-block px-2 py-0.5 rounded bg-amber-50 text-amber-800 border border-amber-200/60 font-medium">O2 Sensor Replacement</span>
+</td>
+<td class="py-3 px-3">
+<div class="text-slate-800 font-medium font-mono-nums">08:00 AM</div>
+<div class="text-[11px] text-slate-400">Today</div>
+</td>
+<td class="py-3 px-3">
+<div class="font-semibold text-slate-900">Bay 04</div>
+<div class="text-[11px] text-amber-700 italic">Hold for Courier</div>
+</td>
+<td class="py-3 px-3">
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-amber-100 text-amber-800 border border-amber-300 text-[11px] font-semibold">
+                      Awaiting Parts
+                    </span>
+</td>
+<td class="py-3 px-3 text-right">
+<div class="flex items-center justify-end gap-1">
+<button class="p-1 rounded text-slate-400 hover:text-brand-700 hover:bg-slate-100 transition-colors" title="View Work Order">
+<span class="material-symbols-outlined text-[17px]">visibility</span>
+</button>
+<button class="p-1 rounded text-slate-400 hover:text-brand-700 hover:bg-slate-100 transition-colors" title="Generate Invoice">
+<span class="material-symbols-outlined text-[17px]">receipt_long</span>
+</button>
+<button class="p-1 rounded text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition-colors" title="More Options">
+<span class="material-symbols-outlined text-[17px]">more_vert</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 5 -->
+<tr class="hover:bg-slate-50/80 transition-colors group">
+<td class="py-3 px-3 font-mono font-semibold text-brand-700">#GF-7992</td>
+<td class="py-3 px-3">
+<div class="font-bold text-slate-900">Victor Hansen</div>
+<div class="text-[11px] text-slate-400 font-mono-nums">+1 (555) 912-3844</div>
+</td>
+<td class="py-3 px-3">
+<div class="font-medium text-slate-800">Toyota RAV4 Hybrid (2023)</div>
+<div class="font-mono text-[10px] text-slate-500 bg-slate-100 inline-block px-1 rounded border border-slate-200 mt-0.5">WA52-XYZ</div>
+</td>
+<td class="py-3 px-3">
+<span class="inline-block px-2 py-0.5 rounded bg-slate-100 text-slate-800 border border-slate-200 font-medium">40K Major Service</span>
+</td>
+<td class="py-3 px-3">
+<div class="text-slate-800 font-medium font-mono-nums">07:45 AM</div>
+<div class="text-[11px] text-slate-400">Today</div>
+</td>
+<td class="py-3 px-3">
+<div class="font-semibold text-slate-900">Bay 06</div>
+<div class="text-[11px] text-slate-500 flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> Alan T.
+                    </div>
+</td>
+<td class="py-3 px-3">
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200 text-[11px] font-semibold">
+                      Completed &amp; Paid
+                    </span>
+</td>
+<td class="py-3 px-3 text-right">
+<div class="flex items-center justify-end gap-1">
+<button class="p-1 rounded text-slate-400 hover:text-brand-700 hover:bg-slate-100 transition-colors" title="View Work Order">
+<span class="material-symbols-outlined text-[17px]">visibility</span>
+</button>
+<button class="px-2 py-0.5 rounded bg-emerald-50 text-emerald-700 border border-emerald-200 text-[10px] font-semibold inline-flex items-center gap-1">
+<span class="material-symbols-outlined text-[13px]">check_circle</span>
+<span>Paid</span>
+</button>
+<button class="p-1 rounded text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition-colors" title="More Options">
+<span class="material-symbols-outlined text-[17px]">more_vert</span>
+</button>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Table Footer / Pagination -->
+<div class="flex flex-col sm:flex-row items-center justify-between gap-3 pt-1 text-xs text-slate-500">
+<span>Showing <strong class="text-slate-900 font-mono-nums">1 to 5</strong> of 48 active jobs</span>
+<div class="flex items-center gap-1">
+<button class="px-2.5 py-1 rounded border border-slate-200 bg-white text-slate-400 cursor-not-allowed text-xs font-medium" disabled="">Prev</button>
+<button class="px-2.5 py-1 rounded border border-brand-600 bg-brand-600 text-white text-xs font-semibold">1</button>
+<button class="px-2.5 py-1 rounded border border-slate-200 bg-white text-slate-700 hover:bg-slate-50 text-xs font-medium transition-colors">2</button>
+<button class="px-2.5 py-1 rounded border border-slate-200 bg-white text-slate-700 hover:bg-slate-50 text-xs font-medium transition-colors">3</button>
+<button class="px-2.5 py-1 rounded border border-slate-200 bg-white text-slate-700 hover:bg-slate-50 text-xs font-medium transition-colors">Next</button>
+</div>
+</div>
+</div>
+</div>
+<script>
+        function updateClock() {
+          const clockEl = document.getElementById('live-clock');
+          if (!clockEl) return;
+          const now = new Date();
+          const options = { weekday: 'long', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit' };
+          clockEl.innerText = now.toLocaleDateString('en-US', options) + ' EST';
+        }
+        setInterval(updateClock, 1000);
+      </script>
+</main>
+<!-- Global Sticky App Footer -->
+<footer class="w-full bg-white border-t border-slate-200/80 py-3 px-8 text-xs text-slate-500 flex flex-col md:flex-row items-center justify-between gap-2">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+<span class="text-slate-700 font-medium">Workshop Telemetry Engine: Operational</span>
+<span class="text-slate-300">•</span>
+<span class="font-mono text-slate-400">v2.4.0-prod</span>
+</div>
+<div class="flex items-center gap-4">
+<a class="hover:text-slate-900 transition-colors" href="#">Diagnostic Feeds</a>
+<a class="hover:text-slate-900 transition-colors" href="#">Parts Reorder Desk</a>
+<a class="hover:text-slate-900 transition-colors" href="#">Technician Logs</a>
+</div>
+<div>© 2025 GarageFlow Inc. All rights reserved.</div>
+</footer>
+</div>
+</body></html>

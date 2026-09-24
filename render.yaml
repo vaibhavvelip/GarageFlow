@@ -1,0 +1,22 @@
+services:
+  - type: web
+    name: garageflow-staging
+    runtime: node
+    plan: free
+    region: oregon
+    buildCommand: npm install
+    startCommand: node server/server.js
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: JWT_SECRET
+        generateValue: true
+      - key: CORS_ORIGIN
+        value: https://garageflow-staging.onrender.com
+      - key: INSFORGE_URL
+        sync: false
+      - key: INSFORGE_ANON_KEY
+        sync: false
+      - key: INSFORGE_API_KEY
+        sync: false

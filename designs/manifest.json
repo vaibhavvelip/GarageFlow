@@ -1,0 +1,102 @@
+﻿[
+    {
+        "id":  "3cb5c4336b284caa8851bdfeae55ee29",
+        "name":  "projects/5470327486287697262/screens/3cb5c4336b284caa8851bdfeae55ee29",
+        "title":  "Admin Portal - Workshop Operations Dashboard",
+        "deviceType":  "DESKTOP",
+        "width":  "2560",
+        "height":  "4018",
+        "htmlFile":  "screens/3cb5c4336b284caa8851bdfeae55ee29_Admin_Portal_-_Workshop_Operations_Dashb.html",
+        "screenshotFile":  "screens/3cb5c4336b284caa8851bdfeae55ee29_Admin_Portal_-_Workshop_Operations_Dashb.png"
+    },
+    {
+        "id":  "27dbec576fdd45d4bf6693fb2234c715",
+        "name":  "projects/5470327486287697262/screens/27dbec576fdd45d4bf6693fb2234c715",
+        "title":  "Admin Portal - Workshop Operations Dashboard",
+        "deviceType":  "DESKTOP",
+        "width":  "2560",
+        "height":  "4568",
+        "htmlFile":  "screens/27dbec576fdd45d4bf6693fb2234c715_Admin_Portal_-_Workshop_Operations_Dashb.html",
+        "screenshotFile":  "screens/27dbec576fdd45d4bf6693fb2234c715_Admin_Portal_-_Workshop_Operations_Dashb.png"
+    },
+    {
+        "id":  "29e0dee24c03469fbff55f677dd612e7",
+        "name":  "projects/5470327486287697262/screens/29e0dee24c03469fbff55f677dd612e7",
+        "title":  "GarageFlow Brand Logo",
+        "deviceType":  null,
+        "width":  "512",
+        "height":  "512",
+        "htmlFile":  "screens/29e0dee24c03469fbff55f677dd612e7_GarageFlow_Brand_Logo.html",
+        "screenshotFile":  "screens/29e0dee24c03469fbff55f677dd612e7_GarageFlow_Brand_Logo.png"
+    },
+    {
+        "id":  "65fa72b5b2d6466888e8214c93cc914f",
+        "name":  "projects/5470327486287697262/screens/65fa72b5b2d6466888e8214c93cc914f",
+        "title":  "Customer Portal - Service History \u0026 Invoices",
+        "deviceType":  "DESKTOP",
+        "width":  "2966",
+        "height":  "4512",
+        "htmlFile":  "screens/65fa72b5b2d6466888e8214c93cc914f_Customer_Portal_-_Service_History___Invo.html",
+        "screenshotFile":  "screens/65fa72b5b2d6466888e8214c93cc914f_Customer_Portal_-_Service_History___Invo.png"
+    },
+    {
+        "id":  "78830399166343b9a5034067a3400742",
+        "name":  "projects/5470327486287697262/screens/78830399166343b9a5034067a3400742",
+        "title":  "Admin Portal - Workshop Operations Dashboard",
+        "deviceType":  "DESKTOP",
+        "width":  "2560",
+        "height":  "4966",
+        "htmlFile":  "screens/78830399166343b9a5034067a3400742_Admin_Portal_-_Workshop_Operations_Dashb.html",
+        "screenshotFile":  "screens/78830399166343b9a5034067a3400742_Admin_Portal_-_Workshop_Operations_Dashb.png"
+    },
+    {
+        "id":  "84ba9027a11f46e7a344241517c58362",
+        "name":  "projects/5470327486287697262/screens/84ba9027a11f46e7a344241517c58362",
+        "title":  "Professional portrait headshot of a friendly automotive service manager or advisor in smart corporate navy collared shirt, clean modern workshop office background, soft natural lighting, trustworthy and professional.",
+        "deviceType":  null,
+        "width":  "1024",
+        "height":  "1024",
+        "htmlFile":  null,
+        "screenshotFile":  "screens/84ba9027a11f46e7a344241517c58362_Professional_portrait_headshot_of_a_frie.png"
+    },
+    {
+        "id":  "8d86212ac516463c945996584cd7788f",
+        "name":  "projects/5470327486287697262/screens/8d86212ac516463c945996584cd7788f",
+        "title":  "Customer Portal - Dashboard",
+        "deviceType":  "DESKTOP",
+        "width":  "2960",
+        "height":  "5070",
+        "htmlFile":  "screens/8d86212ac516463c945996584cd7788f_Customer_Portal_-_Dashboard.html",
+        "screenshotFile":  "screens/8d86212ac516463c945996584cd7788f_Customer_Portal_-_Dashboard.png"
+    },
+    {
+        "id":  "d1033a5bcff64b3593d3ace972482fde",
+        "name":  "projects/5470327486287697262/screens/d1033a5bcff64b3593d3ace972482fde",
+        "title":  "Customer Portal - Book Service",
+        "deviceType":  "DESKTOP",
+        "width":  "2966",
+        "height":  "3750",
+        "htmlFile":  "screens/d1033a5bcff64b3593d3ace972482fde_Customer_Portal_-_Book_Service.html",
+        "screenshotFile":  "screens/d1033a5bcff64b3593d3ace972482fde_Customer_Portal_-_Book_Service.png"
+    },
+    {
+        "id":  "1d7b8d5271f04753bf1801c2e56a4266",
+        "name":  "projects/5470327486287697262/screens/1d7b8d5271f04753bf1801c2e56a4266",
+        "title":  "Customer Portal - Dashboard",
+        "deviceType":  "DESKTOP",
+        "width":  "3416",
+        "height":  "4820",
+        "htmlFile":  "screens/1d7b8d5271f04753bf1801c2e56a4266_Customer_Portal_-_Dashboard.html",
+        "screenshotFile":  "screens/1d7b8d5271f04753bf1801c2e56a4266_Customer_Portal_-_Dashboard.png"
+    },
+    {
+        "id":  "ff29181eef5c4e1e9ca40544fa6ef805",
+        "name":  "projects/5470327486287697262/screens/ff29181eef5c4e1e9ca40544fa6ef805",
+        "title":  "Customer Portal - Dashboard",
+        "deviceType":  "DESKTOP",
+        "width":  "3238",
+        "height":  "4670",
+        "htmlFile":  "screens/ff29181eef5c4e1e9ca40544fa6ef805_Customer_Portal_-_Dashboard.html",
+        "screenshotFile":  "screens/ff29181eef5c4e1e9ca40544fa6ef805_Customer_Portal_-_Dashboard.png"
+    }
+]

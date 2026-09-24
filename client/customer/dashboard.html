@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer Dashboard — GarageFlow</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="icon" type="image/png" href="/images/logo.png">
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-garageflow">
+        <div class="container-fluid">
+            <a class="navbar-brand-logo" href="/admin/dashboard.html">
+                <img src="/images/logo.png" alt="GarageFlow Logo" style="height: 52px; max-height: 60px; width: auto; object-fit: contain;">
+            </a>
+            <button class="navbar-toggler text-white" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto ms-lg-4">
+                    <li class="nav-item"><a class="nav-link nav-link-gf active" href="/customer/dashboard.html">Dashboard</a></li>
+                    <li class="nav-item"><a class="nav-link nav-link-gf" href="/customer/vehicles.html">My Vehicles</a></li>
+                    <li class="nav-item"><a class="nav-link nav-link-gf" href="/customer/appointments.html">Appointments</a></li>
+                    <li class="nav-item"><a class="nav-link nav-link-gf" href="/customer/service-history.html">Service History</a></li>
+                    <li class="nav-item"><a class="nav-link nav-link-gf" href="/customer/bills.html">Bills & Invoices</a></li>
+                    <li class="nav-item"><a class="nav-link nav-link-gf" href="/customer/profile.html">Profile</a></li>
+                </ul>
+                <div id="navUserContainer" class="d-flex align-items-center"></div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="container py-4">
+        <!-- Welcome Banner -->
+        <div class="gf-card mb-4 bg-dark text-white border-0" style="background: linear-gradient(135deg, #0f172a 0%, #0284c7 100%);">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <h3 class="fw-bold mb-1" id="welcomeHeading">Welcome back!</h3>
+                    <p class="mb-0 text-light opacity-75">Manage your vehicles, book workshop appointments, and track live repair statuses.</p>
+                </div>
+                <div>
+                    <a href="/customer/book-service.html" class="btn btn-light text-primary fw-semibold"><i class="bi bi-calendar-plus me-1"></i> Book New Service</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Metric KPI Cards -->
+        <div class="row g-3 mb-4">
+            <div class="col-md-3">
+                <div class="gf-card kpi-card">
+                    <div class="kpi-label">Registered Vehicles</div>
+                    <div class="kpi-value" id="kpiVehicles">0</div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="gf-card kpi-card kpi-amber">
+                    <div class="kpi-label">Upcoming / Active Services</div>
+                    <div class="kpi-value" id="kpiUpcoming">0</div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="gf-card kpi-card kpi-emerald">
+                    <div class="kpi-label">Completed Services</div>
+                    <div class="kpi-value" id="kpiCompleted">0</div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="gf-card kpi-card">
+                    <div class="kpi-label">Total Bills</div>
+                    <div class="kpi-value" id="kpiBills">0</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Action Grid -->
+        <div class="row g-4 mb-4">
+            <div class="col-md-3">
+                <a href="/customer/add-vehicle.html" class="text-decoration-none">
+                    <div class="gf-card text-center py-4 h-100 border-primary">
+                        <i class="bi bi-plus-circle-fill text-primary fs-1 mb-2"></i>
+                        <h6 class="fw-semibold text-navy mb-0">Add New Vehicle</h6>
+                    </div>
+                </a>
+            </div>
+            <div class="col-md-3">
+                <a href="/customer/book-service.html" class="text-decoration-none">
+                    <div class="gf-card text-center py-4 h-100 border-info">
+                        <i class="bi bi-wrench-adjustable-circle-fill text-info fs-1 mb-2"></i>
+                        <h6 class="fw-semibold text-navy mb-0">Book Service</h6>
+                    </div>
+                </a>
+            </div>
+            <div class="col-md-3">
+                <a href="/customer/appointments.html" class="text-decoration-none">
+                    <div class="gf-card text-center py-4 h-100 border-warning">
+                        <i class="bi bi-clock-history text-warning fs-1 mb-2"></i>
+                        <h6 class="fw-semibold text-navy mb-0">Track Appointments</h6>
+                    </div>
+                </a>
+            </div>
+            <div class="col-md-3">
+                <a href="/customer/bills.html" class="text-decoration-none">
+                    <div class="gf-card text-center py-4 h-100 border-success">
+                        <i class="bi bi-receipt text-success fs-1 mb-2"></i>
+                        <h6 class="fw-semibold text-navy mb-0">View Invoices</h6>
+                    </div>
+                </a>
+            </div>
+        </div>
+
+        <!-- Recent Activity Table -->
+        <div class="gf-card">
+            <div class="gf-card-header">
+                <h5 class="gf-card-title"><i class="bi bi-calendar-event me-2 text-primary"></i> Recent Service Appointments</h5>
+                <a href="/customer/appointments.html" class="btn btn-outline-secondary btn-sm">View All Appointments</a>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-gf">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Vehicle</th>
+                            <th>Service Type</th>
+                            <th>Date & Time</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="recentAppointmentsBody">
+                        <tr><td colspan="5" class="text-center text-muted">Loading appointments...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="mt-auto">
+        <div class="container text-center">
+            <p class="mb-0 small text-muted">GarageFlow — Smart Vehicle Service Management</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/js/api.js"></script>
+    <script src="/js/auth.js"></script>
+    <script>
+        requireAuth('CUSTOMER');
+
+        const user = getCurrentUser();
+        if (user) {
+            document.getElementById('welcomeHeading').textContent = `Welcome back, ${user.name}!`;
+        }
+
+        async function loadCustomerDashboard() {
+            const [vehiclesRes, apptsRes, billsRes] = await Promise.all([
+                apiFetch('/vehicles'),
+                apiFetch('/appointments'),
+                apiFetch('/bills')
+            ]);
+
+            if (vehiclesRes.success) {
+                document.getElementById('kpiVehicles').textContent = vehiclesRes.count;
+            }
+
+            if (apptsRes.success) {
+                const appts = apptsRes.appointments;
+                const activeCount = appts.filter(a => ['Requested', 'Confirmed', 'In Service', 'Ready'].includes(a.status)).length;
+                const completedCount = appts.filter(a => a.status === 'Completed').length;
+
+                document.getElementById('kpiUpcoming').textContent = activeCount;
+                document.getElementById('kpiCompleted').textContent = completedCount;
+
+                // Render table
+                const tbody = document.getElementById('recentAppointmentsBody');
+                if (appts.length === 0) {
+                    tbody.innerHTML = `<tr><td colspan="5" class="text-center text-muted py-3">No service appointments found. Book your first service above!</td></tr>`;
+                } else {
+                    tbody.innerHTML = appts.slice(0, 5).map(a => `
+                        <tr>
+                            <td class="fw-bold">#APP-${a.id}</td>
+                            <td>${a.brand} ${a.model} <span class="badge bg-light text-dark font-monospace">${a.registration_number}</span></td>
+                            <td>${a.service_type}</td>
+                            <td>${a.appointment_date} @ ${a.appointment_time}</td>
+                            <td><span class="status-badge status-${a.status.toLowerCase().replace(/\s+/g, '-')}">${a.status}</span></td>
+                        </tr>
+                    `).join('');
+                }
+            }
+
+            if (billsRes.success) {
+                document.getElementById('kpiBills').textContent = billsRes.count;
+            }
+        }
+
+        loadCustomerDashboard();
+    </script>
+</body>
+</html>
