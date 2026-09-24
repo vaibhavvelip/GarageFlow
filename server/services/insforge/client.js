@@ -6,10 +6,11 @@ const anonKey = process.env.INSFORGE_ANON_KEY;
 const apiKey = process.env.INSFORGE_API_KEY;
 
 // User-scoped client for public/authenticated operations
-const insforgeClient = createClient({
-    baseUrl,
-    anonKey
-});
+const clientConfig = { baseUrl };
+if (anonKey) {
+    clientConfig.anonKey = anonKey;
+}
+const insforgeClient = createClient(clientConfig);
 
 // Admin client for privileged backend service operations
 const insforgeAdmin = createAdminClient({
@@ -20,13 +21,16 @@ const insforgeAdmin = createAdminClient({
 // Helper to create a client scoped with a specific user's Bearer token
 function getUserClient(userAccessToken) {
     if (!userAccessToken) return insforgeClient;
-    return createClient({
+    const config = {
         baseUrl,
-        anonKey,
         headers: {
             Authorization: `Bearer ${userAccessToken}`
         }
-    });
+    };
+    if (anonKey) {
+        config.anonKey = anonKey;
+    }
+    return createClient(config);
 }
 
 module.exports = {

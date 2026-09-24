@@ -16,7 +16,6 @@ services:
         value: https://garageflow-staging.onrender.com
       - key: INSFORGE_URL
         sync: false
-      - key: INSFORGE_ANON_KEY
-        sync: false
       - key: INSFORGE_API_KEY
         sync: false
+
