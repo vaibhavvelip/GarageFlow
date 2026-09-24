@@ -5,7 +5,8 @@
   "main": "server/server.js",
   "scripts": {
     "start": "node server/server.js",
-    "dev": "node server/server.js"
+    "dev": "node server/server.js",
+    "postinstall": "node scripts/patch-shared-schemas.js"
   },
   "dependencies": {
     "@insforge/sdk": "^1.5.2",

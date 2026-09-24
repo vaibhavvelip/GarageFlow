@@ -1,3 +1,10 @@
+// Ensure CommonJS module compatibility for @insforge/shared-schemas
+try {
+    require('../../../scripts/patch-shared-schemas');
+} catch (e) {
+    // Non-fatal if script not present
+}
+
 const { createClient, createAdminClient } = require('@insforge/sdk');
 require('dotenv').config();
 
