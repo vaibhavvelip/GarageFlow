@@ -153,10 +153,10 @@
                         <td>${v.vehicle_type}</td>
                         <td>${v.mileage.toLocaleString()} km</td>
                         <td class="text-end">
-                            <button class="btn btn-sm btn-outline-primary me-1" onclick="openEditModal(${v.id}, '${v.registration_number}', '${v.brand}', '${v.model}', ${v.year}, '${v.fuel_type}', '${v.vehicle_type}', ${v.mileage})">
+                            <button class="btn btn-sm btn-outline-primary me-1" onclick="openEditModal('${v.id}', '${v.registration_number}', '${v.brand}', '${v.model}', ${v.year}, '${v.fuel_type}', '${v.vehicle_type}', ${v.mileage})">
                                 <i class="bi bi-pencil"></i> Edit
                             </button>
-                            <button class="btn btn-sm btn-outline-danger" onclick="deleteVehicle(${v.id}, '${v.registration_number}')">
+                            <button class="btn btn-sm btn-outline-danger" onclick="deleteVehicle('${v.id}', '${v.registration_number}')">
                                 <i class="bi bi-trash"></i> Delete
                             </button>
                         </td>

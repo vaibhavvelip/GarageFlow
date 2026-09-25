@@ -90,7 +90,7 @@
                             <td><span class="status-badge status-${a.status.toLowerCase().replace(/\s+/g, '-')}">${a.status}</span></td>
                             <td class="text-end">
                                 ${isCancelable ? `
-                                    <button class="btn btn-sm btn-outline-danger" onclick="cancelAppointment(${a.id})">
+                                    <button class="btn btn-sm btn-outline-danger" onclick="cancelAppointment('${a.id}')">
                                         <i class="bi bi-x-circle me-1"></i> Cancel
                                     </button>
                                 ` : `<span class="small text-muted">No actions</span>`}

@@ -12,7 +12,7 @@
 <body>
     <nav class="navbar navbar-expand-lg navbar-garageflow no-print">
         <div class="container-fluid">
-            <a class="navbar-brand-logo" href="/admin/dashboard.html">
+            <a class="navbar-brand-logo" href="/customer/dashboard.html">
                 <img src="/images/logo.png" alt="GarageFlow Logo" style="height: 52px; max-height: 60px; width: auto; object-fit: contain;">
             </a>
             <button class="navbar-toggler text-white" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
@@ -94,126 +94,161 @@
             const res = await apiFetch('/bills');
             const tbody = document.getElementById('billsTableBody');
 
-            if (res.success && res.bills.length > 0) {
+            if (res.success && res.bills && res.bills.length > 0) {
                 tbody.innerHTML = res.bills.map(b => {
                     const statusClass = b.payment_status === 'Paid' ? 'status-completed' : (b.payment_status === 'Pending' ? 'status-in-service' : 'status-cancelled');
+                    const subtotal = Number(b.subtotal || 0).toFixed(2);
+                    const tax = Number(b.tax || 0).toFixed(2);
+                    const total = Number(b.total || 0).toFixed(2);
                     return `
                         <tr>
                             <td class="fw-bold font-monospace">#INV-${b.id}</td>
-                            <td>${b.service_date}</td>
-                            <td>${b.brand} ${b.model} <span class="badge bg-light text-dark border">${b.registration_number}</span></td>
-                            <td>$${b.subtotal.toFixed(2)}</td>
-                            <td>$${b.tax.toFixed(2)}</td>
-                            <td class="fw-bold text-dark">$${b.total.toFixed(2)}</td>
-                            <td><span class="status-badge ${statusClass}">${b.payment_status}</span></td>
+                            <td>${b.service_date || 'N/A'}</td>
+                            <td>${b.brand || ''} ${b.model || ''} <span class="badge bg-light text-dark border">${b.registration_number || 'N/A'}</span></td>
+                            <td>$${subtotal}</td>
+                            <td>$${tax}</td>
+                            <td class="fw-bold text-dark">$${total}</td>
+                            <td><span class="status-badge ${statusClass}">${b.payment_status || 'Pending'}</span></td>
                             <td class="text-end">
-                                <button class="btn btn-sm btn-outline-primary" onclick="viewInvoice(${b.id})">
+                                <button class="btn btn-sm btn-outline-primary" onclick="viewInvoice('${b.id}')">
                                     <i class="bi bi-printer me-1"></i> View / Print
                                 </button>
                             </td>
                         </tr>
                     `;
                 }).join('');
-            } else {
+            } else if (res.success) {
                 tbody.innerHTML = `<tr><td colspan="8" class="text-center text-muted py-4">No billing invoices found.</td></tr>`;
+            } else {
+                tbody.innerHTML = `<tr><td colspan="8" class="text-center text-danger py-4">${res.message || 'Failed to load invoices.'}</td></tr>`;
             }
         }
 
         async function viewInvoice(id) {
+            const body = document.getElementById('invoiceModalBody');
             if (!invoiceModal) {
                 invoiceModal = new bootstrap.Modal(document.getElementById('invoiceModal'));
             }
+            body.innerHTML = `
+                <div class="text-center py-5">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">Loading invoice...</span>
+                    </div>
+                    <p class="text-muted mt-2">Loading invoice details...</p>
+                </div>
+            `;
             invoiceModal.show();
 
-            const res = await apiFetch(`/bills/${id}`);
-            const body = document.getElementById('invoiceModalBody');
+            try {
+                const res = await apiFetch(`/bills/${id}`);
+                if (res.success && res.bill) {
+                    const b = res.bill;
+                    const parts = res.parts || [];
+                    const subtotal = Number(b.subtotal || 0).toFixed(2);
+                    const tax = Number(b.tax || 0).toFixed(2);
+                    const total = Number(b.total || 0).toFixed(2);
+                    const labourCost = Number(b.labour_cost || 0).toFixed(2);
 
-            if (res.success) {
-                const b = res.bill;
-                const parts = res.parts || [];
-
-                body.innerHTML = `
-                    <div class="d-flex justify-content-between align-items-start mb-4 border-bottom pb-3">
-                        <div>
-                            <div class="d-flex align-items-center gap-2 mb-1">
-                                <div class="brand-icon-box" style="width:32px; height:32px;"><i class="bi bi-wrench-adjustable"></i></div>
-                                <h4 class="fw-bold text-navy mb-0">GARAGE<span class="text-primary">FLOW</span></h4>
+                    body.innerHTML = `
+                        <div class="d-flex justify-content-between align-items-start mb-4 border-bottom pb-3">
+                            <div>
+                                <div class="d-flex align-items-center gap-2 mb-1">
+                                    <div class="brand-icon-box" style="width:32px; height:32px;"><i class="bi bi-wrench-adjustable"></i></div>
+                                    <h4 class="fw-bold text-navy mb-0">GARAGE<span class="text-primary">FLOW</span></h4>
+                                </div>
+                                <p class="small text-muted mb-0">Smart Vehicle Service Management Workshop</p>
+                                <p class="small text-muted mb-0">100 Tech Park Way, Suite 400 | Ph: +1 800-GARAGE</p>
                             </div>
-                            <p class="small text-muted mb-0">Smart Vehicle Service Management Workshop</p>
-                            <p class="small text-muted mb-0">100 Tech Park Way, Suite 400 | Ph: +1 800-GARAGE</p>
+                            <div class="text-end">
+                                <h5 class="fw-bold text-uppercase text-primary mb-1">INVOICE</h5>
+                                <p class="font-monospace fw-bold mb-1">#INV-${b.id}</p>
+                                <p class="small text-muted mb-0">Date: ${b.service_date || 'N/A'}</p>
+                                <span class="badge ${b.payment_status === 'Paid' ? 'bg-success' : 'bg-warning text-dark'} mt-1">${(b.payment_status || 'PENDING').toUpperCase()}</span>
+                            </div>
                         </div>
-                        <div class="text-end">
-                            <h5 class="fw-bold text-uppercase text-primary mb-1">INVOICE</h5>
-                            <p class="font-monospace fw-bold mb-1">#INV-${b.id}</p>
-                            <p class="small text-muted mb-0">Date: ${b.service_date}</p>
-                            <span class="badge ${b.payment_status === 'Paid' ? 'bg-success' : 'bg-warning text-dark'} mt-1">${b.payment_status.toUpperCase()}</span>
-                        </div>
-                    </div>
 
-                    <div class="row mb-4">
-                        <div class="col-6">
-                            <h6 class="fw-bold text-muted small text-uppercase">Billed To Customer:</h6>
-                            <p class="mb-0 fw-semibold">${b.customer_name}</p>
-                            <p class="small text-muted mb-0">${b.customer_email}</p>
-                            <p class="small text-muted mb-0">Ph: ${b.customer_phone}</p>
+                        <div class="row mb-4">
+                            <div class="col-6">
+                                <h6 class="fw-bold text-muted small text-uppercase">Billed To Customer:</h6>
+                                <p class="mb-0 fw-semibold">${b.customer_name || 'N/A'}</p>
+                                <p class="small text-muted mb-0">${b.customer_email || 'N/A'}</p>
+                                <p class="small text-muted mb-0">Ph: ${b.customer_phone || 'N/A'}</p>
+                            </div>
+                            <div class="col-6 text-end">
+                                <h6 class="fw-bold text-muted small text-uppercase">Vehicle Details:</h6>
+                                <p class="mb-0 fw-semibold">${b.brand || ''} ${b.model || ''} ${b.year ? `(${b.year})` : ''}</p>
+                                <p class="small font-monospace mb-0">Reg No: ${b.registration_number || 'N/A'}</p>
+                                <p class="small text-muted mb-0">Service: ${b.service_type || 'General Service'}</p>
+                            </div>
                         </div>
-                        <div class="col-6 text-end">
-                            <h6 class="fw-bold text-muted small text-uppercase">Vehicle Details:</h6>
-                            <p class="mb-0 fw-semibold">${b.brand} ${b.model} (${b.year})</p>
-                            <p class="small font-monospace mb-0">Reg No: ${b.registration_number}</p>
-                            <p class="small text-muted mb-0">Service: ${b.service_type}</p>
-                        </div>
-                    </div>
 
-                    <table class="table table-bordered small mb-4">
-                        <thead class="table-light">
-                            <tr>
-                                <th>Item / Labor Description</th>
-                                <th>Category</th>
-                                <th class="text-center">Qty</th>
-                                <th class="text-end">Unit Price</th>
-                                <th class="text-end">Amount</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>${b.service_description}</td>
-                                <td>Workshop Labour</td>
-                                <td class="text-center">1</td>
-                                <td class="text-end">$${b.labour_cost.toFixed(2)}</td>
-                                <td class="text-end">$${b.labour_cost.toFixed(2)}</td>
-                            </tr>
-                            ${parts.map(p => `
+                        <table class="table table-bordered small mb-4">
+                            <thead class="table-light">
                                 <tr>
-                                    <td>${p.part_name} <span class="text-muted font-monospace">(${p.part_number})</span></td>
-                                    <td>Spare Part</td>
-                                    <td class="text-center">${p.quantity_used}</td>
-                                    <td class="text-end">$${p.unit_price.toFixed(2)}</td>
-                                    <td class="text-end">$${(p.quantity_used * p.unit_price).toFixed(2)}</td>
+                                    <th>Item / Labor Description</th>
+                                    <th>Category</th>
+                                    <th class="text-center">Qty</th>
+                                    <th class="text-end">Unit Price</th>
+                                    <th class="text-end">Amount</th>
                                 </tr>
-                            `).join('')}
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>${b.service_description || 'General Service and Diagnostic Check'}</td>
+                                    <td>Workshop Labour</td>
+                                    <td class="text-center">1</td>
+                                    <td class="text-end">$${labourCost}</td>
+                                    <td class="text-end">$${labourCost}</td>
+                                </tr>
+                                ${parts.map(p => {
+                                    const unitPrice = Number(p.unit_price || 0).toFixed(2);
+                                    const partTotal = Number((p.quantity_used || 0) * (p.unit_price || 0)).toFixed(2);
+                                    return `
+                                    <tr>
+                                        <td>${p.part_name || 'Part'} <span class="text-muted font-monospace">(${p.part_number || 'N/A'})</span></td>
+                                        <td>Spare Part</td>
+                                        <td class="text-center">${p.quantity_used}</td>
+                                        <td class="text-end">$${unitPrice}</td>
+                                        <td class="text-end">$${partTotal}</td>
+                                    </tr>
+                                    `;
+                                }).join('')}
+                            </tbody>
+                        </table>
 
-                    <div class="row justify-content-end">
-                        <div class="col-md-5">
-                            <div class="d-flex justify-content-between border-bottom py-1 small">
-                                <span class="text-muted">Subtotal (Parts + Labour):</span>
-                                <span class="fw-semibold">$${b.subtotal.toFixed(2)}</span>
-                            </div>
-                            <div class="d-flex justify-content-between border-bottom py-1 small">
-                                <span class="text-muted">Sales Tax (18% GST/VAT):</span>
-                                <span class="fw-semibold">$${b.tax.toFixed(2)}</span>
-                            </div>
-                            <div class="d-flex justify-content-between py-2 fs-6">
-                                <span class="fw-bold">Total Amount Due:</span>
-                                <span class="fw-bold text-primary">$${b.total.toFixed(2)}</span>
+                        <div class="row justify-content-end">
+                            <div class="col-md-5">
+                                <div class="d-flex justify-content-between border-bottom py-1 small">
+                                    <span class="text-muted">Subtotal (Parts + Labour):</span>
+                                    <span class="fw-semibold">$${subtotal}</span>
+                                </div>
+                                <div class="d-flex justify-content-between border-bottom py-1 small">
+                                    <span class="text-muted">Sales Tax (18% GST/VAT):</span>
+                                    <span class="fw-semibold">$${tax}</span>
+                                </div>
+                                <div class="d-flex justify-content-between py-2 fs-6">
+                                    <span class="fw-bold">Total Amount Due:</span>
+                                    <span class="fw-bold text-primary">$${total}</span>
+                                </div>
                             </div>
                         </div>
-                    </div>
 
-                    <div class="border-top pt-3 mt-4 text-center text-muted small">
-                        Thank you for servicing your vehicle with GarageFlow Workshop!
+                        <div class="border-top pt-3 mt-4 text-center text-muted small">
+                            Thank you for servicing your vehicle with GarageFlow Workshop!
+                        </div>
+                    `;
+                } else {
+                    body.innerHTML = `
+                        <div class="alert alert-danger my-3">
+                            <i class="bi bi-exclamation-triangle me-2"></i> ${res.message || 'Unable to retrieve invoice details.'}
+                        </div>
+                    `;
+                }
+            } catch (err) {
+                console.error('View invoice error:', err);
+                body.innerHTML = `
+                    <div class="alert alert-danger my-3">
+                        <i class="bi bi-exclamation-triangle me-2"></i> Network error loading invoice. Please try again.
                     </div>
                 `;
             }

@@ -125,7 +125,7 @@
                         <td><span class="status-pill low">${c.vehicle_count} Vehicles</span></td>
                         <td class="text-muted">${c.created_at ? c.created_at.split('T')[0] : 'N/A'}</td>
                         <td class="text-end">
-                            <button class="btn btn-sm btn-outline-danger rounded-pill" onclick="deleteCustomer(${c.id}, '${c.name}')">
+                            <button class="btn btn-sm btn-outline-danger rounded-pill" onclick="deleteCustomer('${c.id}', '${c.name}')">
                                 <i class="bi bi-trash"></i> Delete
                             </button>
                         </td>

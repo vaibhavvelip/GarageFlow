@@ -6,6 +6,7 @@
   "scripts": {
     "start": "node server/server.js",
     "dev": "node server/server.js",
+    "test": "node tests/billing.test.js",
     "postinstall": "node scripts/patch-shared-schemas.js"
   },
   "dependencies": {

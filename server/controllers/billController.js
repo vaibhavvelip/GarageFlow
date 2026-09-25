@@ -56,10 +56,11 @@ async function updatePaymentStatus(req, res) {
             return res.status(404).json({ success: false, message: 'Bill not found.' });
         }
 
-        await billingService.updateBillPaymentStatus(id, payment_status);
+        const updatedBill = await billingService.updateBillPaymentStatus(id, payment_status);
         return res.json({
             success: true,
-            message: `Bill payment status updated to '${payment_status}'.`
+            message: `Bill payment status updated to '${payment_status}'.`,
+            bill: updatedBill
         });
     } catch (err) {
         console.error('Update Payment Status Error:', err);

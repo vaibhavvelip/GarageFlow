@@ -111,7 +111,7 @@
                                             <option value="" disabled selected>Advance to...</option>
                                             ${nextOptions.map(opt => `<option value="${opt}">${opt}</option>`).join('')}
                                         </select>
-                                        <button class="btn btn-primary btn-sm" onclick="advanceStatus(${a.id})">Update</button>
+                                        <button class="btn btn-primary btn-sm" onclick="advanceStatus('${a.id}')">Update</button>
                                     </div>
                                 ` : `
                                     ${a.status === 'In Service' || a.status === 'Ready' ? `
